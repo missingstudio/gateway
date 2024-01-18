@@ -6,21 +6,21 @@ all: build
 vet:
 	$(GO) vet ./...
 
-build: vet
+build: gen vet
 	scripts/build.sh
 .PHONY: build
 
-dbuild: vet
+dbuild: gen vet
 	GOOS=linux scripts/build.sh
 .PHONY: dbuild
-
-run:
-	./bin/mgmt serve connect
-.PHONY: run
 
 # build-debug:
 # 	CGO_ENABLED=0 $(GO) build -gcflags="all=-N -l" -o bin/mgmt cmd/mgmt/*.go
 # .PHONY: build-debug
+
+gen:
+	sh -c "cd ../protos && make all"
+.PHONY: gen
 
 clean:
 	rm -rf bin

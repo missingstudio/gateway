@@ -8,9 +8,9 @@ import (
 
 	"connectrpc.com/connect"
 
-	greetingv1 "github.com/missingstudio/protos/pkg/greeting/v1"
-	"github.com/missingstudio/protos/pkg/greeting/v1/greetingv1connect"
 	"github.com/missingstudio/studio/backend/internal/connectrpc"
+	greetingv1 "github.com/missingstudio/studio/protos/pkg/greeting/v1"
+	"github.com/missingstudio/studio/protos/pkg/greeting/v1/greetingv1connect"
 
 	"github.com/stretchr/testify/require"
 	"github.com/zeebo/assert"

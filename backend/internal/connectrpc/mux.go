@@ -10,8 +10,8 @@ import (
 	"connectrpc.com/grpchealth"
 	"connectrpc.com/grpcreflect"
 	"connectrpc.com/validate"
-	greetingv1 "github.com/missingstudio/protos/pkg/greeting/v1"
-	"github.com/missingstudio/protos/pkg/greeting/v1/greetingv1connect"
+	greetingv1 "github.com/missingstudio/studio/protos/pkg/greeting/v1"
+	"github.com/missingstudio/studio/protos/pkg/greeting/v1/greetingv1connect"
 )
 
 type Deps struct{}

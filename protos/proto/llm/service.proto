@@ -1,0 +1,92 @@
+syntax = "proto3";
+package llm.v1beta1;
+
+
+service LLMService {
+  rpc Chat(ChatRequest) returns (ChatPrediction) {}
+  rpc Completion(CompletionRequest) returns (CompletionPrediction) {}
+  rpc LoadModel(LoadModelRequest) returns (LoadModelResponse) {}
+}
+
+enum ModelTag{
+  MODEL_TYPE_UNKNOWN = 0;
+  GENERAL = 1;
+  CHAT = 2;
+  TEXT = 3;
+  CODE = 4;
+}
+
+enum Status{
+  STATUS_UNKNOWN = 0;
+  INITLIZING = 1;
+  READY = 2;
+  ERROR = 3;
+}
+
+
+message AvaliableModel {
+  repeated ModelTag model_tagas = 1;
+  uint32 model_id = 2;
+  string model_name = 3;
+  string size = 4;
+  string model_description = 5;
+}
+
+message LoadModelRequest {
+  uint32 model_id = 1;
+
+  string json_model_param = 999;
+}
+
+message LoadModelResponse {
+  Status current_status = 1;
+  AvaliableModel current_model = 2;
+}
+
+enum Role {
+  ROLE_UNKNOWN = 0;
+  SYSTEM = 1;
+  USER = 2;
+  ASSISTANT = 3;
+}
+
+
+message InferenceArgs {
+  float temperature = 1;
+  float top_p = 2;
+  uint32 max_gen_len = 3;
+  uint32 repetition_penalty = 4;
+
+  // A json string for extra args, will merge into inference args
+  // Map's value is not dynamic type, so we use json string
+  string json_extra_args = 999;
+}
+
+message CompletionRequest{
+  string request_id = 1;
+  string prompt = 2;
+  InferenceArgs inference_args = 3;
+}
+
+message CompletionPrediction{
+  string request_id = 1;
+  string response_id = 2;
+  string generation = 3;
+}
+
+message ChatMessage{
+  Role role = 1;
+  string content = 2;
+}
+
+message ChatRequest{
+  string request_id = 1;
+  repeated ChatMessage messages = 2;
+  InferenceArgs inference_args = 3;
+}
+
+message ChatPrediction{
+  string request_id = 1;
+  string response_id = 2;
+  ChatMessage message = 3;
+}
