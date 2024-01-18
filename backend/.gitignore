@@ -1,0 +1,10 @@
+bin
+.DS_Store
+
+.env.*
+*.log
+
+node_modules
+
+Chart.lock
+charts/**/*.tgz
