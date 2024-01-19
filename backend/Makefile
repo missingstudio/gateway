@@ -14,10 +14,6 @@ dbuild: gen vet
 	GOOS=linux scripts/build.sh
 .PHONY: dbuild
 
-# build-debug:
-# 	CGO_ENABLED=0 $(GO) build -gcflags="all=-N -l" -o bin/mgmt cmd/mgmt/*.go
-# .PHONY: build-debug
-
 gen:
 	sh -c "cd ../protos && make all"
 .PHONY: gen
