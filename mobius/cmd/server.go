@@ -1,15 +1,12 @@
 package cmd
 
 import (
-	"log"
-	"log/slog"
-	"os"
+	"context"
 	"os/signal"
 	"syscall"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/missingstudio/studio/backend/internal/connectrpc"
-	"github.com/missingstudio/studio/backend/internal/httpserver"
+	"github.com/missingstudio/studio/backend/pkg/server"
 
 	"github.com/spf13/cobra"
 )
@@ -37,29 +34,10 @@ func serverStartCommand() *cobra.Command {
 		Short:   "Start server and proxy default on port 8080",
 		Example: "frontier server start",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			connectMux, err := connectrpc.NewConnectMux(connectrpc.Deps{})
-			if err != nil {
-				log.Fatal("connect rpc mux not created", err)
-				return err
-			}
+			ctx, cancelFunc := signal.NotifyContext(context.Background(), syscall.SIGTERM, syscall.SIGINT)
+			defer cancelFunc()
 
-			connectsrv := httpserver.New(connectMux, httpserver.WithAddr("127.0.0.1", "8080"))
-
-			interrupt := make(chan os.Signal, 1)
-			signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
-			defer signal.Stop(interrupt)
-
-			select {
-			case s := <-interrupt:
-				slog.Info("received interrupt signal", "signal", s.String())
-			case err := <-connectsrv.Notify():
-				slog.Error("got error from connect server", "error", err.Error())
-			}
-
-			if err := connectsrv.Shutdown(); err != nil {
-				slog.Error("go error on connect server shutdown", "error", err.Error())
-			}
-			return nil
+			return server.Serve(ctx)
 		},
 	}
 
