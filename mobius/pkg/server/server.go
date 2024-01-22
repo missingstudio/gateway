@@ -4,12 +4,10 @@ import (
 	"context"
 	"log"
 	"log/slog"
-	"os"
-	"os/signal"
-	"syscall"
 
 	"github.com/missingstudio/studio/backend/internal/connectrpc"
 	"github.com/missingstudio/studio/backend/internal/httpserver"
+	"github.com/missingstudio/studio/backend/pkg/utils"
 )
 
 func Serve(ctx context.Context) error {
@@ -21,19 +19,14 @@ func Serve(ctx context.Context) error {
 
 	connectsrv := httpserver.New(connectMux, httpserver.WithAddr("127.0.0.1", "8080"))
 
-	interrupt := make(chan os.Signal, 1)
-	signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
-	defer signal.Stop(interrupt)
+	// wait for termination signal
+	wait := utils.GracefulShutdown(ctx, connectsrv.Notify(), utils.DefaultShutdownTimeout, map[string]utils.Operation{
+		"server": func(newCtx context.Context) error {
+			return connectsrv.Shutdown()
+		},
+	})
+	<-wait
 
-	select {
-	case s := <-interrupt:
-		slog.Info("received interrupt signal", "signal", s.String())
-	case err := <-connectsrv.Notify():
-		slog.Error("got error from connect server", "error", err.Error())
-	}
-
-	if err := connectsrv.Shutdown(); err != nil {
-		slog.Error("go error on connect server shutdown", "error", err.Error())
-	}
+	slog.Info("graceful shutdown complete")
 	return nil
 }

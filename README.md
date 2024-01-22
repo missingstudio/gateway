@@ -11,10 +11,18 @@ AI application using LLM, Image, Audio and Video Studios.
     - Non `stream` responses 
     - `stream` responses
   - [ ] Not supported (yet): `images`, `audio`, `files`, `fine-tunes`, `moderations`
-- *AI Gateway* for rate limit, atomatic retries, caching, failover etc
+- *AI Gateway* for Security, Reliability and Observability
+  - [ ] Rate limit
+  - [ ] Atomatic Retries
+  - [ ] Caching
+  - [ ] Failovers
+  - [ ] Fallbacks
+  - [ ] Monitoring
+  - [ ] Alerting
+  - [ ] Analytics
 - Workflow builder to compose complex AI apps
 - AI Agents
-- LLM Studio to bring LLM applications to production
+- LLM Studio
 - Image studio
 - Audio studio
 - Video studio
