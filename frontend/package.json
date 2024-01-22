@@ -1,0 +1,24 @@
+{
+  "name": "frontend",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "@missingstudio/eslint-config": "*",
+    "@missingstudio/typescript-config": "*",
+    "prettier": "^3.1.1",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "bun@1.0.25",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
