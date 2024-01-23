@@ -9,8 +9,8 @@ import (
 	"connectrpc.com/connect"
 
 	"github.com/missingstudio/studio/backend/internal/connectrpc"
-	greetingv1 "github.com/missingstudio/studio/protos/pkg/greeting/v1"
-	"github.com/missingstudio/studio/protos/pkg/greeting/v1/greetingv1connect"
+	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
+	"github.com/missingstudio/studio/protos/pkg/llm/llmv1connect"
 
 	"github.com/stretchr/testify/require"
 	"github.com/zeebo/assert"
@@ -19,8 +19,8 @@ import (
 func TestMobiusSercer(t *testing.T) {
 	t.Parallel()
 	mux := http.NewServeMux()
-	mux.Handle(greetingv1connect.NewGreetServiceHandler(
-		&connectrpc.GreetServer{},
+	mux.Handle(llmv1connect.NewLLMServiceHandler(
+		&connectrpc.LLMServer{},
 	))
 
 	server := httptest.NewUnstartedServer(mux)
@@ -28,30 +28,28 @@ func TestMobiusSercer(t *testing.T) {
 	server.StartTLS()
 	defer server.Close()
 
-	connectClient := greetingv1connect.NewGreetServiceClient(
+	connectClient := llmv1connect.NewLLMServiceClient(
 		server.Client(),
 		server.URL,
 	)
 
-	grpcClient := greetingv1connect.NewGreetServiceClient(
+	grpcClient := llmv1connect.NewLLMServiceClient(
 		server.Client(),
 		server.URL,
 		connect.WithGRPC(),
 	)
 
-	clients := []greetingv1connect.GreetServiceClient{
+	clients := []llmv1connect.LLMServiceClient{
 		connectClient,
 		grpcClient,
 	}
 
-	t.Run("greet", func(t *testing.T) {
+	t.Run("chat completions", func(t *testing.T) {
 		for _, client := range clients {
-			result, err := client.Greet(context.Background(), connect.NewRequest(&greetingv1.GreetRequest{
-				Name: "Dev",
-			}))
+			result, err := client.ChatCompletions(context.Background(), connect.NewRequest(&llmv1.CompletionRequest{}))
 
 			require.Nil(t, err)
-			assert.True(t, len(result.Msg.Greeting) > 0)
+			assert.True(t, len(result.Msg.Object) > 0)
 		}
 	})
 }

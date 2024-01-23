@@ -1,9 +1,15 @@
 syntax = "proto3";
 package llm.v1;
 
+import "google/api/annotations.proto";
+import "buf/validate/validate.proto";
+import "google/protobuf/empty.proto";
 
 service LLMService {
-  rpc ChatCompletions(CompletionRequest) returns (CompletionResponse) {}
+  rpc ChatCompletions(CompletionRequest) returns (CompletionResponse) {
+    option (google.api.http).post = "/v1/chat/completions";
+    option (google.api.http).body = "*";
+  }
   rpc StreamChatCompletions(CompletionRequest) returns (stream CompletionResponse) {}
 }
 
