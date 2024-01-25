@@ -65,7 +65,7 @@ func (s *LLMServer) ChatCompletions(
 ) (*connect.Response[llmv1.CompletionResponse], error) {
 	log.Println("Request headers: ", req.Header())
 
-	provider, err := providers.NewLLMProvider(req.Header())
+	provider, err := providers.GetProvider(req.Header())
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
