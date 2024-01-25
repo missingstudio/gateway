@@ -2,6 +2,7 @@ package connectrpc
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,6 +13,7 @@ import (
 	"connectrpc.com/validate"
 	"connectrpc.com/vanguard"
 	"github.com/missingstudio/studio/backend/internal/providers"
+	"github.com/missingstudio/studio/backend/internal/providers/base"
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
 	"github.com/missingstudio/studio/protos/pkg/llm/llmv1connect"
 )
@@ -70,7 +72,12 @@ func (s *LLMServer) ChatCompletions(
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
 
-	data, err := provider.ChatCompilation(ctx, req.Msg)
+	completionProvider, ok := provider.(base.ChatCompilationInterface)
+	if !ok {
+		return nil, connect.NewError(connect.CodeUnimplemented, errors.New("method not implemented"))
+	}
+
+	data, err := completionProvider.ChatCompilation(ctx, req.Msg)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}

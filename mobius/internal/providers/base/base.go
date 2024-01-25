@@ -11,6 +11,9 @@ type ProviderConfig struct {
 	ChatCompletions string
 }
 
-type LLMProvider interface {
-	ChatCompilation(ctx context.Context, ra *llmv1.CompletionRequest) (*llmv1.CompletionResponse, error)
+type ProviderInterface interface{}
+
+type ChatCompilationInterface interface {
+	ProviderInterface
+	ChatCompilation(context.Context, *llmv1.CompletionRequest) (*llmv1.CompletionResponse, error)
 }

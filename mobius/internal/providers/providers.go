@@ -11,7 +11,7 @@ import (
 )
 
 type ProviderFactory interface {
-	Create(token string) base.LLMProvider
+	Create(token string) base.ProviderInterface
 }
 
 var providerFactories = make(map[string]ProviderFactory)
@@ -20,9 +20,9 @@ func init() {
 	providerFactories["openai"] = openai.OpenAIProviderFactory{}
 }
 
-func GetProvider(headers http.Header) (base.LLMProvider, error) {
-	provider := headers.Get("x-ms-provider")
-	providerFactory, ok := providerFactories[provider]
+func GetProvider(headers http.Header) (base.ProviderInterface, error) {
+	providerType := headers.Get("x-ms-provider")
+	providerFactory, ok := providerFactories[providerType]
 	if !ok {
 		return nil, connect.NewError(connect.CodeNotFound, errors.New("provider not found"))
 	}
