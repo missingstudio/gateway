@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"time"
 
 	"connectrpc.com/connect"
 	"connectrpc.com/grpchealth"
 	"connectrpc.com/grpcreflect"
 	"connectrpc.com/validate"
 	"connectrpc.com/vanguard"
+	"github.com/missingstudio/studio/backend/internal/providers"
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
 	"github.com/missingstudio/studio/protos/pkg/llm/llmv1connect"
 )
@@ -65,12 +65,15 @@ func (s *LLMServer) ChatCompletions(
 ) (*connect.Response[llmv1.CompletionResponse], error) {
 	log.Println("Request headers: ", req.Header())
 
-	res := connect.NewResponse(&llmv1.CompletionResponse{
-		Id:      "1",
-		Object:  "chat.compilation",
-		Created: uint64(time.Now().Unix()),
-		Model:   "random",
-		Choices: []*llmv1.CompletionChoice{},
-	})
-	return res, nil
+	provider, err := providers.NewLLMProvider(req.Header())
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	data, err := provider.ChatCompilation(ctx, req.Msg)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	return connect.NewResponse(data), nil
 }
