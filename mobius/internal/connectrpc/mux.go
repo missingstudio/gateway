@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 
 	"connectrpc.com/connect"
@@ -14,6 +13,7 @@ import (
 	"connectrpc.com/vanguard"
 	"github.com/missingstudio/studio/backend/internal/providers"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
+	"github.com/missingstudio/studio/backend/pkg/utils"
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
 	"github.com/missingstudio/studio/protos/pkg/llm/llmv1connect"
 )
@@ -33,7 +33,7 @@ func NewConnectMux(d Deps) (*http.ServeMux, error) {
 		vanguard.NewService(llmv1connect.NewLLMServiceHandler(
 			&LLMServer{},
 			compress1KB,
-			connect.WithInterceptors(validateInterceptor),
+			connect.WithInterceptors(validateInterceptor, utils.ProviderInterceptor()),
 		)),
 	}
 	transcoderOptions := []vanguard.TranscoderOption{
@@ -65,9 +65,7 @@ func (s *LLMServer) ChatCompletions(
 	ctx context.Context,
 	req *connect.Request[llmv1.CompletionRequest],
 ) (*connect.Response[llmv1.CompletionResponse], error) {
-	log.Println("Request headers: ", req.Header())
-
-	provider, err := providers.GetProvider(req.Header())
+	provider, err := providers.GetProvider(ctx)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}

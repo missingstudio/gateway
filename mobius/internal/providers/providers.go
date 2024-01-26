@@ -1,11 +1,11 @@
 package providers
 
 import (
+	"context"
 	"errors"
-	"net/http"
-	"strings"
 
 	"connectrpc.com/connect"
+	"github.com/missingstudio/studio/backend/config"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
 	"github.com/missingstudio/studio/backend/internal/providers/openai"
 )
@@ -20,15 +20,20 @@ func init() {
 	providerFactories["openai"] = openai.OpenAIProviderFactory{}
 }
 
-func GetProvider(headers http.Header) (base.ProviderInterface, error) {
-	providerType := headers.Get("x-ms-provider")
-	providerFactory, ok := providerFactories[providerType]
+func GetProvider(ctx context.Context) (base.ProviderInterface, error) {
+	providerName, ok := ctx.Value(config.ProviderKey{}).(string)
+	if !ok {
+		return nil, connect.NewError(connect.CodeNotFound, errors.New("failed to get provider"))
+	}
+
+	authkey, ok := ctx.Value(config.AuthorizationKey{}).(string)
+	if !ok {
+		return nil, connect.NewError(connect.CodeNotFound, errors.New("failed to get access key"))
+	}
+
+	providerFactory, ok := providerFactories[providerName]
 	if !ok {
 		return nil, connect.NewError(connect.CodeNotFound, errors.New("provider not found"))
 	}
-
-	authHeader := headers.Get("Authorization")
-	accessToken := strings.Replace(authHeader, "Bearer ", "", 1)
-
-	return providerFactory.Create(accessToken), nil
+	return providerFactory.Create(authkey), nil
 }

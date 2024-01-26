@@ -1,6 +1,8 @@
 package openai
 
-import "github.com/missingstudio/studio/backend/internal/providers/base"
+import (
+	"github.com/missingstudio/studio/backend/internal/providers/base"
+)
 
 type OpenAIProvider struct {
 	APIKey string
