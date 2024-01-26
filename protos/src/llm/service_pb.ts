@@ -96,6 +96,43 @@ export class Role extends Message<Role> {
 }
 
 /**
+ * @generated from message llm.v1.ResponseFormat
+ */
+export class ResponseFormat extends Message<ResponseFormat> {
+  /**
+   * @generated from field: string type = 1;
+   */
+  type = "";
+
+  constructor(data?: PartialMessage<ResponseFormat>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.ResponseFormat";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ResponseFormat {
+    return new ResponseFormat().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ResponseFormat {
+    return new ResponseFormat().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ResponseFormat {
+    return new ResponseFormat().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ResponseFormat | PlainMessage<ResponseFormat> | undefined, b: ResponseFormat | PlainMessage<ResponseFormat> | undefined): boolean {
+    return proto3.util.equals(ResponseFormat, a, b);
+  }
+}
+
+/**
  * @generated from message llm.v1.ChatMessage
  */
 export class ChatMessage extends Message<ChatMessage> {
@@ -197,6 +234,16 @@ export class TextCompletionParameters extends Message<TextCompletionParameters> 
    */
   frequencyPenalty?: number;
 
+  /**
+   * @generated from field: optional llm.v1.ResponseFormat response_format = 10;
+   */
+  responseFormat?: ResponseFormat;
+
+  /**
+   * @generated from field: optional uint32 seed = 11;
+   */
+  seed?: number;
+
   constructor(data?: PartialMessage<TextCompletionParameters>) {
     super();
     proto3.util.initPartial(data, this);
@@ -214,6 +261,8 @@ export class TextCompletionParameters extends Message<TextCompletionParameters> 
     { no: 7, name: "max_tokens", kind: "scalar", T: 13 /* ScalarType.UINT32 */, opt: true },
     { no: 8, name: "presence_penalty", kind: "scalar", T: 2 /* ScalarType.FLOAT */, opt: true },
     { no: 9, name: "frequency_penalty", kind: "scalar", T: 2 /* ScalarType.FLOAT */, opt: true },
+    { no: 10, name: "response_format", kind: "message", T: ResponseFormat, opt: true },
+    { no: 11, name: "seed", kind: "scalar", T: 13 /* ScalarType.UINT32 */, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): TextCompletionParameters {
@@ -302,6 +351,11 @@ export class CompletionChoice extends Message<CompletionChoice> {
    */
   message?: ChatMessage;
 
+  /**
+   * @generated from field: string finish_reason = 3;
+   */
+  finishReason = "";
+
   constructor(data?: PartialMessage<CompletionChoice>) {
     super();
     proto3.util.initPartial(data, this);
@@ -312,6 +366,7 @@ export class CompletionChoice extends Message<CompletionChoice> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "index", kind: "scalar", T: 13 /* ScalarType.UINT32 */ },
     { no: 2, name: "message", kind: "message", T: ChatMessage },
+    { no: 3, name: "finish_reason", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CompletionChoice {
@@ -432,6 +487,11 @@ export class CompletionResponse extends Message<CompletionResponse> {
    */
   usage?: Usage;
 
+  /**
+   * @generated from field: string system_fingerprint = 7;
+   */
+  systemFingerprint = "";
+
   constructor(data?: PartialMessage<CompletionResponse>) {
     super();
     proto3.util.initPartial(data, this);
@@ -446,6 +506,7 @@ export class CompletionResponse extends Message<CompletionResponse> {
     { no: 4, name: "model", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 5, name: "choices", kind: "message", T: CompletionChoice, repeated: true },
     { no: 6, name: "usage", kind: "message", T: Usage },
+    { no: 7, name: "system_fingerprint", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CompletionResponse {
