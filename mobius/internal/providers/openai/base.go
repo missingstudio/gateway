@@ -7,18 +7,19 @@ type OpenAIProvider struct {
 	Config base.ProviderConfig
 }
 
-func NewOpenAIProvider(token string, baseURL string) *OpenAIProvider {
+func NewOpenAIProvider(apikey string, baseURL string) *OpenAIProvider {
 	config := getOpenAIConfig(baseURL)
+
 	return &OpenAIProvider{
-		APIKey: token,
+		APIKey: apikey,
 		Config: config,
 	}
 }
 
 type OpenAIProviderFactory struct{}
 
-func (f OpenAIProviderFactory) Create(token string) base.ProviderInterface {
-	openAIProvider := NewOpenAIProvider(token, "https://api.openai.com")
+func (f OpenAIProviderFactory) Create(apikey string) base.ProviderInterface {
+	openAIProvider := NewOpenAIProvider(apikey, "https://api.openai.com")
 	return openAIProvider
 }
 

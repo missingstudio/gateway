@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/missingstudio/studio/backend/pkg/requester"
@@ -17,9 +18,11 @@ func (oai *OpenAIProvider) ChatCompilation(ctx context.Context, cr *llmv1.Comple
 	}
 
 	client := requester.NewHTTPClient()
-	req, _ := http.NewRequestWithContext(ctx, "POST", oai.Config.BaseURL+oai.Config.ChatCompletions, bytes.NewReader(payload))
+	requestURL := fmt.Sprintf("%s%s", oai.Config.BaseURL, oai.Config.ChatCompletions)
+	req, _ := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
+
 	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("Authorization", "Bearer "+oai.APIKey)
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", oai.APIKey))
 
 	resp, err := client.Do(req)
 	if err != nil {
