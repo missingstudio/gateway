@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	defaultAddr              = ":80"
+	defaultAddr              = ":3000"
 	defaultReadTimeout       = 5 * time.Second
 	defaultWriteTimeout      = 5 * time.Second
 	defaultReadHeaderTimeout = time.Second

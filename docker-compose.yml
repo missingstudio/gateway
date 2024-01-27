@@ -1,0 +1,12 @@
+services:
+  mobius:
+    container_name: mobius
+    image: mobius
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.mobius.dev
+    command: server start
+    ports:
+      - 3000:3000
+    environment:
+      - NUCLEUS_ENV=dev

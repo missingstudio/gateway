@@ -44,6 +44,11 @@ func NewConnectMux(d Deps) (*http.ServeMux, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to create transcoder: %w", err)
 	}
+
+	mux.Handle("/ping", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Pong\n")
+	}))
+
 	mux.Handle("/", transcoder)
 	mux.Handle(grpchealth.NewHandler(
 		grpchealth.NewStaticChecker(llmv1connect.LLMServiceName),
