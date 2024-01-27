@@ -1,19 +1,18 @@
 ![Missing studio](/docs/assets/github.png)
 
 ## Introduction
-[Missing studio](https://www.missing.studio) is a robust open source platform to build a developer-first way to create 
-AI application using LLM, Image, Audio and Video Studios.
+🌈 A Robust Open Source [AI studio](https://www.missing.studio). A drop-in replacement to OpenAI API with 100+ LLMs(OpenAI, Azure, Cohere, Anthropic, HuggingFace, Replicate, Stable Diffusion).
 
-
-## Features
+## 🚀 Features
 - 🌐 *Universal API* - Call every LLM API like it's OpenAI
   - [ ] Text completion (`/completions`) `inprogress`
-    - Non `stream` responses 
+    - Non `stream` responses
     - `stream` responses
   - [ ] Not supported (yet): `images`, `audio`, `files`, `fine-tunes`, `moderations`
 - *AI Gateway* for Security, Reliability and Observability
-  - [ ] Rate limit
-  - [ ] Atomatic Retries
+  - [ ] Load balancing across multiple provider and models   
+  - [ ] Atomatic Retries with exponential backoff
+  - [ ] Rate limiting
   - [ ] Caching
   - [ ] Failovers
   - [ ] Fallbacks
@@ -27,7 +26,7 @@ AI application using LLM, Image, Audio and Video Studios.
 - Audio studio
 - Video studio
 - Storage to connect with providers like s3, gcs, vector DBs etc.
-- Inference and serving to serve AI/ML models in production 
+- Inference and serving to serve AI/ML models in production
 - Finetune models
 - Model Deployment at Scale on Kubernetes 🦄️
 - Dev tools – all missing studio dev tools (CLI, SDK, API Client)
