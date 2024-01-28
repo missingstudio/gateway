@@ -25,6 +25,8 @@ func Serve(ctx context.Context) error {
 			return connectsrv.Shutdown()
 		},
 	})
+
+	slog.Info("server started")
 	<-wait
 
 	slog.Info("graceful shutdown complete")
