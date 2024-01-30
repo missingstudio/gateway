@@ -2,7 +2,7 @@ default: build
 
 DEV_COMPOSE_FILE = docker-compose.yml
 
-build: build-protos build-mobius
+build: build-mobius
 .PHONY: build
 
 build-mobius:
@@ -13,12 +13,12 @@ build-protos:
 	sh -c "cd ./protos && make all"
 .PHONY: build-protos
 
-clean: clean-backend clean-worker clean-cli
+clean: clean-mobius
 .PHONY: clean
 
-clean-backend:
-	sh -c "cd ./backend && make clean"
-.PHONY: clean-backend
+clean-mobius:
+	sh -c "cd ./mobius && make clean"
+.PHONY: clean-mobius
 
 rebuild: clean build
 .PHONY: rebuild
