@@ -6,8 +6,8 @@
 ## 🚀 Features
 - 🌐 *Universal API* - Call every LLM API like it's OpenAI
   - [ ] Text completion (`/completions`) `inprogress`
-    - Non `stream` responses
-    - `stream` responses
+    - [X] Non `stream` responses
+    - [ ] `stream` responses
   - [ ] Not supported (yet): `images`, `audio`, `files`, `fine-tunes`, `moderations`
 - *AI Gateway* for Security, Reliability and Observability
   - [ ] Load balancing across multiple provider and models   

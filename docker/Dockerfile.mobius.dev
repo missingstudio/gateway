@@ -5,6 +5,7 @@ WORKDIR /workspace
 COPY ./mobius ./mobius
 COPY ./protos ./protos
 COPY ./worker ./worker
+COPY ./common ./common
 
 COPY ./go.work .
 RUN go work sync

@@ -17,6 +17,7 @@ func New() *cobra.Command {
 	}
 
 	cmd.AddCommand(ServerCommand())
+	cmd.AddCommand(ConfigCommand())
 	SetHelp(cmd)
 	return cmd
 }

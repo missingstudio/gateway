@@ -1,4 +1,4 @@
-package studioerrors
+package mserrors
 
 import (
 	"errors"
