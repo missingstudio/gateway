@@ -4,9 +4,10 @@ default: all
 all: build
 
 vet:
+	@echo "🧹 Vetting go.mod.."
 	$(GO) vet ./...
 
-build: gen vet
+build: gen vet ## build mobius server
 	scripts/build.sh
 .PHONY: build
 
@@ -15,10 +16,11 @@ dbuild: gen vet
 .PHONY: dbuild
 
 gen:
+	@echo "🧹 Generating proto files.."
 	sh -c "cd ../protos && make all"
 .PHONY: gen
 
-clean:
+clean: ## Clean mobius server
 	rm -rf bin
 .PHONY: clean
 
