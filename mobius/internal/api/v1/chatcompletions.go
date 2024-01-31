@@ -14,14 +14,14 @@ func (s *V1Handler) ChatCompletions(
 	ctx context.Context,
 	req *connect.Request[llmv1.CompletionRequest],
 ) (*connect.Response[llmv1.CompletionResponse], error) {
-	provider, err := providers.GetProvider(ctx)
+	provider, err := providers.GetProvider(ctx, req.Header())
 	if err != nil {
-		return nil, errors.NewNotFound("provider not found")
+		return nil, errors.New(err)
 	}
 
 	completionProvider, ok := provider.(base.ChatCompilationInterface)
 	if !ok {
-		return nil, errors.NewInternalError("not able to get chat compilation provider")
+		return nil, errors.NewInternalError("provider don't have chat compilation capabilities")
 	}
 
 	data, err := completionProvider.ChatCompilation(ctx, req.Msg)

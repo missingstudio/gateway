@@ -3,7 +3,6 @@ package utils
 import (
 	"context"
 	"errors"
-	"strings"
 
 	"connectrpc.com/connect"
 	"github.com/missingstudio/studio/backend/config"
@@ -33,15 +32,6 @@ func ProviderInterceptor() connect.UnaryInterceptorFunc {
 			}
 
 			ctx = context.WithValue(ctx, config.ProviderKey{}, provider)
-
-			authorization := req.Header().Get(config.Authorization)
-			if authorization == "" {
-				return nil, errors.New("Authorization header is required")
-			}
-
-			authorizationKey := strings.Replace(authorization, "Bearer ", "", 1)
-			ctx = context.WithValue(ctx, config.AuthorizationKey{}, authorizationKey)
-
 			return next(ctx, req)
 		})
 	}

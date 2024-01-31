@@ -2,6 +2,7 @@ bin
 node_modules
 .DS_Store
 *.log
+.vscode
 
 .env
 .env.*

@@ -11,7 +11,9 @@ type ProviderConfig struct {
 	ChatCompletions string
 }
 
-type ProviderInterface interface{}
+type ProviderInterface interface {
+	GetName() string
+}
 
 type ChatCompilationInterface interface {
 	ProviderInterface

@@ -1,28 +1,51 @@
 package openai
 
 import (
+	"net/http"
+	"strings"
+
+	"github.com/missingstudio/studio/backend/config"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
+	"github.com/missingstudio/studio/common/errors"
 )
 
-type OpenAIProvider struct {
+type OpenAIProviderFactory struct{}
+
+func (f OpenAIProviderFactory) Create(headers http.Header) (base.ProviderInterface, error) {
+	authorization := headers.Get(config.Authorization)
+	if authorization == "" {
+		return nil, errors.NewBadRequest("authorization header is required")
+	}
+
+	authorizationKey := strings.Replace(authorization, "Bearer ", "", 1)
+	openAIProvider := NewOpenAIProvider(authorizationKey, "https://api.openai.com")
+	return openAIProvider, nil
+}
+
+type OpenAIHeaders struct {
 	APIKey string
+}
+
+type OpenAIProvider struct {
+	Name   string
 	Config base.ProviderConfig
+	OpenAIHeaders
 }
 
 func NewOpenAIProvider(apikey string, baseURL string) *OpenAIProvider {
 	config := getOpenAIConfig(baseURL)
 
 	return &OpenAIProvider{
-		APIKey: apikey,
+		Name: "Open AI",
+		OpenAIHeaders: OpenAIHeaders{
+			APIKey: apikey,
+		},
 		Config: config,
 	}
 }
 
-type OpenAIProviderFactory struct{}
-
-func (f OpenAIProviderFactory) Create(apikey string) base.ProviderInterface {
-	openAIProvider := NewOpenAIProvider(apikey, "https://api.openai.com")
-	return openAIProvider
+func (oai *OpenAIProvider) GetName() string {
+	return oai.Name
 }
 
 func getOpenAIConfig(baseURL string) base.ProviderConfig {

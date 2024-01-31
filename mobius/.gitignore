@@ -1,7 +1,9 @@
 bin
 .DS_Store
 
+.env
 .env.*
+config.yaml
 *.log
 
 node_modules
