@@ -3,7 +3,6 @@ package azure
 import (
 	"net/http"
 
-	"github.com/go-playground/validator/v10"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
 	"github.com/missingstudio/studio/backend/pkg/utils"
 	"github.com/missingstudio/studio/common/errors"
@@ -12,10 +11,10 @@ import (
 type AzureProviderFactory struct{}
 
 type AzureHeaders struct {
-	APIKey       string `validate:"required" json:"Authorization"`
-	ResourceName string `validate:"required" json:"X-Ms-Azure-Resource-Name"`
-	DeploymentID string `validate:"required" json:"X-Ms-Deployment-ID"`
-	APIVersion   string `validate:"required" json:"X-Ms-API-Version"`
+	APIKey       string `validate:"required" json:"Authorization" error:"API key is required"`
+	ResourceName string `validate:"required" json:"X-Ms-Azure-Resource-Name" error:"Resource Name is required"`
+	DeploymentID string `validate:"required" json:"X-Ms-Deployment-ID" error:"Deployment ID is required"`
+	APIVersion   string `validate:"required" json:"X-Ms-API-Version" error:"API Version is required"`
 }
 
 func (azf AzureProviderFactory) Validate(headers http.Header) (*AzureHeaders, error) {
@@ -24,9 +23,8 @@ func (azf AzureProviderFactory) Validate(headers http.Header) (*AzureHeaders, er
 		return nil, errors.New(err)
 	}
 
-	validate := validator.New()
-	if err := validate.Struct(azHeaders); err != nil {
-		return nil, errors.NewBadRequest("provider's required headers are missing")
+	if err := utils.ValidateHeaders(azHeaders); err != nil {
+		return nil, err
 	}
 
 	return &azHeaders, nil

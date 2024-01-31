@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/go-playground/validator/v10"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
 	"github.com/missingstudio/studio/backend/pkg/utils"
 	"github.com/missingstudio/studio/common/errors"
@@ -13,18 +12,17 @@ import (
 type OpenAIProviderFactory struct{}
 
 type OpenAIHeaders struct {
-	APIKey string `validate:"required" json:"Authorization"`
+	APIKey string `validate:"required" json:"Authorization" error:"API key is required"`
 }
 
-func (oaif OpenAIProviderFactory) Validate(headers http.Header) (*OpenAIHeaders, error) {
+func (azf OpenAIProviderFactory) Validate(headers http.Header) (*OpenAIHeaders, error) {
 	var oaiHeaders OpenAIHeaders
 	if err := utils.UnmarshalHeader(headers, &oaiHeaders); err != nil {
 		return nil, errors.New(err)
 	}
 
-	validate := validator.New()
-	if err := validate.Struct(oaiHeaders); err != nil {
-		return nil, errors.NewBadRequest("provider's required headers are missing")
+	if err := utils.ValidateHeaders(oaiHeaders); err != nil {
+		return nil, err
 	}
 
 	return &oaiHeaders, nil
