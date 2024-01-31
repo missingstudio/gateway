@@ -7,9 +7,9 @@ import (
 
 type Option func(*Server)
 
-func WithAddr(port int) Option {
+func WithAddr(host string, port int) Option {
 	return func(s *Server) {
-		s.server.Addr = fmt.Sprintf(":%d", port)
+		s.server.Addr = fmt.Sprintf("%s:%d", host, port)
 	}
 }
 

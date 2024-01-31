@@ -17,7 +17,7 @@ func Serve(ctx context.Context, logger *slog.Logger, cfg *config.Config) error {
 		return err
 	}
 
-	connectsrv := httpserver.New(connectMux, httpserver.WithAddr(cfg.Port))
+	connectsrv := httpserver.New(connectMux, httpserver.WithAddr(cfg.Host, cfg.Port))
 
 	// wait for termination signal
 	wait := utils.GracefulShutdown(ctx, logger, connectsrv.Notify(), utils.DefaultShutdownTimeout, map[string]utils.Operation{
