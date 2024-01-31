@@ -4,26 +4,41 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/missingstudio/studio/backend/config"
+	"github.com/go-playground/validator/v10"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
+	"github.com/missingstudio/studio/backend/pkg/utils"
 	"github.com/missingstudio/studio/common/errors"
 )
 
 type OpenAIProviderFactory struct{}
 
-func (f OpenAIProviderFactory) Create(headers http.Header) (base.ProviderInterface, error) {
-	authorization := headers.Get(config.Authorization)
-	if authorization == "" {
-		return nil, errors.NewBadRequest("authorization header is required")
-	}
-
-	authorizationKey := strings.Replace(authorization, "Bearer ", "", 1)
-	openAIProvider := NewOpenAIProvider(authorizationKey, "https://api.openai.com")
-	return openAIProvider, nil
+type OpenAIHeaders struct {
+	APIKey string `validate:"required" json:"Authorization"`
 }
 
-type OpenAIHeaders struct {
-	APIKey string
+func (oaif OpenAIProviderFactory) Validate(headers http.Header) (*OpenAIHeaders, error) {
+	var oaiHeaders OpenAIHeaders
+	if err := utils.UnmarshalHeader(headers, &oaiHeaders); err != nil {
+		return nil, errors.New(err)
+	}
+
+	validate := validator.New()
+	if err := validate.Struct(oaiHeaders); err != nil {
+		return nil, errors.NewBadRequest("provider's required headers are missing")
+	}
+
+	return &oaiHeaders, nil
+}
+
+func (oaif OpenAIProviderFactory) Create(headers http.Header) (base.ProviderInterface, error) {
+	oaiHeaders, err := oaif.Validate(headers)
+	if err != nil {
+		return nil, err
+	}
+
+	oaiHeaders.APIKey = strings.Replace(oaiHeaders.APIKey, "Bearer ", "", 1)
+	openAIProvider := NewOpenAIProvider(*oaiHeaders)
+	return openAIProvider, nil
 }
 
 type OpenAIProvider struct {
@@ -32,19 +47,17 @@ type OpenAIProvider struct {
 	OpenAIHeaders
 }
 
-func NewOpenAIProvider(apikey string, baseURL string) *OpenAIProvider {
-	config := getOpenAIConfig(baseURL)
+func NewOpenAIProvider(headers OpenAIHeaders) *OpenAIProvider {
+	config := getOpenAIConfig("https://api.openai.com")
 
 	return &OpenAIProvider{
-		Name: "Open AI",
-		OpenAIHeaders: OpenAIHeaders{
-			APIKey: apikey,
-		},
-		Config: config,
+		Name:          "Open AI",
+		Config:        config,
+		OpenAIHeaders: headers,
 	}
 }
 
-func (oai *OpenAIProvider) GetName() string {
+func (oai OpenAIProvider) GetName() string {
 	return oai.Name
 }
 
