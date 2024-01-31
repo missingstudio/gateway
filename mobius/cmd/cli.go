@@ -5,13 +5,29 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const Description = `
+
+
+███▄ ▄███▓ ▒█████   ▄▄▄▄    ██▓ █    ██   ██████ 
+▓██▒▀█▀ ██▒▒██▒  ██▒▓█████▄ ▓██▒ ██  ▓██▒▒██    ▒ 
+▓██    ▓██░▒██░  ██▒▒██▒ ▄██▒██▒▓██  ▒██░░ ▓██▄   
+▒██    ▒██ ▒██   ██░▒██░█▀  ░██░▓▓█  ░██░  ▒   ██▒
+▒██▒   ░██▒░ ████▓▒░░▓█  ▀█▓░██░▒▒█████▓ ▒██████▒▒
+░ ▒░   ░  ░░ ▒░▒░▒░ ░▒▓███▀▒░▓  ░▒▓▒ ▒ ▒ ▒ ▒▓▒ ▒ ░
+░  ░      ░  ░ ▒ ▒░ ▒░▒   ░  ▒ ░░░▒░ ░ ░ ░ ░▒  ░ ░
+░      ░   ░ ░ ░ ▒   ░    ░  ▒ ░ ░░░ ░ ░ ░  ░  ░  
+       ░       ░ ░   ░       ░     ░           ░  
+                          ░                       
+                                                  
+                                                     
+🌈 Mobius is an open-source, lightweight, high-performance ai studio gateway
+`
+
 func New(cliConfig *Config) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "mobius <command> <subcommand> [flags]",
-		Short: "🌈 Mobius is an open-source, lightweight, high-performance ai studio gateway",
-		Long: heredoc.Doc(`
-      Mobius is an open-source, lightweight, high-performance ai studio gateway.
-    `),
+		Use:           "mobius <command> <subcommand> [flags]",
+		Short:         "🌈 Mobius is an open-source, lightweight, high-performance ai studio gateway",
+		Long:          heredoc.Doc(Description),
 		SilenceUsage:  true,
 		SilenceErrors: true,
 	}

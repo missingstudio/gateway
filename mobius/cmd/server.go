@@ -1,15 +1,10 @@
 package cmd
 
 import (
-	"context"
 	"fmt"
-	"os/signal"
-	"syscall"
 
 	"github.com/MakeNowJust/heredoc"
 	"github.com/missingstudio/studio/backend/config"
-	"github.com/missingstudio/studio/backend/pkg/server"
-	"github.com/missingstudio/studio/common/logger"
 
 	"github.com/spf13/cobra"
 )
@@ -66,17 +61,7 @@ func serverStartCommand() *cobra.Command {
 			if err != nil {
 				panic(err)
 			}
-
-			logger := logger.New(appConfig.LogFormatJson, nil)
-
-			ctx, cancelFunc := signal.NotifyContext(context.Background(), syscall.SIGTERM, syscall.SIGINT)
-			defer cancelFunc()
-
-			if err = server.Serve(ctx, logger, appConfig); err != nil {
-				logger.Error("error starting server", "error", err)
-				return err
-			}
-			return nil
+			return Serve(appConfig)
 		},
 	}
 
