@@ -1,4 +1,4 @@
-package mslogger
+package logger
 
 import (
 	"log/slog"

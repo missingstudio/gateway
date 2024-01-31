@@ -1,4 +1,4 @@
-package msconfig
+package config
 
 import (
 	"encoding/json"

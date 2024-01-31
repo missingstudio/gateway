@@ -1,4 +1,4 @@
-package mscmd
+package cmdx
 
 import (
 	"errors"
@@ -7,7 +7,7 @@ import (
 	"runtime"
 
 	"github.com/mcuadros/go-defaults"
-	msconfig "github.com/missingstudio/studio/common/config"
+	"github.com/missingstudio/studio/common/config"
 	"github.com/spf13/pflag"
 	"gopkg.in/yaml.v2"
 )
@@ -84,13 +84,13 @@ func (c *Config) Load(cfg interface{}, opts ...ConfigLoaderOpt) error {
 		opt(c)
 	}
 
-	loaderOpts := []msconfig.LoaderOption{msconfig.WithFile(c.filename)}
+	loaderOpts := []config.LoaderOption{config.WithFile(c.filename)}
 
 	if c.boundedPFlags != nil {
-		loaderOpts = append(loaderOpts, msconfig.WithBindPFlags(c.boundedPFlags, cfg))
+		loaderOpts = append(loaderOpts, config.WithBindPFlags(c.boundedPFlags, cfg))
 	}
 
-	loader := msconfig.NewLoader(loaderOpts...)
+	loader := config.NewLoader(loaderOpts...)
 
 	if err := loader.Load(cfg); err != nil {
 		return err

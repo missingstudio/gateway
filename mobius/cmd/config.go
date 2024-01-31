@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/MakeNowJust/heredoc"
-	mscmd "github.com/missingstudio/studio/common/cmd"
+	"github.com/missingstudio/studio/common/cmdx"
 
 	"github.com/spf13/cobra"
 )
@@ -16,7 +16,7 @@ type Config struct {
 func LoadConfig() (*Config, error) {
 	var config Config
 
-	cfg := mscmd.SetConfig("mobius")
+	cfg := cmdx.SetConfig("mobius")
 	err := cfg.Load(&config)
 
 	return &config, err
@@ -48,7 +48,7 @@ func configInitCommand() *cobra.Command {
 			"group": "core",
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			cfg := mscmd.SetConfig("mobius")
+			cfg := cmdx.SetConfig("mobius")
 
 			if err := cfg.Init(&Config{}); err != nil {
 				return err
@@ -71,7 +71,7 @@ func configListCommand() *cobra.Command {
 			"group": "core",
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			cfg := mscmd.SetConfig("mobius")
+			cfg := cmdx.SetConfig("mobius")
 
 			data, err := cfg.Read()
 			if err != nil {

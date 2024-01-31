@@ -6,7 +6,7 @@ import (
 	"connectrpc.com/connect"
 	"github.com/missingstudio/studio/backend/internal/providers"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
-	mserrors "github.com/missingstudio/studio/common/errors"
+	"github.com/missingstudio/studio/common/errors"
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
 )
 
@@ -16,17 +16,17 @@ func (s *V1Handler) ChatCompletions(
 ) (*connect.Response[llmv1.CompletionResponse], error) {
 	provider, err := providers.GetProvider(ctx)
 	if err != nil {
-		return nil, mserrors.NewNotFound("provider not found")
+		return nil, errors.NewNotFound("provider not found")
 	}
 
 	completionProvider, ok := provider.(base.ChatCompilationInterface)
 	if !ok {
-		return nil, mserrors.NewInternalError("not able to get chat compilation provider")
+		return nil, errors.NewInternalError("not able to get chat compilation provider")
 	}
 
 	data, err := completionProvider.ChatCompilation(ctx, req.Msg)
 	if err != nil {
-		return nil, mserrors.New(err)
+		return nil, errors.New(err)
 	}
 
 	return connect.NewResponse(data), nil

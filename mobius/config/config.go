@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	msconfig "github.com/missingstudio/studio/common/config"
+	"github.com/missingstudio/studio/common/config"
 )
 
 type Config struct {
@@ -16,29 +16,29 @@ type Config struct {
 func Load(serverConfigFileFromFlag string) (*Config, error) {
 	conf := &Config{}
 
-	var options []msconfig.LoaderOption
-	options = append(options, msconfig.WithName("config"))
-	options = append(options, msconfig.WithEnvKeyReplacer(".", "_"))
-	options = append(options, msconfig.WithEnvPrefix("MOBIUS"))
+	var options []config.LoaderOption
+	options = append(options, config.WithName("config"))
+	options = append(options, config.WithEnvKeyReplacer(".", "_"))
+	options = append(options, config.WithEnvPrefix("MOBIUS"))
 	if p, err := os.Getwd(); err == nil {
-		options = append(options, msconfig.WithPath(p))
+		options = append(options, config.WithPath(p))
 	}
 	if execPath, err := os.Executable(); err == nil {
-		options = append(options, msconfig.WithPath(filepath.Dir(execPath)))
+		options = append(options, config.WithPath(filepath.Dir(execPath)))
 	}
 	if currentHomeDir, err := os.UserHomeDir(); err == nil {
-		options = append(options, msconfig.WithPath(currentHomeDir))
-		options = append(options, msconfig.WithPath(filepath.Join(currentHomeDir, ".config")))
+		options = append(options, config.WithPath(currentHomeDir))
+		options = append(options, config.WithPath(filepath.Join(currentHomeDir, ".config")))
 	}
 
 	// override all config sources and prioritize one from file
 	if serverConfigFileFromFlag != "" {
-		options = append(options, msconfig.WithFile(serverConfigFileFromFlag))
+		options = append(options, config.WithFile(serverConfigFileFromFlag))
 	}
 
-	l := msconfig.NewLoader(options...)
+	l := config.NewLoader(options...)
 	if err := l.Load(conf); err != nil {
-		if !errors.As(err, &msconfig.ConfigFileNotFoundError{}) {
+		if !errors.As(err, &config.ConfigFileNotFoundError{}) {
 			return nil, err
 		}
 	}

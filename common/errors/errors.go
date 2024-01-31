@@ -1,4 +1,4 @@
-package mserrors
+package errors
 
 import (
 	"errors"

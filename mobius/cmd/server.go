@@ -9,7 +9,7 @@ import (
 	"github.com/MakeNowJust/heredoc"
 	"github.com/missingstudio/studio/backend/config"
 	"github.com/missingstudio/studio/backend/pkg/server"
-	mslogger "github.com/missingstudio/studio/common/logger"
+	"github.com/missingstudio/studio/common/logger"
 
 	"github.com/spf13/cobra"
 )
@@ -67,7 +67,7 @@ func serverStartCommand() *cobra.Command {
 				panic(err)
 			}
 
-			logger := mslogger.New(appConfig.LogFormatJson, nil)
+			logger := logger.New(appConfig.LogFormatJson, nil)
 
 			ctx, cancelFunc := signal.NotifyContext(context.Background(), syscall.SIGTERM, syscall.SIGINT)
 			defer cancelFunc()
