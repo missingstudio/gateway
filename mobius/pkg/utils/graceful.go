@@ -18,7 +18,7 @@ const (
 // Operation is a cleanup function on shutting down
 type Operation func(ctx context.Context) error
 
-func GracefulShutdown(ctx context.Context, notifier <-chan error, timeout time.Duration, ops map[string]Operation) <-chan struct{} {
+func GracefulShutdown(ctx context.Context, logger *slog.Logger, notifier <-chan error, timeout time.Duration, ops map[string]Operation) <-chan struct{} {
 	wait := make(chan struct{})
 
 	go func() {
@@ -28,12 +28,12 @@ func GracefulShutdown(ctx context.Context, notifier <-chan error, timeout time.D
 
 		select {
 		case s := <-interrupt:
-			slog.Info("received interrupt signal", "signal", s.String())
+			logger.Info("received interrupt signal", "signal", s.String())
 		case err := <-notifier:
-			slog.Error("got error from server", "error", err.Error())
+			logger.Error("got error from server", "error", err.Error())
 		}
 
-		slog.Info("shutting down")
+		logger.Info("shutting down")
 
 		// set timeout for the ops to be done to prevent system hang
 		timeoutFunc := time.AfterFunc(timeout, func() {
@@ -48,12 +48,12 @@ func GracefulShutdown(ctx context.Context, notifier <-chan error, timeout time.D
 			func() {
 				defer wg.Done()
 
-				slog.Info(fmt.Sprintf("cleaning up: %s", innerKey))
+				logger.Info(fmt.Sprintf("cleaning up: %s", innerKey))
 				if err := innerOp(ctx); err != nil {
 					panic(fmt.Sprintf("%s: clean up failed: %s", innerKey, err.Error()))
 				}
 
-				slog.Info(fmt.Sprintf("%s was shutdown gracefully", innerKey))
+				logger.Info(fmt.Sprintf("%s was shutdown gracefully", innerKey))
 			}()
 		}
 

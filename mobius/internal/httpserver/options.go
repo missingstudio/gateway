@@ -1,15 +1,15 @@
 package httpserver
 
 import (
-	"net"
+	"fmt"
 	"time"
 )
 
 type Option func(*Server)
 
-func WithAddr(host, port string) Option {
+func WithAddr(port int) Option {
 	return func(s *Server) {
-		s.server.Addr = net.JoinHostPort(host, port)
+		s.server.Addr = fmt.Sprintf(":%d", port)
 	}
 }
 

@@ -7,9 +7,12 @@ import (
 )
 
 func main() {
-	cli := cmd.New()
+	cliConfig, err := cmd.LoadConfig()
+	if err != nil {
+		cliConfig = &cmd.Config{}
+	}
 
-	if err := cli.Execute(); err != nil {
+	if err := cmd.New(cliConfig).Execute(); err != nil {
 		log.Fatalf("mobius finished with error: %v", err)
 	}
 }
