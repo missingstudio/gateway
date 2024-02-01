@@ -2,6 +2,7 @@ package v1
 
 import (
 	"context"
+	"encoding/json"
 
 	"connectrpc.com/connect"
 	"github.com/missingstudio/studio/backend/internal/providers"
@@ -28,8 +29,18 @@ func (s *V1Handler) ChatCompletions(
 		return nil, errors.NewInternalError("provider don't have chat Completion capabilities")
 	}
 
-	data, err := chatCompletionProvider.ChatCompletion(ctx, req.Msg)
+	payload, err := json.Marshal(req.Msg)
 	if err != nil {
+		return nil, err
+	}
+
+	resp, err := chatCompletionProvider.ChatCompletion(ctx, payload)
+	if err != nil {
+		return nil, errors.New(err)
+	}
+
+	data := &llmv1.CompletionResponse{}
+	if err := json.NewDecoder(resp.Body).Decode(data); err != nil {
 		return nil, errors.New(err)
 	}
 

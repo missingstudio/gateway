@@ -2,8 +2,7 @@ package base
 
 import (
 	"context"
-
-	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
+	"net/http"
 )
 
 type ProviderConfig struct {
@@ -18,5 +17,5 @@ type ProviderInterface interface {
 
 type ChatCompletionInterface interface {
 	ProviderInterface
-	ChatCompletion(context.Context, *llmv1.CompletionRequest) (*llmv1.CompletionResponse, error)
+	ChatCompletion(context.Context, []byte) (*http.Response, error)
 }
