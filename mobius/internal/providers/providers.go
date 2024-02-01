@@ -8,6 +8,7 @@ import (
 	"github.com/missingstudio/studio/backend/internal/providers/anyscale"
 	"github.com/missingstudio/studio/backend/internal/providers/azure"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
+	"github.com/missingstudio/studio/backend/internal/providers/deepinfra"
 	"github.com/missingstudio/studio/backend/internal/providers/openai"
 	"github.com/missingstudio/studio/common/errors"
 )
@@ -22,6 +23,7 @@ func init() {
 	providerFactories["openai"] = openai.OpenAIProviderFactory{}
 	providerFactories["azure"] = azure.AzureProviderFactory{}
 	providerFactories["anyscale"] = anyscale.AnyscaleProviderFactory{}
+	providerFactories["deepinfra"] = deepinfra.DeepinfraProviderFactory{}
 }
 
 func GetProvider(ctx context.Context, headers http.Header) (base.ProviderInterface, error) {
