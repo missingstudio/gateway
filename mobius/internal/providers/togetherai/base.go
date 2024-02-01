@@ -15,21 +15,17 @@ type TogetherAIHeaders struct {
 	APIKey string `validate:"required" json:"Authorization" error:"API key is required"`
 }
 
-func (ta TogetherAIProviderFactory) Validate(headers http.Header) (*TogetherAIHeaders, error) {
+func (ta TogetherAIProviderFactory) GetHeaders(headers http.Header) (*TogetherAIHeaders, error) {
 	var togetherAIHeaders TogetherAIHeaders
 	if err := utils.UnmarshalHeader(headers, &togetherAIHeaders); err != nil {
 		return nil, errors.New(err)
-	}
-
-	if err := utils.ValidateHeaders(togetherAIHeaders); err != nil {
-		return nil, err
 	}
 
 	return &togetherAIHeaders, nil
 }
 
 func (ta TogetherAIProviderFactory) Create(headers http.Header) (base.ProviderInterface, error) {
-	togetherAIHeaders, err := ta.Validate(headers)
+	togetherAIHeaders, err := ta.GetHeaders(headers)
 	if err != nil {
 		return nil, err
 	}
@@ -57,6 +53,10 @@ func NewTogetherAIProvider(headers TogetherAIHeaders) *TogetherAIProvider {
 
 func (togetherAI TogetherAIProvider) GetName() string {
 	return togetherAI.Name
+}
+
+func (togetherAI TogetherAIProvider) Validate() error {
+	return utils.ValidateHeaders(togetherAI.TogetherAIHeaders)
 }
 
 func getTogetherAIConfig(baseURL string) base.ProviderConfig {

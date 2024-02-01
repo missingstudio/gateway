@@ -15,21 +15,17 @@ type AnyscaleHeaders struct {
 	APIKey string `validate:"required" json:"Authorization" error:"API key is required"`
 }
 
-func (anyscale AnyscaleProviderFactory) Validate(headers http.Header) (*AnyscaleHeaders, error) {
+func (anyscale AnyscaleProviderFactory) GetHeaders(headers http.Header) (*AnyscaleHeaders, error) {
 	var anyscaleHeaders AnyscaleHeaders
 	if err := utils.UnmarshalHeader(headers, &anyscaleHeaders); err != nil {
 		return nil, errors.New(err)
-	}
-
-	if err := utils.ValidateHeaders(anyscaleHeaders); err != nil {
-		return nil, err
 	}
 
 	return &anyscaleHeaders, nil
 }
 
 func (anyscale AnyscaleProviderFactory) Create(headers http.Header) (base.ProviderInterface, error) {
-	anyscaleHeaders, err := anyscale.Validate(headers)
+	anyscaleHeaders, err := anyscale.GetHeaders(headers)
 	if err != nil {
 		return nil, err
 	}
@@ -57,6 +53,10 @@ func NewAnyscaleProvider(headers AnyscaleHeaders) *AnyscaleProvider {
 
 func (anyscale AnyscaleProvider) GetName() string {
 	return anyscale.Name
+}
+
+func (anyscale AnyscaleProvider) Validate() error {
+	return utils.ValidateHeaders(anyscale.AnyscaleHeaders)
 }
 
 func getAnyscaleConfig(baseURL string) base.ProviderConfig {

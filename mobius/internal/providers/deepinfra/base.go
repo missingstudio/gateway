@@ -15,21 +15,17 @@ type DeepinfraHeaders struct {
 	APIKey string `validate:"required" json:"Authorization" error:"API key is required"`
 }
 
-func (deepinfra DeepinfraProviderFactory) Validate(headers http.Header) (*DeepinfraHeaders, error) {
+func (deepinfra DeepinfraProviderFactory) GetHeaders(headers http.Header) (*DeepinfraHeaders, error) {
 	var deepinfraHeaders DeepinfraHeaders
 	if err := utils.UnmarshalHeader(headers, &deepinfraHeaders); err != nil {
 		return nil, errors.New(err)
-	}
-
-	if err := utils.ValidateHeaders(deepinfraHeaders); err != nil {
-		return nil, err
 	}
 
 	return &deepinfraHeaders, nil
 }
 
 func (deepinfra DeepinfraProviderFactory) Create(headers http.Header) (base.ProviderInterface, error) {
-	deepinfraHeaders, err := deepinfra.Validate(headers)
+	deepinfraHeaders, err := deepinfra.GetHeaders(headers)
 	if err != nil {
 		return nil, err
 	}
@@ -57,6 +53,10 @@ func NewDeepinfraProvider(headers DeepinfraHeaders) *DeepinfraProvider {
 
 func (deepinfra DeepinfraProvider) GetName() string {
 	return deepinfra.Name
+}
+
+func (deepinfra DeepinfraProvider) Validate() error {
+	return utils.ValidateHeaders(deepinfra.DeepinfraHeaders)
 }
 
 func getDeepinfraConfig(baseURL string) base.ProviderConfig {

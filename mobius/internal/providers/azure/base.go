@@ -17,21 +17,17 @@ type AzureHeaders struct {
 	APIVersion   string `validate:"required" json:"X-Ms-API-Version" error:"API Version is required"`
 }
 
-func (azf AzureProviderFactory) Validate(headers http.Header) (*AzureHeaders, error) {
+func (azf AzureProviderFactory) GetHeaders(headers http.Header) (*AzureHeaders, error) {
 	var azHeaders AzureHeaders
 	if err := utils.UnmarshalHeader(headers, &azHeaders); err != nil {
 		return nil, errors.New(err)
-	}
-
-	if err := utils.ValidateHeaders(azHeaders); err != nil {
-		return nil, err
 	}
 
 	return &azHeaders, nil
 }
 
 func (azf AzureProviderFactory) Create(headers http.Header) (base.ProviderInterface, error) {
-	azureHeaders, err := azf.Validate(headers)
+	azureHeaders, err := azf.GetHeaders(headers)
 	if err != nil {
 		return nil, err
 	}
@@ -58,6 +54,10 @@ func NewAzureProvider(headers AzureHeaders) *AzureProvider {
 
 func (az *AzureProvider) GetName() string {
 	return az.Name
+}
+
+func (az AzureProvider) Validate() error {
+	return utils.ValidateHeaders(az.AzureHeaders)
 }
 
 func getAzureConfig() base.ProviderConfig {

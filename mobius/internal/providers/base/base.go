@@ -13,6 +13,7 @@ type ProviderConfig struct {
 
 type ProviderInterface interface {
 	GetName() string
+	Validate() error
 }
 
 type ChatCompletionInterface interface {

@@ -19,6 +19,10 @@ func (s *V1Handler) ChatCompletions(
 		return nil, errors.New(err)
 	}
 
+	if err := provider.Validate(); err != nil {
+		return nil, errors.New(err)
+	}
+
 	chatCompletionProvider, ok := provider.(base.ChatCompletionInterface)
 	if !ok {
 		return nil, errors.NewInternalError("provider don't have chat Completion capabilities")

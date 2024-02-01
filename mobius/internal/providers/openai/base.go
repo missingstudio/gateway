@@ -15,21 +15,17 @@ type OpenAIHeaders struct {
 	APIKey string `validate:"required" json:"Authorization" error:"API key is required"`
 }
 
-func (oaif OpenAIProviderFactory) Validate(headers http.Header) (*OpenAIHeaders, error) {
+func (oaif OpenAIProviderFactory) GetHeaders(headers http.Header) (*OpenAIHeaders, error) {
 	var oaiHeaders OpenAIHeaders
 	if err := utils.UnmarshalHeader(headers, &oaiHeaders); err != nil {
 		return nil, errors.New(err)
-	}
-
-	if err := utils.ValidateHeaders(oaiHeaders); err != nil {
-		return nil, err
 	}
 
 	return &oaiHeaders, nil
 }
 
 func (oaif OpenAIProviderFactory) Create(headers http.Header) (base.ProviderInterface, error) {
-	oaiHeaders, err := oaif.Validate(headers)
+	oaiHeaders, err := oaif.GetHeaders(headers)
 	if err != nil {
 		return nil, err
 	}
@@ -57,6 +53,10 @@ func NewOpenAIProvider(headers OpenAIHeaders) *OpenAIProvider {
 
 func (oai OpenAIProvider) GetName() string {
 	return oai.Name
+}
+
+func (oai OpenAIProvider) Validate() error {
+	return utils.ValidateHeaders(oai.OpenAIHeaders)
 }
 
 func getOpenAIConfig(baseURL string) base.ProviderConfig {
