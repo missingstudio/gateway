@@ -1,4 +1,4 @@
-package anyscale
+package togetherai
 
 import (
 	"bytes"
@@ -11,18 +11,18 @@ import (
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
 )
 
-func (anyscale *AnyscaleProvider) ChatCompilation(ctx context.Context, cr *llmv1.CompletionRequest) (*llmv1.CompletionResponse, error) {
+func (ta *TogetherAIProvider) ChatCompilation(ctx context.Context, cr *llmv1.CompletionRequest) (*llmv1.CompletionResponse, error) {
 	payload, err := json.Marshal(cr)
 	if err != nil {
 		return nil, err
 	}
 
 	client := requester.NewHTTPClient()
-	requestURL := fmt.Sprintf("%s%s", anyscale.Config.BaseURL, anyscale.Config.ChatCompletions)
+	requestURL := fmt.Sprintf("%s%s", ta.Config.BaseURL, ta.Config.ChatCompletions)
 	req, _ := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
 
 	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", anyscale.APIKey))
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", ta.APIKey))
 
 	resp, err := client.Do(req)
 	if err != nil {
