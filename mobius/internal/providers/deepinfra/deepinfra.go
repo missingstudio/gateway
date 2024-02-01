@@ -11,7 +11,7 @@ import (
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
 )
 
-func (deepinfra *DeepinfraProvider) ChatCompilation(ctx context.Context, cr *llmv1.CompletionRequest) (*llmv1.CompletionResponse, error) {
+func (deepinfra *DeepinfraProvider) ChatCompletion(ctx context.Context, cr *llmv1.CompletionRequest) (*llmv1.CompletionResponse, error) {
 	payload, err := json.Marshal(cr)
 	if err != nil {
 		return nil, err

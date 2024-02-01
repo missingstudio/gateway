@@ -15,7 +15,7 @@ type ProviderInterface interface {
 	GetName() string
 }
 
-type ChatCompilationInterface interface {
+type ChatCompletionInterface interface {
 	ProviderInterface
-	ChatCompilation(context.Context, *llmv1.CompletionRequest) (*llmv1.CompletionResponse, error)
+	ChatCompletion(context.Context, *llmv1.CompletionRequest) (*llmv1.CompletionResponse, error)
 }

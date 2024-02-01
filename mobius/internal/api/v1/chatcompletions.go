@@ -19,12 +19,12 @@ func (s *V1Handler) ChatCompletions(
 		return nil, errors.New(err)
 	}
 
-	completionProvider, ok := provider.(base.ChatCompilationInterface)
+	chatCompletionProvider, ok := provider.(base.ChatCompletionInterface)
 	if !ok {
-		return nil, errors.NewInternalError("provider don't have chat compilation capabilities")
+		return nil, errors.NewInternalError("provider don't have chat Completion capabilities")
 	}
 
-	data, err := completionProvider.ChatCompilation(ctx, req.Msg)
+	data, err := chatCompletionProvider.ChatCompletion(ctx, req.Msg)
 	if err != nil {
 		return nil, errors.New(err)
 	}
