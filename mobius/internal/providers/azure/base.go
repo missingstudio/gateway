@@ -50,7 +50,7 @@ func NewAzureProvider(headers AzureHeaders) *AzureProvider {
 	config := getAzureConfig()
 
 	return &AzureProvider{
-		Name:         "Azure AI",
+		Name:         "Azure",
 		Config:       config,
 		AzureHeaders: headers,
 	}

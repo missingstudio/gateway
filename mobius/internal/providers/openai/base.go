@@ -15,7 +15,7 @@ type OpenAIHeaders struct {
 	APIKey string `validate:"required" json:"Authorization" error:"API key is required"`
 }
 
-func (azf OpenAIProviderFactory) Validate(headers http.Header) (*OpenAIHeaders, error) {
+func (oaif OpenAIProviderFactory) Validate(headers http.Header) (*OpenAIHeaders, error) {
 	var oaiHeaders OpenAIHeaders
 	if err := utils.UnmarshalHeader(headers, &oaiHeaders); err != nil {
 		return nil, errors.New(err)
@@ -49,7 +49,7 @@ func NewOpenAIProvider(headers OpenAIHeaders) *OpenAIProvider {
 	config := getOpenAIConfig("https://api.openai.com")
 
 	return &OpenAIProvider{
-		Name:          "Open AI",
+		Name:          "OpenAI",
 		Config:        config,
 		OpenAIHeaders: headers,
 	}

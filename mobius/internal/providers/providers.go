@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/missingstudio/studio/backend/config"
+	"github.com/missingstudio/studio/backend/internal/providers/anyscale"
 	"github.com/missingstudio/studio/backend/internal/providers/azure"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
 	"github.com/missingstudio/studio/backend/internal/providers/openai"
@@ -20,6 +21,7 @@ var providerFactories = make(map[string]ProviderFactory)
 func init() {
 	providerFactories["openai"] = openai.OpenAIProviderFactory{}
 	providerFactories["azure"] = azure.AzureProviderFactory{}
+	providerFactories["anyscale"] = anyscale.AnyscaleProviderFactory{}
 }
 
 func GetProvider(ctx context.Context, headers http.Header) (base.ProviderInterface, error) {
