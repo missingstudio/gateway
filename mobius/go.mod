@@ -14,6 +14,7 @@ require (
 	connectrpc.com/vanguard v0.1.0
 	github.com/MakeNowJust/heredoc v1.0.0
 	github.com/go-playground/validator/v10 v10.17.0
+	github.com/google/go-cmp v0.6.0
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/missingstudio/studio/common v0.0.0-00010101000000-000000000000
 	github.com/missingstudio/studio/protos v0.0.0-00010101000000-000000000000

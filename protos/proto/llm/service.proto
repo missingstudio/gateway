@@ -10,7 +10,10 @@ service LLMService {
     option (google.api.http).post = "/v1/chat/completions";
     option (google.api.http).body = "*";
   }
-  rpc StreamChatCompletions(CompletionRequest) returns (stream CompletionResponse) {}
+  rpc StreamChatCompletions(CompletionRequest) returns (stream CompletionResponse) {
+    option (google.api.http).post = "/v1/chat/completions:stream";
+    option (google.api.http).body = "*";
+  }
 }
 
 enum FinishReason {
