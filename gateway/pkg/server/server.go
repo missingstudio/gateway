@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 
 	"github.com/missingstudio/studio/backend/config"
@@ -26,7 +27,8 @@ func Serve(ctx context.Context, logger *slog.Logger, cfg *config.Config) error {
 		},
 	})
 
-	logger.Info("api server starting", "http-port", cfg.Port, "grpc-port", cfg.Port)
+	logger.Info("API server starting", "http-port", cfg.Port, "grpc-port", cfg.Port)
+	logger.Info(fmt.Sprintf("🌈 AI Gateway is now running on http://localhost:%d", cfg.Port))
 	<-wait
 
 	logger.Info("graceful shutdown complete")
