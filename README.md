@@ -23,6 +23,16 @@ make compose-dev
 ```
 > Your AI Gateway is now running on http://localhost:8080 💥
 
+### Send a request
+```sh
+curl
+--header "Content-Type: application/json" \
+--header "x-ms-provider: openai" \
+--header "Authorization: Bearer {{OPENAI_API_KEY}}" \
+--data '{"model":"gpt-3.5-turbo","messages":[{"role":"user","content":"who are you?"}]}' \
+http://localhost:8080/v1/chat/completions
+```
+
 
 ## 🚀 Features
 - 🌐 *Universal API* - Call every LLM API like it's OpenAI
