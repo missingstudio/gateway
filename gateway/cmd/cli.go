@@ -20,13 +20,13 @@ const Description = `
                           ░                       
                                                   
                                                      
-🌈 Mobius is an open-source, lightweight, high-performance ai studio gateway
+🌈 AI gateway is an open-source, lightweight and high-performance gateway
 `
 
 func New(cliConfig *Config) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:           "mobius <command> <subcommand> [flags]",
-		Short:         "🌈 Mobius is an open-source, lightweight, high-performance ai studio gateway",
+		Use:           "gateway <command> <subcommand> [flags]",
+		Short:         "🌈 AI gateway is an open-source, lightweight and high-performance gateway",
 		Long:          heredoc.Doc(Description),
 		SilenceUsage:  true,
 		SilenceErrors: true,

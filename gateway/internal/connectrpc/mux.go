@@ -38,7 +38,3 @@ func NewConnectMux(d Deps) (*http.ServeMux, error) {
 
 	return mux, nil
 }
-
-type LLMServer struct {
-	llmv1connect.UnimplementedLLMServiceHandler
-}

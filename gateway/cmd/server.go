@@ -16,7 +16,7 @@ func ServerCommand() *cobra.Command {
 		Short:   "Server management",
 		Long:    "Server management commands.",
 		Example: heredoc.Doc(`
-			$ mobius server start
+			$ gateway server start
 		`),
 	}
 

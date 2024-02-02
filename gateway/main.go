@@ -14,6 +14,6 @@ func main() {
 	}
 
 	if err := cmd.New(cliConfig).Execute(); err != nil {
-		log.Fatalf("mobius finished with error: %v", err)
+		log.Fatalf("AI Gateway finished with error: %v", err)
 	}
 }

@@ -7,7 +7,7 @@ vet:
 	@echo "🧹 Vetting go.mod.."
 	$(GO) vet ./...
 
-build: gen vet ## build mobius server
+build: gen vet ## build AI Gateway server
 	scripts/build.sh
 .PHONY: build
 
@@ -20,7 +20,7 @@ gen:
 	sh -c "cd ../protos && make all"
 .PHONY: gen
 
-clean: ## Clean mobius server
+clean: ## Clean AI Gateway server
 	rm -rf bin
 .PHONY: clean
 

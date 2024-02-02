@@ -2,7 +2,7 @@ FROM golang:1.21-alpine3.18 as builder
 RUN mkdir /workspace
 
 WORKDIR /workspace
-COPY ./mobius ./mobius
+COPY ./gateway ./gateway
 COPY ./protos ./protos
 COPY ./worker ./worker
 COPY ./common ./common
@@ -10,12 +10,12 @@ COPY ./common ./common
 COPY ./go.work .
 RUN go work sync
 
-WORKDIR /workspace/mobius
-RUN cgo_enabled=0 goos=linux go build -o bin/mobius
+WORKDIR /workspace/gateway
+RUN cgo_enabled=0 goos=linux go build -o bin/gateway
 
 
 FROM alpine:3.18
-COPY --from=builder /workspace/mobius/bin/mobius /usr/bin/
+COPY --from=builder /workspace/gateway/bin/gateway /usr/bin/
 RUN apk update
 RUN apk add ca-certificates
 
@@ -24,4 +24,4 @@ RUN apk add ca-certificates
 # don't work well with musl libc that alpine uses
 RUN apk add libc6-compat
 
-ENTRYPOINT ["mobius"]
+ENTRYPOINT ["gateway"]

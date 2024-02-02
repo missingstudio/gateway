@@ -16,7 +16,7 @@ type Config struct {
 func LoadConfig() (*Config, error) {
 	var config Config
 
-	cfg := cmdx.SetConfig("mobius")
+	cfg := cmdx.SetConfig("gateway")
 	err := cfg.Load(&config)
 
 	return &config, err
@@ -27,8 +27,8 @@ func ConfigCommand() *cobra.Command {
 		Use:   "config <command>",
 		Short: "Manage client configurations",
 		Example: heredoc.Doc(`
-			$ mobius config init
-			$ mobius config list`),
+			$ gateway config init
+			$ gateway config list`),
 	}
 
 	cmd.AddCommand(configInitCommand())
@@ -42,13 +42,13 @@ func configInitCommand() *cobra.Command {
 		Use:   "init",
 		Short: "Initialize a new client configuration",
 		Example: heredoc.Doc(`
-			$ mobius config init
+			$ gateway config init
 		`),
 		Annotations: map[string]string{
 			"group": "core",
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			cfg := cmdx.SetConfig("mobius")
+			cfg := cmdx.SetConfig("gateway")
 
 			if err := cfg.Init(&Config{}); err != nil {
 				return err
@@ -65,13 +65,13 @@ func configListCommand() *cobra.Command {
 		Use:   "list",
 		Short: "List client configuration settings",
 		Example: heredoc.Doc(`
-			$ mobius config list
+			$ gateway config list
 		`),
 		Annotations: map[string]string{
 			"group": "core",
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			cfg := cmdx.SetConfig("mobius")
+			cfg := cmdx.SetConfig("gateway")
 
 			data, err := cfg.Read()
 			if err != nil {

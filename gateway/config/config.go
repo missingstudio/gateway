@@ -20,7 +20,7 @@ func Load(serverConfigFileFromFlag string) (*Config, error) {
 	var options []config.LoaderOption
 	options = append(options, config.WithName("config"))
 	options = append(options, config.WithEnvKeyReplacer(".", "_"))
-	options = append(options, config.WithEnvPrefix("MOBIUS"))
+	options = append(options, config.WithEnvPrefix("gateway"))
 	if p, err := os.Getwd(); err == nil {
 		options = append(options, config.WithPath(p))
 	}

@@ -1,10 +1,10 @@
 services:
-  mobius:
-    container_name: mobius
-    image: mobius
+  gateway:
+    container_name: gateway
+    image: gateway
     build:
       context: .
-      dockerfile: ./docker/Dockerfile.mobius.dev
+      dockerfile: ./docker/Dockerfile.gateway.dev
     command: server start  
     environment:
       - HOST=0.0.0.0

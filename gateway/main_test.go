@@ -4,11 +4,13 @@ import (
 	"context"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"connectrpc.com/connect"
 
-	"github.com/missingstudio/studio/backend/internal/connectrpc"
+	v1 "github.com/missingstudio/studio/backend/internal/api/v1"
+	"github.com/missingstudio/studio/backend/pkg/utils"
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
 	"github.com/missingstudio/studio/protos/pkg/llm/llmv1connect"
 
@@ -16,11 +18,12 @@ import (
 	"github.com/zeebo/assert"
 )
 
-func TestMobiusSercer(t *testing.T) {
+func TestGatewayServer(t *testing.T) {
 	t.Parallel()
 	mux := http.NewServeMux()
 	mux.Handle(llmv1connect.NewLLMServiceHandler(
-		&connectrpc.LLMServer{},
+		&v1.V1Handler{},
+		connect.WithInterceptors(utils.ProviderInterceptor()),
 	))
 
 	server := httptest.NewUnstartedServer(mux)
@@ -44,12 +47,14 @@ func TestMobiusSercer(t *testing.T) {
 		grpcClient,
 	}
 
-	t.Run("chat completions", func(t *testing.T) {
+	t.Run("chat completions: shoud provide provider in headers", func(t *testing.T) {
 		for _, client := range clients {
-			result, err := client.ChatCompletions(context.Background(), connect.NewRequest(&llmv1.CompletionRequest{}))
 
-			require.Nil(t, err)
-			assert.True(t, len(result.Msg.Object) > 0)
+			req := connect.NewRequest(&llmv1.CompletionRequest{})
+			_, err := client.ChatCompletions(context.Background(), req)
+
+			require.NotNil(t, err)
+			assert.True(t, strings.Contains(err.Error(), "x-ms-provider provider header is required"))
 		}
 	})
 }
