@@ -5,12 +5,12 @@
 🌈 A Robust Open Source [AI studio](https://www.missing.studio). A Universal API for inferencing 100+ LLMs(OpenAI, Azure, Cohere, Anthropic, HuggingFace, Replicate, Stable Diffusion).
 
 ## Supported Providers
-|                                               |   Provider    |   Support   |   Supported Endpoints    |
-|-----------------------------------------------|---------------|    :---:    |--------------------------|
-|<img src="assets/openai.png" width=16>         | OpenAI        |      ✅     |  `/chat/completions`     |
-|<img src="assets/anyscale.png" width=16>       | Anyscale      |      ✅     |  `/chat/completions`     |
-|<img src="assets/deepinfra.jpeg" width=16>     | Deepinfra     |      ✅     |  `/chat/completions`     |
-|<img src="assets/togetherai.svg" width=16>     | Together AI	  |      ✅     |  `/chat/completions`     |
+|                                               |   Provider     |   Provider Name  |   Support   |   Supported Endpoints    |
+|-----------------------------------------------|----------------|    :---:         |    :---:    |--------------------------|
+|<img src="assets/openai.png" width=16>         | OpenAI         |     openai       |      ✅     |  `/chat/completions`     |
+|<img src="assets/anyscale.png" width=16>       | Anyscale       |    anyscale      |      ✅     |  `/chat/completions`     |
+|<img src="assets/deepinfra.jpeg" width=16>     | Deepinfra      |    deepinfra     |      ✅     |  `/chat/completions`     |
+|<img src="assets/togetherai.svg" width=16>     | Together AI	   |    togetherai    |      ✅     |  `/chat/completions`     |
 
 > Not supported (yet): images, audio, files, fine-tunes, moderations
 
