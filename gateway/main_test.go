@@ -10,7 +10,7 @@ import (
 	"connectrpc.com/connect"
 
 	v1 "github.com/missingstudio/studio/backend/internal/api/v1"
-	"github.com/missingstudio/studio/backend/pkg/utils"
+	"github.com/missingstudio/studio/backend/internal/interceptor"
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
 	"github.com/missingstudio/studio/protos/pkg/llm/llmv1connect"
 
@@ -23,7 +23,7 @@ func TestGatewayServer(t *testing.T) {
 	mux := http.NewServeMux()
 	mux.Handle(llmv1connect.NewLLMServiceHandler(
 		&v1.V1Handler{},
-		connect.WithInterceptors(utils.ProviderInterceptor()),
+		connect.WithInterceptors(interceptor.ProviderInterceptor()),
 	))
 
 	server := httptest.NewUnstartedServer(mux)

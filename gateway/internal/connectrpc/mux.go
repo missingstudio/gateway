@@ -7,6 +7,7 @@ import (
 	"connectrpc.com/connect"
 	"connectrpc.com/grpchealth"
 	"connectrpc.com/grpcreflect"
+
 	v1 "github.com/missingstudio/studio/backend/internal/api/v1"
 	"github.com/missingstudio/studio/protos/pkg/llm/llmv1connect"
 )
