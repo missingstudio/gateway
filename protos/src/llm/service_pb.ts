@@ -4,7 +4,7 @@
 // @ts-nocheck
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { Message, proto3, protoInt64 } from "@bufbuild/protobuf";
+import { Message, proto3, protoInt64, Struct } from "@bufbuild/protobuf";
 
 /**
  * @generated from enum llm.v1.FinishReason
@@ -150,6 +150,11 @@ export class ChatMessage extends Message<ChatMessage> {
    */
   content = "";
 
+  /**
+   * @generated from field: google.protobuf.Struct logprobs = 3;
+   */
+  logprobs?: Struct;
+
   constructor(data?: PartialMessage<ChatMessage>) {
     super();
     proto3.util.initPartial(data, this);
@@ -160,6 +165,7 @@ export class ChatMessage extends Message<ChatMessage> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "role", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "content", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "logprobs", kind: "message", T: Struct },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ChatMessage {
@@ -180,109 +186,6 @@ export class ChatMessage extends Message<ChatMessage> {
 }
 
 /**
- * @generated from message llm.v1.TextCompletionParameters
- */
-export class TextCompletionParameters extends Message<TextCompletionParameters> {
-  /**
-   * temperature of the sampling, between [0, 2]. default = 1.0
-   *
-   * @generated from field: optional float temperature = 1;
-   */
-  temperature?: number;
-
-  /**
-   * whether to stream partial completions back as they are generated. default = false
-   *
-   * @generated from field: optional bool stream = 2;
-   */
-  stream?: boolean;
-
-  /**
-   * @generated from field: optional uint32 top_k = 3;
-   */
-  topK?: number;
-
-  /**
-   * @generated from field: optional float top_p = 4;
-   */
-  topP?: number;
-
-  /**
-   * number of chat completion choices to generate for each input message. default = 1
-   *
-   * @generated from field: optional uint32 n = 5;
-   */
-  n?: number;
-
-  /**
-   * @generated from field: repeated string stop = 6;
-   */
-  stop: string[] = [];
-
-  /**
-   * @generated from field: optional uint32 max_tokens = 7;
-   */
-  maxTokens?: number;
-
-  /**
-   * @generated from field: optional float presence_penalty = 8;
-   */
-  presencePenalty?: number;
-
-  /**
-   * @generated from field: optional float frequency_penalty = 9;
-   */
-  frequencyPenalty?: number;
-
-  /**
-   * @generated from field: optional llm.v1.ResponseFormat response_format = 10;
-   */
-  responseFormat?: ResponseFormat;
-
-  /**
-   * @generated from field: optional uint32 seed = 11;
-   */
-  seed?: number;
-
-  constructor(data?: PartialMessage<TextCompletionParameters>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "llm.v1.TextCompletionParameters";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "temperature", kind: "scalar", T: 2 /* ScalarType.FLOAT */, opt: true },
-    { no: 2, name: "stream", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
-    { no: 3, name: "top_k", kind: "scalar", T: 13 /* ScalarType.UINT32 */, opt: true },
-    { no: 4, name: "top_p", kind: "scalar", T: 2 /* ScalarType.FLOAT */, opt: true },
-    { no: 5, name: "n", kind: "scalar", T: 13 /* ScalarType.UINT32 */, opt: true },
-    { no: 6, name: "stop", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-    { no: 7, name: "max_tokens", kind: "scalar", T: 13 /* ScalarType.UINT32 */, opt: true },
-    { no: 8, name: "presence_penalty", kind: "scalar", T: 2 /* ScalarType.FLOAT */, opt: true },
-    { no: 9, name: "frequency_penalty", kind: "scalar", T: 2 /* ScalarType.FLOAT */, opt: true },
-    { no: 10, name: "response_format", kind: "message", T: ResponseFormat, opt: true },
-    { no: 11, name: "seed", kind: "scalar", T: 13 /* ScalarType.UINT32 */, opt: true },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): TextCompletionParameters {
-    return new TextCompletionParameters().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): TextCompletionParameters {
-    return new TextCompletionParameters().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): TextCompletionParameters {
-    return new TextCompletionParameters().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: TextCompletionParameters | PlainMessage<TextCompletionParameters> | undefined, b: TextCompletionParameters | PlainMessage<TextCompletionParameters> | undefined): boolean {
-    return proto3.util.equals(TextCompletionParameters, a, b);
-  }
-}
-
-/**
  * @generated from message llm.v1.CompletionRequest
  */
 export class CompletionRequest extends Message<CompletionRequest> {
@@ -299,9 +202,80 @@ export class CompletionRequest extends Message<CompletionRequest> {
   messages: ChatMessage[] = [];
 
   /**
-   * @generated from field: optional llm.v1.TextCompletionParameters parameters = 3;
+   * temperature of the sampling, between [0, 2]. default = 1.0
+   *
+   * @generated from field: optional float temperature = 3;
    */
-  parameters?: TextCompletionParameters;
+  temperature?: number;
+
+  /**
+   * @generated from field: optional uint32 seed = 4;
+   */
+  seed?: number;
+
+  /**
+   * number of chat completion choices to generate for each input message. default = 1
+   *
+   * @generated from field: optional uint32 n = 5;
+   */
+  n?: number;
+
+  /**
+   * @generated from field: optional float presence_penalty = 6;
+   */
+  presencePenalty?: number;
+
+  /**
+   * @generated from field: optional float frequency_penalty = 7;
+   */
+  frequencyPenalty?: number;
+
+  /**
+   * whether to stream partial completions back as they are generated. default = false
+   *
+   * @generated from field: optional bool stream = 8;
+   */
+  stream?: boolean;
+
+  /**
+   * @generated from field: optional uint32 top_k = 9;
+   */
+  topK?: number;
+
+  /**
+   * @generated from field: optional float top_p = 10;
+   */
+  topP?: number;
+
+  /**
+   * @generated from field: repeated string stop = 11;
+   */
+  stop: string[] = [];
+
+  /**
+   * @generated from field: optional uint64 max_tokens = 12;
+   */
+  maxTokens?: bigint;
+
+  /**
+   * @generated from field: optional bool logprobs = 13;
+   */
+  logprobs?: boolean;
+
+  /**
+   * @generated from field: optional uint32 top_logprobs = 14;
+   */
+  topLogprobs?: number;
+
+  /**
+   * @generated from field: optional google.protobuf.Struct logit_bias = 15;
+   */
+  logitBias?: Struct;
+
+  /**
+   * @generated from field: optional llm.v1.ResponseFormat response_format = 16;
+   */
+  responseFormat?: ResponseFormat;
 
   constructor(data?: PartialMessage<CompletionRequest>) {
     super();
@@ -313,7 +287,20 @@ export class CompletionRequest extends Message<CompletionRequest> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "model", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "messages", kind: "message", T: ChatMessage, repeated: true },
-    { no: 3, name: "parameters", kind: "message", T: TextCompletionParameters, opt: true },
+    { no: 3, name: "temperature", kind: "scalar", T: 2 /* ScalarType.FLOAT */, opt: true },
+    { no: 4, name: "seed", kind: "scalar", T: 13 /* ScalarType.UINT32 */, opt: true },
+    { no: 5, name: "n", kind: "scalar", T: 13 /* ScalarType.UINT32 */, opt: true },
+    { no: 6, name: "presence_penalty", kind: "scalar", T: 2 /* ScalarType.FLOAT */, opt: true },
+    { no: 7, name: "frequency_penalty", kind: "scalar", T: 2 /* ScalarType.FLOAT */, opt: true },
+    { no: 8, name: "stream", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 9, name: "top_k", kind: "scalar", T: 13 /* ScalarType.UINT32 */, opt: true },
+    { no: 10, name: "top_p", kind: "scalar", T: 2 /* ScalarType.FLOAT */, opt: true },
+    { no: 11, name: "stop", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 12, name: "max_tokens", kind: "scalar", T: 4 /* ScalarType.UINT64 */, opt: true },
+    { no: 13, name: "logprobs", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 14, name: "top_logprobs", kind: "scalar", T: 13 /* ScalarType.UINT32 */, opt: true },
+    { no: 15, name: "logit_bias", kind: "message", T: Struct, opt: true },
+    { no: 16, name: "response_format", kind: "message", T: ResponseFormat, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CompletionRequest {
@@ -352,7 +339,12 @@ export class CompletionChoice extends Message<CompletionChoice> {
   message?: ChatMessage;
 
   /**
-   * @generated from field: string finish_reason = 3;
+   * @generated from field: google.protobuf.Struct logprobs = 3;
+   */
+  logprobs?: Struct;
+
+  /**
+   * @generated from field: string finish_reason = 4;
    */
   finishReason = "";
 
@@ -366,7 +358,8 @@ export class CompletionChoice extends Message<CompletionChoice> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "index", kind: "scalar", T: 13 /* ScalarType.UINT32 */ },
     { no: 2, name: "message", kind: "message", T: ChatMessage },
-    { no: 3, name: "finish_reason", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "logprobs", kind: "message", T: Struct },
+    { no: 4, name: "finish_reason", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CompletionChoice {
