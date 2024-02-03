@@ -25,7 +25,7 @@ make compose-dev
 
 ### Send a request
 ```sh
-curl
+curl \
 --header "Content-Type: application/json" \
 --header "x-ms-provider: openai" \
 --header "Authorization: Bearer {{OPENAI_API_KEY}}" \
