@@ -38,7 +38,7 @@ http://localhost:8080/v1/chat/completions
 - 🌐 *Universal API* - Call every LLM API like it's OpenAI
 - *AI Gateway* for Security, Reliability and Observability
   - [ ] Load balancing across multiple provider and models   
-  - [ ] Atomatic Retries with exponential backoff
+  - [X] Atomatic Retries with exponential backoff
   - [ ] Rate limiting
   - [ ] Caching
   - [ ] Failovers

@@ -33,6 +33,7 @@ func Register() (http.Handler, error) {
 		validateInterceptor,
 		otelconnectInterceptor,
 		interceptor.ProviderInterceptor(),
+		interceptor.RetryInterceptor(),
 	}
 
 	services := []*vanguard.Service{
