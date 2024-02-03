@@ -9,7 +9,6 @@ import (
 	"connectrpc.com/validate"
 	"connectrpc.com/vanguard"
 	"github.com/missingstudio/studio/backend/internal/interceptor"
-	"github.com/missingstudio/studio/common/middlewares"
 	"github.com/missingstudio/studio/protos/pkg/llm/llmv1connect"
 )
 
@@ -44,7 +43,9 @@ func Register() (http.Handler, error) {
 		)),
 	}
 	transcoderOptions := []vanguard.TranscoderOption{
-		vanguard.WithUnknownHandler(middlewares.Custom404handler()),
+		vanguard.WithUnknownHandler(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+			http.Error(w, "custom 404 error", http.StatusNotFound)
+		})),
 	}
 
 	return vanguard.NewTranscoder(services, transcoderOptions...)
