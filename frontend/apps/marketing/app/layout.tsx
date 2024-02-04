@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { MilkeyWay } from "~/components/MilkyWay";
 import { opensans } from "../styles/fonts";
 import "../styles/globals.css";
 import { Providers } from "./providers";
@@ -17,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={opensans.className}>
+        <MilkeyWay />
         <Providers>{children}</Providers>
       </body>
     </html>

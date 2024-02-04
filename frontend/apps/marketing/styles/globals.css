@@ -18,6 +18,9 @@
   --card-rgb: 100, 100, 100;
   --card-border-rgb: 200, 200, 200;
 
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+
   --glow-conic: conic-gradient(
     from 180deg at 50% 50%,
     #2a8af6 0deg,
@@ -51,4 +54,37 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+
+
+@layer utilities {
+  @keyframes line-bottom-left {
+    0% {
+      transform: rotate(-135deg) translateY(0);
+      opacity: 0;
+    }
+
+    20% {
+      opacity: 1;
+    }
+
+    90% {
+      opacity: 0;
+    }
+
+    100% {
+      transform: rotate(-135deg) translateY(200%);
+      opacity: 0;
+    }
+  }
+  @keyframes star {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
 }

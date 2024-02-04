@@ -1,0 +1,60 @@
+.text {
+  display: block;
+  line-height: 1;
+  margin: 0;
+  font-weight: 400;
+  color: var(--foreground-base)
+}
+
+.text-1 {
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.5px;  
+}
+.text-2 {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.4px;  
+}
+.text-3 {
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0.4px;  
+}
+.text-4 {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;  
+}
+.text-5 {
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;  
+}
+.text-6 {
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.25px; 
+}
+.text-7 {
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0.5px; 
+}
+.text-8 {
+  font-size: 22px;
+  line-height: 28px;
+  letter-spacing: 0.5px;
+}
+.text-9 {
+  font-size: 24px;
+  line-height: 32px;
+}
+.text-10 {
+  font-size: 28px;
+  line-height: 36px;
+}
+
+.text-bold {
+  font-weight: bold;
+}
