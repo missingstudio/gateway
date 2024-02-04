@@ -52,3 +52,24 @@ http://localhost:8080/v1/chat/completions
 - OSS AI Models Inferancing
 - Serving model api at Scale on Kubernetes 🦄️
 - Building dev tools (CLI, SDK, API Client)
+
+## 🫶 Contributions
+AI studio is an open-source project, and  contributions are welcome. If you want to contribute, you can create new features, fix bugs, or improve the infrastructure. 
+
+It's still very early days for this so your mileage will vary here and lots of things will break. But almost any contribution will be beneficial at this point. Check the [current Issues](https://github.com/missingstudio/studio/issues) to see where you can jump in!
+
+If you've got an improvement, just send in a pull request!
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'feat(module): add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
+
+If you've got feature ideas, simply [open a new issues](https://github.com/missingstudio/studio/issues/new)!
+
+Please refer to the [CONTRIBUTING.md](https://github.com/missingstudio/studio/blob/main/.github/CONTRIBUTING.md) file in the repository for more information on how to contribute.
+
+<a href="https://github.com/missingstudio/studio/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=missingstudio/studio" />
+</a>
