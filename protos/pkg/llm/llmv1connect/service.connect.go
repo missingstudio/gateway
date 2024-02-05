@@ -50,8 +50,8 @@ var (
 
 // LLMServiceClient is a client for the llm.v1.LLMService service.
 type LLMServiceClient interface {
-	ChatCompletions(context.Context, *connect.Request[llm.CompletionRequest]) (*connect.Response[llm.CompletionResponse], error)
-	StreamChatCompletions(context.Context, *connect.Request[llm.CompletionRequest]) (*connect.ServerStreamForClient[llm.CompletionResponse], error)
+	ChatCompletions(context.Context, *connect.Request[llm.ChatCompletionRequest]) (*connect.Response[llm.ChatCompletionResponse], error)
+	StreamChatCompletions(context.Context, *connect.Request[llm.ChatCompletionRequest]) (*connect.ServerStreamForClient[llm.ChatCompletionResponse], error)
 }
 
 // NewLLMServiceClient constructs a client for the llm.v1.LLMService service. By default, it uses
@@ -64,13 +64,13 @@ type LLMServiceClient interface {
 func NewLLMServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) LLMServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &lLMServiceClient{
-		chatCompletions: connect.NewClient[llm.CompletionRequest, llm.CompletionResponse](
+		chatCompletions: connect.NewClient[llm.ChatCompletionRequest, llm.ChatCompletionResponse](
 			httpClient,
 			baseURL+LLMServiceChatCompletionsProcedure,
 			connect.WithSchema(lLMServiceChatCompletionsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		streamChatCompletions: connect.NewClient[llm.CompletionRequest, llm.CompletionResponse](
+		streamChatCompletions: connect.NewClient[llm.ChatCompletionRequest, llm.ChatCompletionResponse](
 			httpClient,
 			baseURL+LLMServiceStreamChatCompletionsProcedure,
 			connect.WithSchema(lLMServiceStreamChatCompletionsMethodDescriptor),
@@ -81,24 +81,24 @@ func NewLLMServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 
 // lLMServiceClient implements LLMServiceClient.
 type lLMServiceClient struct {
-	chatCompletions       *connect.Client[llm.CompletionRequest, llm.CompletionResponse]
-	streamChatCompletions *connect.Client[llm.CompletionRequest, llm.CompletionResponse]
+	chatCompletions       *connect.Client[llm.ChatCompletionRequest, llm.ChatCompletionResponse]
+	streamChatCompletions *connect.Client[llm.ChatCompletionRequest, llm.ChatCompletionResponse]
 }
 
 // ChatCompletions calls llm.v1.LLMService.ChatCompletions.
-func (c *lLMServiceClient) ChatCompletions(ctx context.Context, req *connect.Request[llm.CompletionRequest]) (*connect.Response[llm.CompletionResponse], error) {
+func (c *lLMServiceClient) ChatCompletions(ctx context.Context, req *connect.Request[llm.ChatCompletionRequest]) (*connect.Response[llm.ChatCompletionResponse], error) {
 	return c.chatCompletions.CallUnary(ctx, req)
 }
 
 // StreamChatCompletions calls llm.v1.LLMService.StreamChatCompletions.
-func (c *lLMServiceClient) StreamChatCompletions(ctx context.Context, req *connect.Request[llm.CompletionRequest]) (*connect.ServerStreamForClient[llm.CompletionResponse], error) {
+func (c *lLMServiceClient) StreamChatCompletions(ctx context.Context, req *connect.Request[llm.ChatCompletionRequest]) (*connect.ServerStreamForClient[llm.ChatCompletionResponse], error) {
 	return c.streamChatCompletions.CallServerStream(ctx, req)
 }
 
 // LLMServiceHandler is an implementation of the llm.v1.LLMService service.
 type LLMServiceHandler interface {
-	ChatCompletions(context.Context, *connect.Request[llm.CompletionRequest]) (*connect.Response[llm.CompletionResponse], error)
-	StreamChatCompletions(context.Context, *connect.Request[llm.CompletionRequest], *connect.ServerStream[llm.CompletionResponse]) error
+	ChatCompletions(context.Context, *connect.Request[llm.ChatCompletionRequest]) (*connect.Response[llm.ChatCompletionResponse], error)
+	StreamChatCompletions(context.Context, *connect.Request[llm.ChatCompletionRequest], *connect.ServerStream[llm.ChatCompletionResponse]) error
 }
 
 // NewLLMServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -134,10 +134,10 @@ func NewLLMServiceHandler(svc LLMServiceHandler, opts ...connect.HandlerOption) 
 // UnimplementedLLMServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedLLMServiceHandler struct{}
 
-func (UnimplementedLLMServiceHandler) ChatCompletions(context.Context, *connect.Request[llm.CompletionRequest]) (*connect.Response[llm.CompletionResponse], error) {
+func (UnimplementedLLMServiceHandler) ChatCompletions(context.Context, *connect.Request[llm.ChatCompletionRequest]) (*connect.Response[llm.ChatCompletionResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.ChatCompletions is not implemented"))
 }
 
-func (UnimplementedLLMServiceHandler) StreamChatCompletions(context.Context, *connect.Request[llm.CompletionRequest], *connect.ServerStream[llm.CompletionResponse]) error {
+func (UnimplementedLLMServiceHandler) StreamChatCompletions(context.Context, *connect.Request[llm.ChatCompletionRequest], *connect.ServerStream[llm.ChatCompletionResponse]) error {
 	return connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.StreamChatCompletions is not implemented"))
 }

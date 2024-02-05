@@ -133,9 +133,9 @@ export class ResponseFormat extends Message<ResponseFormat> {
 }
 
 /**
- * @generated from message llm.v1.ChatMessage
+ * @generated from message llm.v1.ChatCompletionMessage
  */
-export class ChatMessage extends Message<ChatMessage> {
+export class ChatCompletionMessage extends Message<ChatCompletionMessage> {
   /**
    * role of the message author. One of "system", "user", "assistant".
    *
@@ -155,40 +155,40 @@ export class ChatMessage extends Message<ChatMessage> {
    */
   logprobs?: Struct;
 
-  constructor(data?: PartialMessage<ChatMessage>) {
+  constructor(data?: PartialMessage<ChatCompletionMessage>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "llm.v1.ChatMessage";
+  static readonly typeName = "llm.v1.ChatCompletionMessage";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "role", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "content", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "logprobs", kind: "message", T: Struct },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ChatMessage {
-    return new ChatMessage().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ChatCompletionMessage {
+    return new ChatCompletionMessage().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ChatMessage {
-    return new ChatMessage().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ChatCompletionMessage {
+    return new ChatCompletionMessage().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ChatMessage {
-    return new ChatMessage().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ChatCompletionMessage {
+    return new ChatCompletionMessage().fromJsonString(jsonString, options);
   }
 
-  static equals(a: ChatMessage | PlainMessage<ChatMessage> | undefined, b: ChatMessage | PlainMessage<ChatMessage> | undefined): boolean {
-    return proto3.util.equals(ChatMessage, a, b);
+  static equals(a: ChatCompletionMessage | PlainMessage<ChatCompletionMessage> | undefined, b: ChatCompletionMessage | PlainMessage<ChatCompletionMessage> | undefined): boolean {
+    return proto3.util.equals(ChatCompletionMessage, a, b);
   }
 }
 
 /**
- * @generated from message llm.v1.CompletionRequest
+ * @generated from message llm.v1.ChatCompletionRequest
  */
-export class CompletionRequest extends Message<CompletionRequest> {
+export class ChatCompletionRequest extends Message<ChatCompletionRequest> {
   /**
    * @generated from field: string model = 1;
    */
@@ -197,9 +197,9 @@ export class CompletionRequest extends Message<CompletionRequest> {
   /**
    * a list of messages comprising all the conversation so far
    *
-   * @generated from field: repeated llm.v1.ChatMessage messages = 2;
+   * @generated from field: repeated llm.v1.ChatCompletionMessage messages = 2;
    */
-  messages: ChatMessage[] = [];
+  messages: ChatCompletionMessage[] = [];
 
   /**
    * temperature of the sampling, between [0, 2]. default = 1.0
@@ -277,16 +277,26 @@ export class CompletionRequest extends Message<CompletionRequest> {
    */
   responseFormat?: ResponseFormat;
 
-  constructor(data?: PartialMessage<CompletionRequest>) {
+  /**
+   * @generated from field: optional string user = 17;
+   */
+  user?: string;
+
+  /**
+   * @generated from field: optional google.protobuf.Struct tool_choice = 18;
+   */
+  toolChoice?: Struct;
+
+  constructor(data?: PartialMessage<ChatCompletionRequest>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "llm.v1.CompletionRequest";
+  static readonly typeName = "llm.v1.ChatCompletionRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "model", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "messages", kind: "message", T: ChatMessage, repeated: true },
+    { no: 2, name: "messages", kind: "message", T: ChatCompletionMessage, repeated: true },
     { no: 3, name: "temperature", kind: "scalar", T: 2 /* ScalarType.FLOAT */, opt: true },
     { no: 4, name: "seed", kind: "scalar", T: 13 /* ScalarType.UINT32 */, opt: true },
     { no: 5, name: "n", kind: "scalar", T: 13 /* ScalarType.UINT32 */, opt: true },
@@ -301,22 +311,24 @@ export class CompletionRequest extends Message<CompletionRequest> {
     { no: 14, name: "top_logprobs", kind: "scalar", T: 13 /* ScalarType.UINT32 */, opt: true },
     { no: 15, name: "logit_bias", kind: "message", T: Struct, opt: true },
     { no: 16, name: "response_format", kind: "message", T: ResponseFormat, opt: true },
+    { no: 17, name: "user", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 18, name: "tool_choice", kind: "message", T: Struct, opt: true },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CompletionRequest {
-    return new CompletionRequest().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ChatCompletionRequest {
+    return new ChatCompletionRequest().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): CompletionRequest {
-    return new CompletionRequest().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ChatCompletionRequest {
+    return new ChatCompletionRequest().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): CompletionRequest {
-    return new CompletionRequest().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ChatCompletionRequest {
+    return new ChatCompletionRequest().fromJsonString(jsonString, options);
   }
 
-  static equals(a: CompletionRequest | PlainMessage<CompletionRequest> | undefined, b: CompletionRequest | PlainMessage<CompletionRequest> | undefined): boolean {
-    return proto3.util.equals(CompletionRequest, a, b);
+  static equals(a: ChatCompletionRequest | PlainMessage<ChatCompletionRequest> | undefined, b: ChatCompletionRequest | PlainMessage<ChatCompletionRequest> | undefined): boolean {
+    return proto3.util.equals(ChatCompletionRequest, a, b);
   }
 }
 
@@ -334,9 +346,9 @@ export class CompletionChoice extends Message<CompletionChoice> {
   /**
    * message generated by the model.
    *
-   * @generated from field: llm.v1.ChatMessage message = 2;
+   * @generated from field: llm.v1.ChatCompletionMessage message = 2;
    */
-  message?: ChatMessage;
+  message?: ChatCompletionMessage;
 
   /**
    * @generated from field: google.protobuf.Struct logprobs = 3;
@@ -357,7 +369,7 @@ export class CompletionChoice extends Message<CompletionChoice> {
   static readonly typeName = "llm.v1.CompletionChoice";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "index", kind: "scalar", T: 13 /* ScalarType.UINT32 */ },
-    { no: 2, name: "message", kind: "message", T: ChatMessage },
+    { no: 2, name: "message", kind: "message", T: ChatCompletionMessage },
     { no: 3, name: "logprobs", kind: "message", T: Struct },
     { no: 4, name: "finish_reason", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
@@ -435,9 +447,9 @@ export class Usage extends Message<Usage> {
 }
 
 /**
- * @generated from message llm.v1.CompletionResponse
+ * @generated from message llm.v1.ChatCompletionResponse
  */
-export class CompletionResponse extends Message<CompletionResponse> {
+export class ChatCompletionResponse extends Message<ChatCompletionResponse> {
   /**
    * unique id for the chat completion.
    *
@@ -485,13 +497,13 @@ export class CompletionResponse extends Message<CompletionResponse> {
    */
   systemFingerprint = "";
 
-  constructor(data?: PartialMessage<CompletionResponse>) {
+  constructor(data?: PartialMessage<ChatCompletionResponse>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "llm.v1.CompletionResponse";
+  static readonly typeName = "llm.v1.ChatCompletionResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "object", kind: "scalar", T: 9 /* ScalarType.STRING */ },
@@ -502,20 +514,20 @@ export class CompletionResponse extends Message<CompletionResponse> {
     { no: 7, name: "system_fingerprint", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CompletionResponse {
-    return new CompletionResponse().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ChatCompletionResponse {
+    return new ChatCompletionResponse().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): CompletionResponse {
-    return new CompletionResponse().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ChatCompletionResponse {
+    return new ChatCompletionResponse().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): CompletionResponse {
-    return new CompletionResponse().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ChatCompletionResponse {
+    return new ChatCompletionResponse().fromJsonString(jsonString, options);
   }
 
-  static equals(a: CompletionResponse | PlainMessage<CompletionResponse> | undefined, b: CompletionResponse | PlainMessage<CompletionResponse> | undefined): boolean {
-    return proto3.util.equals(CompletionResponse, a, b);
+  static equals(a: ChatCompletionResponse | PlainMessage<ChatCompletionResponse> | undefined, b: ChatCompletionResponse | PlainMessage<ChatCompletionResponse> | undefined): boolean {
+    return proto3.util.equals(ChatCompletionResponse, a, b);
   }
 }
 

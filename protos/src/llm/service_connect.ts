@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { CompletionRequest, CompletionResponse } from "./service_pb";
+import { ChatCompletionRequest, ChatCompletionResponse } from "./service_pb";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -17,8 +17,8 @@ export const LLMService = {
      */
     chatCompletions: {
       name: "ChatCompletions",
-      I: CompletionRequest,
-      O: CompletionResponse,
+      I: ChatCompletionRequest,
+      O: ChatCompletionResponse,
       kind: MethodKind.Unary,
     },
     /**
@@ -26,8 +26,8 @@ export const LLMService = {
      */
     streamChatCompletions: {
       name: "StreamChatCompletions",
-      I: CompletionRequest,
-      O: CompletionResponse,
+      I: ChatCompletionRequest,
+      O: ChatCompletionResponse,
       kind: MethodKind.ServerStreaming,
     },
   }
