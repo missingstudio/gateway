@@ -50,7 +50,7 @@ func TestGatewayServer(t *testing.T) {
 	t.Run("chat completions: shoud provide provider in headers", func(t *testing.T) {
 		for _, client := range clients {
 
-			req := connect.NewRequest(&llmv1.CompletionRequest{})
+			req := connect.NewRequest(&llmv1.ChatCompletionRequest{})
 			_, err := client.ChatCompletions(context.Background(), req)
 
 			require.NotNil(t, err)

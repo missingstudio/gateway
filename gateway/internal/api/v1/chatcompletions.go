@@ -13,8 +13,8 @@ import (
 
 func (s *V1Handler) ChatCompletions(
 	ctx context.Context,
-	req *connect.Request[llmv1.CompletionRequest],
-) (*connect.Response[llmv1.CompletionResponse], error) {
+	req *connect.Request[llmv1.ChatCompletionRequest],
+) (*connect.Response[llmv1.ChatCompletionResponse], error) {
 	provider, err := providers.GetProvider(ctx, req.Header())
 	if err != nil {
 		return nil, errors.New(err)
@@ -39,7 +39,7 @@ func (s *V1Handler) ChatCompletions(
 		return nil, errors.New(err)
 	}
 
-	data := &llmv1.CompletionResponse{}
+	data := &llmv1.ChatCompletionResponse{}
 	if err := json.NewDecoder(resp.Body).Decode(data); err != nil {
 		return nil, errors.New(err)
 	}
