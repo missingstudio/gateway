@@ -11,9 +11,11 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+var ErrConfigFileExit = errors.New("config file already exists")
+
 func Init(configFile string) error {
 	if file.Exist(configFile) {
-		return errors.New("config file already exists")
+		return ErrConfigFileExit
 	}
 
 	cfg := &Config{}

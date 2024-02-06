@@ -2,6 +2,7 @@ package providers
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/missingstudio/studio/backend/config"
@@ -12,6 +13,11 @@ import (
 	"github.com/missingstudio/studio/backend/internal/providers/openai"
 	"github.com/missingstudio/studio/backend/internal/providers/togetherai"
 	"github.com/missingstudio/studio/common/errors"
+)
+
+var (
+	ErrProviderHeaderNotExit = errors.New(fmt.Errorf("x-ms-provider provider header not available"))
+	ErrProviderNotFound      = errors.NewNotFound("provider is not found")
 )
 
 type ProviderFactory interface {
@@ -29,14 +35,14 @@ func init() {
 }
 
 func GetProvider(ctx context.Context, headers http.Header) (base.ProviderInterface, error) {
-	providerName, ok := ctx.Value(config.ProviderKey{}).(string)
-	if !ok {
-		return nil, errors.NewBadRequest("provider is required from headers")
+	providerName := headers.Get(config.XMSProvider)
+	if providerName == "" {
+		return nil, ErrProviderHeaderNotExit
 	}
 
 	providerFactory, ok := providerFactories[providerName]
 	if !ok {
-		return nil, errors.NewNotFound("provider is not available")
+		return nil, ErrProviderNotFound
 	}
 
 	return providerFactory.Create(headers)

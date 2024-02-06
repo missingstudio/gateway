@@ -13,9 +13,9 @@ import (
 	"github.com/missingstudio/studio/backend/internal/interceptor"
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
 	"github.com/missingstudio/studio/protos/pkg/llm/llmv1connect"
+	"github.com/zeebo/assert"
 
 	"github.com/stretchr/testify/require"
-	"github.com/zeebo/assert"
 )
 
 func TestGatewayServer(t *testing.T) {
@@ -54,7 +54,7 @@ func TestGatewayServer(t *testing.T) {
 			_, err := client.ChatCompletions(context.Background(), req)
 
 			require.NotNil(t, err)
-			assert.True(t, strings.Contains(err.Error(), "x-ms-provider provider header is required"))
+			assert.True(t, strings.Contains(err.Error(), interceptor.ErrProviderHeaderNotExit.Error()))
 		}
 	})
 }

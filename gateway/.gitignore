@@ -10,3 +10,5 @@ node_modules
 
 Chart.lock
 charts/**/*.tgz
+coverage.txt
+coverage.out

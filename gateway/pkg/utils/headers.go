@@ -13,6 +13,8 @@ import (
 	"github.com/missingstudio/studio/common/errors"
 )
 
+var ErrGatewayConfigHeaderNotValid = errors.New(fmt.Errorf("x-ms-config header is not valid"))
+
 func isJSON(s string, v interface{}) bool {
 	return json.Unmarshal([]byte(s), v) == nil
 }
@@ -20,7 +22,7 @@ func isJSON(s string, v interface{}) bool {
 func UnmarshalConfigHeaders(header http.Header, v interface{}) error {
 	msconfig := header.Get(config.XMSConfig)
 	if msconfig == "" && isJSON(msconfig, v) {
-		return errors.New(fmt.Errorf("x-ms-config header is not valid"))
+		return ErrGatewayConfigHeaderNotValid
 	}
 	return nil
 }

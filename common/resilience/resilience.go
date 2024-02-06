@@ -5,6 +5,8 @@ import (
 	"errors"
 )
 
+var ErrContextCanceled = errors.New("context canceled, logic not executed")
+
 type Func func(ctx context.Context) error
 
 type Runner interface {
@@ -28,7 +30,7 @@ func (command) Run(ctx context.Context, f Func) error {
 	// Only execute if we reached to the execution and the context has not been cancelled.
 	select {
 	case <-ctx.Done():
-		return errors.New("context canceled, logic not executed")
+		return ErrContextCanceled
 	default:
 		return f(ctx)
 	}

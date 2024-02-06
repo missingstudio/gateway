@@ -19,6 +19,8 @@ const (
 	LOCAL_APP_DATA    = "LocalAppData"
 )
 
+var ErrConfigFileExit = errors.New("config file already exists")
+
 type Config struct {
 	filename      string
 	boundedPFlags *pflag.FlagSet
@@ -52,7 +54,7 @@ func (c *Config) Init(cfg interface{}) error {
 	defaults.SetDefaults(cfg)
 
 	if fileExist(c.filename) {
-		return errors.New("config file already exists")
+		return ErrConfigFileExit
 	}
 
 	return c.Write(cfg)

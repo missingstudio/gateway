@@ -11,6 +11,11 @@ import (
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
 )
 
+var (
+	ErrChatCompletionStreamNotSupported = errors.NewBadRequest("streaming is not supported with this method, please use StreamChatCompletions")
+	ErrChatCompletionNotSupported       = errors.NewInternalError("provider don't have chat Completion capabilities")
+)
+
 func (s *V1Handler) ChatCompletions(
 	ctx context.Context,
 	req *connect.Request[llmv1.ChatCompletionRequest],
@@ -26,12 +31,12 @@ func (s *V1Handler) ChatCompletions(
 
 	chatCompletionProvider, ok := provider.(base.ChatCompletionInterface)
 	if !ok {
-		return nil, errors.NewInternalError("provider don't have chat Completion capabilities")
+		return nil, ErrChatCompletionNotSupported
 	}
 
 	payload, err := json.Marshal(req.Msg)
 	if err != nil {
-		return nil, err
+		return nil, errors.New(err)
 	}
 
 	resp, err := chatCompletionProvider.ChatCompletion(ctx, payload)

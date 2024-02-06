@@ -11,6 +11,8 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+var ErrUnsupportedFileType = errors.New("unsupported file type")
+
 // Exist checks whether a file with filename exists
 // return true if exists, else false
 func Exist(filename string) bool {
@@ -46,7 +48,7 @@ func Parse(filePath string, v interface{}) error {
 			return fmt.Errorf("invalid yaml: %w", err)
 		}
 	default:
-		return errors.New("unsupported file type")
+		return ErrUnsupportedFileType
 	}
 
 	return nil

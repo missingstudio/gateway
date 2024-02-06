@@ -2,14 +2,17 @@ package interceptor
 
 import (
 	"context"
-	"errors"
+	"fmt"
 
 	"connectrpc.com/connect"
 	"github.com/missingstudio/studio/backend/config"
 	"github.com/missingstudio/studio/backend/internal/schema"
 	"github.com/missingstudio/studio/backend/pkg/utils"
+	"github.com/missingstudio/studio/common/errors"
 	"github.com/missingstudio/studio/common/resilience/retry"
 )
+
+var ErrProviderHeaderNotExit = errors.New(fmt.Errorf("x-ms-provider provider header not available"))
 
 func NewLogInterceptor() connect.UnaryInterceptorFunc {
 	interceptor := func(next connect.UnaryFunc) connect.UnaryFunc {
@@ -31,10 +34,9 @@ func ProviderInterceptor() connect.UnaryInterceptorFunc {
 		) (connect.AnyResponse, error) {
 			provider := req.Header().Get(config.XMSProvider)
 			if provider == "" {
-				return nil, errors.New("x-ms-provider provider header is required")
+				return nil, ErrProviderHeaderNotExit
 			}
 
-			ctx = context.WithValue(ctx, config.ProviderKey{}, provider)
 			return next(ctx, req)
 		})
 	}

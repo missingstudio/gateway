@@ -11,20 +11,20 @@ import (
 	"github.com/zeebo/assert"
 )
 
-var err = errors.New("wanted error")
+var ErrRetryExecution = errors.New("wanted error")
 
-type counterFailer struct {
+type retryFailer struct {
 	notFailOnAttemp int
 	timesExecuted   int
 }
 
-func (c *counterFailer) Run(ctx context.Context) error {
+func (c *retryFailer) Run(ctx context.Context) error {
 	c.timesExecuted++
 	if c.timesExecuted == c.notFailOnAttemp {
 		return nil
 	}
 
-	return err
+	return ErrRetryExecution
 }
 
 func TestRetryResult(t *testing.T) {
@@ -43,7 +43,7 @@ func TestRetryResult(t *testing.T) {
 				Times:          3,
 			},
 			getF: func() resilience.Func {
-				c := &counterFailer{notFailOnAttemp: 4}
+				c := &retryFailer{notFailOnAttemp: 4}
 				return c.Run
 			},
 			expErr: nil,
@@ -56,10 +56,10 @@ func TestRetryResult(t *testing.T) {
 				Times:          3,
 			},
 			getF: func() resilience.Func {
-				c := &counterFailer{notFailOnAttemp: 5}
+				c := &retryFailer{notFailOnAttemp: 5}
 				return c.Run
 			},
-			expErr: err,
+			expErr: ErrRetryExecution,
 		},
 	}
 
