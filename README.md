@@ -73,3 +73,6 @@ Please refer to the [CONTRIBUTING.md](https://github.com/missingstudio/studio/bl
 <a href="https://github.com/missingstudio/studio/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=missingstudio/studio" />
 </a>
+
+## License
+AI Studio is [Apache 2.0](https://github.com/missingstudio/studio/blob/main/LICENSE) licensed.
