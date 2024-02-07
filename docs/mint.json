@@ -1,0 +1,70 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Missing studio",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#808080",
+    "light": "#FFFFFF",
+    "dark": "#000000",
+    "background": {
+      "dark": "#000000",
+      "light": "#FFFFFF"
+    }
+  },
+
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "mailto:support@missing.studio"
+    }
+  ],
+
+  "tabs": [],
+
+  "anchors": [
+    {
+      "name": "Missing studio",
+      "icon": "globe",
+      "url": "https://missing.studio"
+    },
+    {
+      "name": "GitHub",
+      "icon": "github",
+      "url": "https://github.com/missingstudio/studio"
+    },
+    {
+      "name": "Discord",
+      "icon": "discord",
+      "url": "https://discord.gg/dg8TYYqK"
+    }
+  ],
+
+  "navigation": [
+    {
+      "group": "Get Started",
+      "pages": ["introduction/what-is-missingstudio", "introduction/setup"]
+    },
+    {
+      "group": "Essentials",
+      "pages": [
+        "essentials/roadmap",
+        "essentials/FAQ",
+        "essentials/usecases",
+        "essentials/contributing"
+      ]
+    },
+    {
+      "group": "Other",
+      "pages": ["other/philosophy"]
+    }
+  ],
+  "footerSocials": {
+    "twitter": "https://twitter.com/_missingstudio",
+    "github": "https://github.com/missingstudio",
+    "linkedin": "https://www.linkedin.com/company/missingstudio"
+  }
+}
