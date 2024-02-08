@@ -8,20 +8,29 @@ import (
 	"connectrpc.com/otelconnect"
 	"connectrpc.com/validate"
 	"connectrpc.com/vanguard"
+	"github.com/missingstudio/studio/backend/internal/ingester"
 	"github.com/missingstudio/studio/backend/internal/interceptor"
 	"github.com/missingstudio/studio/protos/pkg/llm/llmv1connect"
 )
 
 type V1Handler struct {
 	llmv1connect.UnimplementedLLMServiceHandler
+	ingester ingester.Ingester
 }
 
-func Register() (http.Handler, error) {
+func NewHandlerV1(ingester ingester.Ingester) *V1Handler {
+	return &V1Handler{
+		ingester: ingester,
+	}
+}
+
+func Register(d *Deps) (http.Handler, error) {
 	validateInterceptor, err := validate.NewInterceptor()
 	if err != nil {
 		return nil, fmt.Errorf("failed to create validate interceptor: %w", err)
 	}
 
+	v1Handler := NewHandlerV1(d.ingester)
 	otelconnectInterceptor, err := otelconnect.NewInterceptor(otelconnect.WithTrustRemote())
 	if err != nil {
 		return nil, fmt.Errorf("failed to create validate otel connect: %w", err)
@@ -37,7 +46,7 @@ func Register() (http.Handler, error) {
 
 	services := []*vanguard.Service{
 		vanguard.NewService(llmv1connect.NewLLMServiceHandler(
-			&V1Handler{},
+			v1Handler,
 			compress1KB,
 			connect.WithInterceptors(stdInterceptors...),
 		)),

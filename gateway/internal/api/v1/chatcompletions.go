@@ -49,5 +49,15 @@ func (s *V1Handler) ChatCompletions(
 		return nil, errors.New(err)
 	}
 
+	ingesterdata := make(map[string]interface{})
+	ingesterdata["provider"] = provider.GetName()
+	ingesterdata["model"] = data.Model
+	ingesterdata["usage"] = map[string]interface{}{
+		"total_tokens":      data.Usage.TotalTokens,
+		"prompt_tokens":     data.Usage.PromptTokens,
+		"completion_tokens": data.Usage.CompletionTokens,
+	}
+
+	go s.ingester.Ingest(ingesterdata, "logs")
 	return connect.NewResponse(data), nil
 }

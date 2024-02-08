@@ -6,7 +6,7 @@ import (
 	"syscall"
 
 	"github.com/missingstudio/studio/backend/config"
-	"github.com/missingstudio/studio/backend/pkg/server"
+	"github.com/missingstudio/studio/backend/internal/server"
 	"github.com/missingstudio/studio/common/logger"
 )
 

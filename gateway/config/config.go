@@ -5,13 +5,15 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/missingstudio/studio/backend/internal/ingester"
 	"github.com/missingstudio/studio/common/config"
 )
 
 type Config struct {
-	Host          string `yaml:"host" json:"host,omitempty" mapstructure:"host" default:"0.0.0.0"`
-	Port          int    `yaml:"port" json:"port,omitempty" mapstructure:"port" default:"8080"`
-	LogFormatJson bool   `yaml:"log_format_json" json:"log_format_json,omitempty" mapstructure:"log_format_json" default:"false"`
+	Host          string          `yaml:"host" json:"host,omitempty" mapstructure:"host" default:"0.0.0.0"`
+	Port          int             `yaml:"port" json:"port,omitempty" mapstructure:"port" default:"8080"`
+	LogFormatJson bool            `yaml:"log_format_json" json:"log_format_json,omitempty" mapstructure:"log_format_json" default:"false"`
+	Ingester      ingester.Config `yaml:"ingester" json:"ingester,omitempty" mapstructure:"ingester"`
 }
 
 func Load(serverConfigFileFromFlag string) (*Config, error) {

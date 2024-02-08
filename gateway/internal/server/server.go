@@ -6,13 +6,16 @@ import (
 	"log/slog"
 
 	"github.com/missingstudio/studio/backend/config"
+	v1 "github.com/missingstudio/studio/backend/internal/api/v1"
 	"github.com/missingstudio/studio/backend/internal/connectrpc"
 	"github.com/missingstudio/studio/backend/internal/httpserver"
+	"github.com/missingstudio/studio/backend/internal/ingester"
 	"github.com/missingstudio/studio/backend/pkg/utils"
 )
 
 func Serve(ctx context.Context, logger *slog.Logger, cfg *config.Config) error {
-	connectMux, err := connectrpc.NewConnectMux(connectrpc.Deps{})
+	ingester := ingester.GetIngester(ctx, cfg.Ingester, logger)
+	connectMux, err := connectrpc.NewConnectMux(v1.NewDeps(ingester))
 	if err != nil {
 		logger.Error("connect rpc mux not created", err)
 		return err
