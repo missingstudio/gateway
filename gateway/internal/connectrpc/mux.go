@@ -12,13 +12,11 @@ import (
 	"github.com/missingstudio/studio/protos/pkg/llm/llmv1connect"
 )
 
-type Deps struct{}
-
-func NewConnectMux(d Deps) (*http.ServeMux, error) {
+func NewConnectMux(d *v1.Deps) (*http.ServeMux, error) {
 	mux := http.NewServeMux()
 
 	compress1KB := connect.WithCompressMinBytes(1024)
-	v1Handler, err := v1.Register()
+	v1Handler, err := v1.Register(d)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create handler: %w", err)
 	}
