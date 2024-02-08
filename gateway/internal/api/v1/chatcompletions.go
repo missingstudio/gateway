@@ -58,6 +58,6 @@ func (s *V1Handler) ChatCompletions(
 		"completion_tokens": data.Usage.CompletionTokens,
 	}
 
-	go s.ingester.Ingest(ingesterdata, "logs")
+	go s.ingester.Ingest(ingesterdata, "analytics")
 	return connect.NewResponse(data), nil
 }

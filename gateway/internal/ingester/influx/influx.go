@@ -11,28 +11,25 @@ import (
 
 type InfluxDBIngester struct {
 	client       *influxdb3.Client
-	bucket       string
-	Organization string
+	database     string
+	organization string
 	logger       *slog.Logger
 }
 
-func NewInfluxDBIngester(host, token, organization, bucket string, logger *slog.Logger) (*InfluxDBIngester, error) {
-	client, err := influxdb3.New(influxdb3.ClientConfig{
-		Host:         host,
-		Token:        token,
-		Organization: organization,
-		Database:     bucket,
-	})
-	if err != nil {
-		return nil, err
+// NewOptions creates a new Options instance with provided functional options
+func NewInfluxIngester(opts ...Option) *InfluxDBIngester {
+	options := &Options{}
+
+	for _, opt := range opts {
+		opt(options)
 	}
 
 	return &InfluxDBIngester{
-		client:       client,
-		Organization: organization,
-		bucket:       bucket,
-		logger:       logger,
-	}, nil
+		client:       options.client,
+		database:     options.database,
+		organization: options.organization,
+		logger:       options.logger,
+	}
 }
 
 func (in *InfluxDBIngester) Ingest(data map[string]interface{}, measurement string) {

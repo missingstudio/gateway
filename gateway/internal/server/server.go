@@ -14,7 +14,7 @@ import (
 )
 
 func Serve(ctx context.Context, logger *slog.Logger, cfg *config.Config) error {
-	ingester := ingester.GetIngester(ctx, cfg.Ingester, logger)
+	ingester := ingester.GetIngesterWithDefault(ctx, cfg.Ingester, logger)
 	connectMux, err := connectrpc.NewConnectMux(v1.NewDeps(ingester))
 	if err != nil {
 		logger.Error("connect rpc mux not created", err)
