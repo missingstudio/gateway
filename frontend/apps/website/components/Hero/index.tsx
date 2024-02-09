@@ -1,60 +1,68 @@
-"use client";
+import { MilkeyWay } from "../milkway";
 
-import { Button } from "@missingstudio/ui/button";
-import { Text } from "@missingstudio/ui/text";
-import { AnimatePresence, motion } from "framer-motion";
-import { Maven_Pro } from "next/font/google";
-import styles from "./hero.module.css";
-
-const mavenpro = Maven_Pro({ subsets: ["latin"], variable: "--font-maven" });
-
-export default function Page() {
+export default function Hero() {
   return (
-    <AnimatePresence>
-      <section className="space-y-6 pt-6 md:pt-10 lg:pt-32">
-        <div className="container flex max-w-[64rem] flex-col items-center gap-8 text-center">
-          <div className="flex flex-col gap-2 items-center">
-            <motion.h1
-              className={`font-extrabold font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl ${mavenpro.className} ${styles.heading} ${styles.headergradient}`}
-              initial={{ opacity: 0, top: 20 }}
-              animate={{ opacity: 1, top: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+    <section>
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
+        <MilkeyWay />
+        <div className="pt-32 pb-16 md:pt-52 md:pb-32">
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="mb-6" data-aos="fade-down">
+              <span className="relative inline-flex items-center font-bold uppercase">
+                AI Studio for Enterprise
+              </span>
+            </div>
+            <h1
+              className="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4"
+              data-aos="fade-down"
             >
-              A Open Source <br />
-              For Enterprise AI studio
-            </motion.h1>
-            <motion.p
-              className="max-w-[42rem] leading-normal text-muted-foreground sm:text-lg sm:leading-8"
-              initial={{ opacity: 0, top: 20 }}
-              animate={{ opacity: 1, top: 0 }}
-              transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+              An Open-source <br />
+              Enterprise AI Studio
+            </h1>
+            <p
+              className="text-lg text-slate-300 mb-8"
+              data-aos="fade-down"
+              data-aos-delay="200"
             >
-              A Robust Open Source AI studio with Universal API for inferencing
-              100+ LLMs(OpenAI, Azure, Anthropic, HuggingFace, Replicate, Stable
-              Diffusion).
-            </motion.p>
+              An open-source AI Studio for rapid development and robust
+              deployment of generative AI applications that seamlessly
+              integrates with top providers like OpenAI, Anthropic, and more
+            </p>
+            <div
+              className="max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4"
+              data-aos="fade-down"
+              data-aos-delay="400"
+            >
+              <div>
+                <a
+                  className="btn text-slate-200 hover:text-white bg-slate-900 bg-opacity-25 hover:bg-opacity-30 w-full transition duration-150 ease-in-out"
+                  href="https://docs.missing.studio"
+                  target="_blank"
+                >
+                  <svg
+                    className="shrink-0 fill-slate-300 mr-3"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                  >
+                    <path d="m1.999 0 1 2-1 2 2-1 2 1-1-2 1-2-2 1zM11.999 0l1 2-1 2 2-1 2 1-1-2 1-2-2 1zM11.999 10l1 2-1 2 2-1 2 1-1-2 1-2-2 1zM6.292 7.586l2.646-2.647L11.06 7.06 8.413 9.707zM0 13.878l5.586-5.586 2.122 2.121L2.12 16z" />
+                  </svg>
+                  <span>Read the docs</span>
+                </a>
+              </div>
+              <div>
+                <a
+                  className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group"
+                  href="https://github.com/missingstudio/studio"
+                  target="_blank"
+                >
+                  Checkout AI Studio
+                </a>
+              </div>
+            </div>
           </div>
-
-          <motion.div
-            className="flex justify-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, delay: 0.2, ease: "easeOut" }}
-          >
-            <Button variant="alternative" className="!p-0">
-              <a
-                target="_blank"
-                href="https://github.com/missingstudio/studio"
-                className="px-5 py-2"
-              >
-                <Text size={2} bold>
-                  We're Open Source
-                </Text>
-              </a>
-            </Button>
-          </motion.div>
         </div>
-      </section>
-    </AnimatePresence>
+      </div>
+    </section>
   );
 }

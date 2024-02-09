@@ -1,43 +1,32 @@
-"use client";
-
-import { Button } from "@missingstudio/ui/button";
-import { Text } from "@missingstudio/ui/text";
-import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
-import logo from "~/public/mstudio_light.svg";
+import Logo from "./logo";
 
-export const Header = () => {
+export default function Header() {
   return (
-    <motion.header
-      initial={{
-        opacity: 0,
-        transform: "translateY(-50px)",
-      }}
-      animate={{
-        opacity: 1,
-        transform: "translateY(0px)",
-      }}
-      className="container z-40 bg-background py-8"
-    >
-      <div className="container flex h-8 items-center ">
-        <div className="flex gap-6 md:gap-10 w-full justify-between">
-          <Link href="/" className="items-center space-x-2 md:flex">
-            <Image priority src={logo} height={24} alt="missing studio logo" />
-          </Link>
-          <Button variant="alternative" className="!p-0">
-            <a
-              target="_blank"
-              href="https://github.com/missingstudio/studio"
-              className="px-5 py-2"
-            >
-              <Text size={2} bold>
-                Try AI Studio
-              </Text>
-            </a>
-          </Button>
+    <header className="absolute w-full z-30">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between h-16 md:h-20">
+          <div className="shrink-0 mr-4">
+            <Logo />
+          </div>
+
+          <nav className="flex grow">
+            <ul className="flex grow justify-end flex-wrap items-center">
+              <li className="ml-6">
+                <Link
+                  className="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out w-full group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none"
+                  target="_blank"
+                  href="https://github.com/missingstudio/studio"
+                >
+                  <span className="relative inline-flex items-center">
+                    AI Studio
+                  </span>
+                </Link>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
-    </motion.header>
+    </header>
   );
-};
+}

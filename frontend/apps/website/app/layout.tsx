@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { MilkeyWay } from "~/components/MilkyWay";
-import { opensans } from "../styles/fonts";
-import "../styles/globals.css";
+import { opensans } from "~/styles/fonts";
+import "~/styles/globals.css";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
@@ -17,9 +16,12 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={opensans.className}>
-        <MilkeyWay />
-        <Providers>{children}</Providers>
+      <body
+        className={`${opensans.className} antialiased bg-slate-900 text-slate-100 tracking-tight`}
+      >
+        <div className="flex flex-col min-h-screen overflow-hidden">
+          <Providers>{children}</Providers>
+        </div>
       </body>
     </html>
   );

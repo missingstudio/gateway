@@ -1,5 +1,9 @@
 @tailwind base;
 @tailwind components;
+
+@import 'utility-patterns.css';
+@import 'theme.css';
+
 @tailwind utilities;
 
 :root {
