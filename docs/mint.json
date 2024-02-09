@@ -7,21 +7,33 @@
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#808080",
-    "light": "#FFFFFF",
-    "dark": "#000000",
+    "primary": "#00CCB1",
+    "light": "#7B61FF",
+    "dark": "#00CCB1",
     "background": {
       "dark": "#000000",
       "light": "#FFFFFF"
     }
   },
+  "modeToggle": {
+    "default": "dark"
+  },
+
+  "feedback": {
+    "suggestEdit": true
+  },
 
   "topbarLinks": [
     {
-      "name": "Support",
+      "name": "Contact Us",
       "url": "mailto:support@missing.studio"
     }
   ],
+
+  "topbarCtaButton": {
+    "name": "Get Started",
+    "url": "https://github.com/missingstudio/studio"
+  },
 
   "tabs": [],
 
