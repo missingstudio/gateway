@@ -20,6 +20,7 @@
   },
 
   "feedback": {
+    "thumbsRating": true,
     "suggestEdit": true
   },
 
