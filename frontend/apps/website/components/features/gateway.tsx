@@ -1,5 +1,5 @@
-import Highlighter, { HighlighterItem } from "~/components/highlighter";
-import Particles from "~/components/particles";
+import Highlighter, { HighlighterItem } from "components/highlighter";
+import Particles from "components/particles";
 
 export default function Features() {
   return (

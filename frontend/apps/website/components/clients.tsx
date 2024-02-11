@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
+import Client01 from "public/images/client-01.svg";
 import Marquee from "react-fast-marquee";
-import Client01 from "~/public/images/client-01.svg";
 
 import Particles from "./particles";
 export default function Clients() {

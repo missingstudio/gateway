@@ -14,14 +14,14 @@ export default function CTA() {
           <div className="max-w-3xl mx-auto text-center">
             <div>
               <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-violet-200 pb-3">
-                playgorund
+                Playground
               </div>
             </div>
             <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">
               AI workflows
             </h2>
             <p className="text-lg text-slate-400 mb-8">
-              Use LLM studio to create, experiment, deploy and scale LLM powered
+              Use AI studio to create, experiment, deploy and scale LLM powered
               workflows using the latest AI models like GPT-4-turbo, DALL·E 3
               and Claude 2
             </p>

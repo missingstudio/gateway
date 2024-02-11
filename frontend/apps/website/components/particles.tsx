@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import MousePosition from "~/utils/mouse-position";
+import MousePosition from "utils/mouse-position";
 
 interface ParticlesProps {
   className?: string;

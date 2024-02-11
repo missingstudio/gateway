@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { opensans } from "~/styles/fonts";
-import "~/styles/globals.css";
+import { opensans } from "styles/fonts";
+import "styles/globals.css";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {

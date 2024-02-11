@@ -1,13 +1,13 @@
 "use client";
 
 import { Transition } from "@headlessui/react";
+import Particles from "components/particles";
 import Image, { StaticImageData } from "next/image";
 import { useEffect, useRef, useState } from "react";
-import Particles from "~/components/particles";
 
-import TestimonialImg01 from "~/public/images/testimonial-01.jpg";
-import TestimonialImg02 from "~/public/images/testimonial-02.jpg";
-import TestimonialImg03 from "~/public/images/testimonial-03.jpg";
+import TestimonialImg01 from "public/images/testimonial-01.jpg";
+import TestimonialImg02 from "public/images/testimonial-02.jpg";
+import TestimonialImg03 from "public/images/testimonial-03.jpg";
 
 export default function Testimonials() {
   const [active, setActive] = useState<number>(0);

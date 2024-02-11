@@ -1,6 +1,6 @@
+import Highlighter, { HighlighterItem } from "components/highlighter";
 import Image from "next/image";
-import Highlighter, { HighlighterItem } from "~/components/highlighter";
-import FeatureImg04 from "~/public/images/feature-image-04.png";
+import FeatureImg04 from "public/images/feature-image-04.png";
 
 export default function Features() {
   return (

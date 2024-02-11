@@ -2,18 +2,14 @@
   "extends": "@missingstudio/typescript-config/nextjs.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "plugins": [{ "name": "next" }],
-    "paths": {
-      "~/*": ["./*"]
-    }
+    "plugins": [{ "name": "next" }]
   },
   "include": [
     "next-env.d.ts",
     "next.config.js",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts",
-    "../../prettier.config.ts"
+    ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

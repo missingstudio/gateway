@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { Transition } from "@headlessui/react";
-import Particles from "~/components/particles";
+import Particles from "components/particles";
 
 export default function Features() {
   const [tab, setTab] = useState<number>(1);
