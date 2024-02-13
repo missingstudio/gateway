@@ -6,14 +6,25 @@ import (
 	"path/filepath"
 
 	"github.com/missingstudio/studio/backend/internal/ingester"
+	"github.com/missingstudio/studio/backend/internal/ratelimiter"
 	"github.com/missingstudio/studio/common/config"
 )
 
 type Config struct {
-	Host          string          `yaml:"host" json:"host,omitempty" mapstructure:"host" default:"0.0.0.0"`
-	Port          int             `yaml:"port" json:"port,omitempty" mapstructure:"port" default:"8080"`
-	LogFormatJson bool            `yaml:"log_format_json" json:"log_format_json,omitempty" mapstructure:"log_format_json" default:"false"`
-	Ingester      ingester.Config `yaml:"ingester" json:"ingester,omitempty" mapstructure:"ingester"`
+	Host          string             `yaml:"host" json:"host,omitempty" mapstructure:"host" default:"0.0.0.0"`
+	Port          int                `yaml:"port" json:"port,omitempty" mapstructure:"port" default:"8080"`
+	LogFormatJson bool               `yaml:"log_format_json" json:"log_format_json,omitempty" mapstructure:"log_format_json" default:"false"`
+	Ingester      ingester.Config    `yaml:"ingester" json:"ingester,omitempty" mapstructure:"ingester"`
+	Redis         RedisConfig        `yaml:"redis" mapstructure:"redis" json:"redis,omitempty"`
+	Ratelimiter   ratelimiter.Config `yaml:"ratelimiter" mapstructure:"ratelimiter" json:"ratelimiter,omitempty"`
+}
+
+type RedisConfig struct {
+	Host     string `yaml:"host" json:"host,omitempty" mapstructure:"host" default:"localhost"`
+	Port     int    `yaml:"port" json:"port,omitempty" mapstructure:"port" default:"6379"`
+	Username string `yaml:"username" mapstructure:"username" json:"username,omitempty"`
+	Password string `yaml:"password" mapstructure:"password" json:"password,omitempty"`
+	Database string `yaml:"database" mapstructure:"database"  json:"database,omitempty"`
 }
 
 func Load(serverConfigFileFromFlag string) (*Config, error) {

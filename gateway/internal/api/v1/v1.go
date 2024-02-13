@@ -40,6 +40,7 @@ func Register(d *Deps) (http.Handler, error) {
 	stdInterceptors := []connect.Interceptor{
 		validateInterceptor,
 		otelconnectInterceptor,
+		interceptor.RateLimiterInterceptor(d.ratelimiter),
 		interceptor.ProviderInterceptor(),
 		interceptor.RetryInterceptor(),
 	}
