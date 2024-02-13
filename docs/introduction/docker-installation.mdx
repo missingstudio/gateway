@@ -1,0 +1,38 @@
+---
+title: Docker Setup
+description: How to install and run **AI Studio** via Docker
+---
+
+The easiest and quickest way to run AI Studio is via  [docker-compose](https://docs.docker.com/compose/).
+
+<Steps>
+    <Step title={"Clone the demo repository"}>
+        ```bash
+        git clone git@github.com:missingstudio/studio.git
+        ```
+    </Step>
+    
+    <Step title={"Start AI Studio"}>
+        After that, just use docker compose via this command to start your demo environment:
+
+        ```bash
+        make compose-dev
+        ```
+
+        <Info>
+            Windows users can simply run `docker-compose up -d`
+        </Info>
+    </Step>
+    <Step title={"Sample API Request to `/chat/completions` endpoint"}>
+        After running studio gateway, you can call api using `curl` in your terminal by running:
+
+        ```bash
+        curl \
+        --header "Content-Type: application/json" \
+        --header "x-ms-provider: openai" \
+        --header "Authorization: Bearer {{OPENAI_API_KEY}}" \
+        --data '{"model":"gpt-3.5-turbo","messages":[{"role":"user","content":"who are you?"}]}' \
+        http://localhost:8080/v1/chat/completions
+        ```
+    </Step>
+</Steps>

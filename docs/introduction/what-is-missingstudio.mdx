@@ -1,36 +1,59 @@
 ---
 title: 'What is Missing studio?'
-description: 'An open-source AI Studio'
+description: 'A cloud native open-source infrastructure stack for LLM Applications'
 ---
-Missing studio is an open-source AI Studio for rapid development and robust deployment of 
-generative AI applications. It seamlesssly Integrate 100+ providers with security, reliability and observability.
+
+An AI Studio designed for rapid development and robust deployment of generative AI applications 
+using core infrastructure stack. It simplify the complexities of using generative AI models in production environments 
+from Private/OSS providers with security, reliability and observability.
 
 
 <img
   className="block dark:hidden"
-  src="/images/hero-light.svg"
+  src="/images/features.png"
   alt="Hero Light"
 />
 
 <img
   className="hidden dark:block"
-  src="/images/hero-dark.svg"
+  src="/images/features.png"
   alt="Hero Dark"
 />
 
-# Key Features
-- 🎛️ **Universal API**
+<Info>
+  **Note:** we are still in development phase
+</Info>
 
-Familiar with spending hundreds of hours with multiple providers to get things right. 
-Try our universal API for seamless integration with 100+ providers like OpenAI, Anthropic, 
-Cohere, and more.
+## Key Features
 
-- 🔒 **AI gateway**
+<CardGroup cols={2}>
+    <Card title="Universal API" icon="wand-magic-sparkles" color="#FFC414">
+        Familiar with spending hundreds of hours with multiple providers to get things right. 
+        Try our universal API for seamless integration with 100+ providers like OpenAI, Anthropic, 
+        Cohere, and more.
+    </Card>
+    <Card title="AI Router" icon="scale-balanced" color="#00CCB1">
+        AI Router offers the versatility to route between multiple models or provider using multiple fallback strategies like round-robin, least latency etc.
+    </Card>
+    <Card title="AI Gateway" icon="bolt" color="#18A0FB">
+        AI gateway allow us to gain visibility and control over AI Applications using rate-limiting, retry, caching and observability.
+    </Card>
+</CardGroup>
 
-AI Studio Gateway simplify the complexities of using generative AI models in production environments 
-from Private/OSS providers with security, reliability and observability
+## Installation
 
-- 💰 **Cost Transparency**: 
+<CardGroup cols={2}>
+    <Card href="/introduction/local-installation/" title="Command Line Interface (CLI)" icon="square-terminal" color="#FFC414">
+        Install AI Studio locally into your developer machine or bare metal setup via CLI (MacOS, Linux)
+    </Card>
+    <Card href="/introduction/docker-installation/" title="Docker" icon="docker" color="#18A0FB">
+        Get started with AI Studio in a few minutes with Docker (recommended)
+    </Card>
+    <Card title={<>Kubernetes  <span style={{fontSize: "10px", color: "green", display:"flex-inline"}}>(coming soon)</span> </>} icon="cloud" color="#00CCB1">
+        Install AI Studio into a Kubernetes cluster using helm chart
+    </Card>
+</CardGroup>
 
-Gain comprehensive cost transparency across all prompts and AI models.
+## License
 
+AI Studio is [Apache 2.0](https://github.com/missingstudio/ai/blob/main/LICENSE) open source licensed.

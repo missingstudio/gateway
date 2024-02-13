@@ -1,0 +1,59 @@
+---
+title: 'Configuration'
+description: 'Configuration options for AI Studio'
+icon: 'sliders'
+---
+
+This document outlines the various options available for configuring AI Studio.
+For ease of use and clarity, we recommend naming the configuration file `config.yml`
+
+### Gateway Configuration
+<ResponseField name="app" type="Object">
+  Configure the application gateway config
+  <Expandable title="properties">
+  <ResponseField name="host" type="String">
+      The `host` can be any device connected to a network.
+    </ResponseField>
+    <ResponseField name="port" type="String">
+      The `port` specifies the network port that the gateway Server will listen to for incoming data. You can set this to any available port on your system.
+    </ResponseField>
+    
+  </Expandable>
+</ResponseField>
+
+**Example**:
+```yaml
+app: 
+  host: localhost
+  port: 8080
+```
+
+### Redis Configuration
+
+<ResponseField name="redis" type="Object">
+  Configure the redis database connection details to connect with AI studio
+  <Expandable title="properties">
+  <ResponseField name="host" type="String">
+      Host address for the database.
+    </ResponseField>
+    <ResponseField name="port" type="String">
+      Network port for the database connection.
+    </ResponseField>
+    
+    <ResponseField name="username" type="String">
+      The username for the database.
+    </ResponseField>
+    <ResponseField name="password" type="String">
+      The password for the database.
+    </ResponseField>
+  </Expandable>
+  
+  **Example**:
+  ```yaml
+  redis: 
+    host: localhost
+    port: 6379
+    username: username
+    password: password
+  ```
+</ResponseField>

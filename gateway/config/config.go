@@ -30,7 +30,6 @@ type RedisConfig struct {
 	Port     int    `yaml:"port" json:"port,omitempty" mapstructure:"port" default:"6379"`
 	Username string `yaml:"username" mapstructure:"username" json:"username,omitempty"`
 	Password string `yaml:"password" mapstructure:"password" json:"password,omitempty"`
-	Database string `yaml:"database" mapstructure:"database"  json:"database,omitempty"`
 }
 
 func Load(serverConfigFileFromFlag string) (*Config, error) {

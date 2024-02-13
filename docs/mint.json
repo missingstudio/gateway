@@ -42,24 +42,48 @@
     {
       "name": "Missing studio",
       "icon": "globe",
+      "color": "#7B61FF",
       "url": "https://missing.studio"
     },
     {
       "name": "GitHub",
       "icon": "github",
-      "url": "https://github.com/missingstudio/studio"
+      "color": "#18A0FB",
+      "url": "https://github.com/missingstudio/ai"
     },
     {
       "name": "Discord",
       "icon": "discord",
-      "url": "https://discord.gg/dg8TYYqK"
+      "color": "#00CCB1",
+      "url": "https://discord.gg/99UVa6MkUX"
     }
   ],
 
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["introduction/what-is-missingstudio", "introduction/setup"]
+      "pages": [
+        "introduction/what-is-missingstudio",
+        {
+          "group": "Installation",
+          "icon": "circle-down",
+          "pages": [
+            "introduction/local-installation",
+            "introduction/docker-installation"
+          ]
+        },
+        {
+          "group": "Concepts",
+          "icon": "bolt",
+          "pages": [
+            "introduction/universal-api",
+            "introduction/ai-router",
+            "introduction/ai-gateway",
+            "introduction/ai-workflow"
+          ]
+        },
+        "introduction/configuration"
+      ]
     },
     {
       "group": "Essentials",
