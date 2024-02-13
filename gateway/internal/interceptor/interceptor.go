@@ -6,13 +6,17 @@ import (
 
 	"connectrpc.com/connect"
 	"github.com/missingstudio/studio/backend/config"
+	"github.com/missingstudio/studio/backend/internal/ratelimiter"
 	"github.com/missingstudio/studio/backend/internal/schema"
 	"github.com/missingstudio/studio/backend/pkg/utils"
 	"github.com/missingstudio/studio/common/errors"
 	"github.com/missingstudio/studio/common/resilience/retry"
 )
 
-var ErrProviderHeaderNotExit = errors.New(fmt.Errorf("x-ms-provider provider header not available"))
+var (
+	ErrProviderHeaderNotExit = errors.New(fmt.Errorf("x-ms-provider provider header not available"))
+	ErrRateLimitExceeded     = errors.NewForbidden("rate limit exceeded")
+)
 
 func NewLogInterceptor() connect.UnaryInterceptorFunc {
 	interceptor := func(next connect.UnaryFunc) connect.UnaryFunc {
@@ -20,6 +24,23 @@ func NewLogInterceptor() connect.UnaryInterceptorFunc {
 			ctx context.Context,
 			req connect.AnyRequest,
 		) (connect.AnyResponse, error) {
+			return next(ctx, req)
+		})
+	}
+	return connect.UnaryInterceptorFunc(interceptor)
+}
+
+func RateLimiterInterceptor(rl *ratelimiter.RateLimiter) connect.UnaryInterceptorFunc {
+	interceptor := func(next connect.UnaryFunc) connect.UnaryFunc {
+		return connect.UnaryFunc(func(
+			ctx context.Context,
+			req connect.AnyRequest,
+		) (connect.AnyResponse, error) {
+			key := "req_count"
+			if !rl.Limiter.Validate(key) {
+				return nil, ErrRateLimitExceeded
+			}
+
 			return next(ctx, req)
 		})
 	}

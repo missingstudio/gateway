@@ -1,6 +1,7 @@
 package redis
 
 import (
+	"log/slog"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -8,6 +9,7 @@ import (
 
 type Options struct {
 	client *redis.Client
+	logger *slog.Logger
 	rt     time.Duration
 	wt     time.Duration
 }
@@ -18,6 +20,13 @@ type Option func(*Options)
 func WithClient(c *redis.Client) Option {
 	return func(o *Options) {
 		o.client = c
+	}
+}
+
+// WithLogger set logger
+func WithLogger(c *slog.Logger) Option {
+	return func(o *Options) {
+		o.logger = c
 	}
 }
 

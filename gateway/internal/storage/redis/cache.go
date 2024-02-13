@@ -2,6 +2,7 @@ package redis
 
 import (
 	"context"
+	"log/slog"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -9,6 +10,7 @@ import (
 
 type CacheStore struct {
 	client *redis.Client
+	logger *slog.Logger
 	wt     time.Duration
 	rt     time.Duration
 }
@@ -21,6 +23,7 @@ func NewCacheStore(opts ...Option) *CacheStore {
 
 	return &CacheStore{
 		client: options.client,
+		logger: options.logger,
 		rt:     options.rt,
 		wt:     options.wt,
 	}
