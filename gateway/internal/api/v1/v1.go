@@ -8,6 +8,7 @@ import (
 	"connectrpc.com/otelconnect"
 	"connectrpc.com/validate"
 	"connectrpc.com/vanguard"
+	"github.com/missingstudio/studio/backend/internal/api"
 	"github.com/missingstudio/studio/backend/internal/ingester"
 	"github.com/missingstudio/studio/backend/internal/interceptor"
 	"github.com/missingstudio/studio/protos/pkg/llm/llmv1connect"
@@ -24,13 +25,13 @@ func NewHandlerV1(ingester ingester.Ingester) *V1Handler {
 	}
 }
 
-func Register(d *Deps) (http.Handler, error) {
+func Register(d api.Deps) (http.Handler, error) {
 	validateInterceptor, err := validate.NewInterceptor()
 	if err != nil {
 		return nil, fmt.Errorf("failed to create validate interceptor: %w", err)
 	}
 
-	v1Handler := NewHandlerV1(d.ingester)
+	v1Handler := NewHandlerV1(d.Ingester)
 	otelconnectInterceptor, err := otelconnect.NewInterceptor(otelconnect.WithTrustRemote())
 	if err != nil {
 		return nil, fmt.Errorf("failed to create validate otel connect: %w", err)
@@ -40,7 +41,7 @@ func Register(d *Deps) (http.Handler, error) {
 	stdInterceptors := []connect.Interceptor{
 		validateInterceptor,
 		otelconnectInterceptor,
-		interceptor.RateLimiterInterceptor(d.ratelimiter),
+		interceptor.RateLimiterInterceptor(d.RateLimiter),
 		interceptor.ProviderInterceptor(),
 		interceptor.RetryInterceptor(),
 	}

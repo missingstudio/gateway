@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/missingstudio/studio/backend/config"
 	"github.com/missingstudio/studio/backend/internal/providers/anyscale"
 	"github.com/missingstudio/studio/backend/internal/providers/azure"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
@@ -35,7 +34,7 @@ func init() {
 }
 
 func GetProvider(ctx context.Context, headers http.Header) (base.ProviderInterface, error) {
-	providerName := headers.Get(config.XMSProvider)
+	providerName := headers.Get("x-ms-provider")
 	if providerName == "" {
 		return nil, ErrProviderHeaderNotExit
 	}

@@ -4,35 +4,15 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
-	"os"
 
-	"github.com/missingstudio/studio/backend/config"
-	v1 "github.com/missingstudio/studio/backend/internal/api/v1"
+	"github.com/missingstudio/studio/backend/internal/api"
 	"github.com/missingstudio/studio/backend/internal/connectrpc"
 	"github.com/missingstudio/studio/backend/internal/httpserver"
-	"github.com/missingstudio/studio/backend/internal/ingester"
-	"github.com/missingstudio/studio/backend/internal/ratelimiter"
 	"github.com/missingstudio/studio/backend/pkg/utils"
-	"github.com/redis/go-redis/v9"
 )
 
-func Serve(ctx context.Context, logger *slog.Logger, cfg *config.Config) error {
-	rdb := redis.NewClient(&redis.Options{
-		Addr:     fmt.Sprintf("%s:%d", cfg.Redis.Host, cfg.Redis.Port),
-		Username: cfg.Redis.Username,
-		Password: cfg.Redis.Password,
-	})
-
-	_, err := rdb.Ping(ctx).Result()
-	if err != nil {
-		logger.Warn("failed to init redis connection")
-		os.Exit(1)
-	}
-
-	rl := ratelimiter.NewRateLimiter(cfg.Ratelimiter, logger, cfg.Ratelimiter.Type, rdb)
-	ingester := ingester.GetIngesterWithDefault(ctx, cfg.Ingester, logger)
-
-	connectMux, err := connectrpc.NewConnectMux(v1.NewDeps(ingester, rl))
+func Serve(ctx context.Context, logger *slog.Logger, cfg Config, deps api.Deps) error {
+	connectMux, err := connectrpc.NewConnectMux(deps)
 	if err != nil {
 		logger.Error("connect rpc mux not created", err)
 		return err

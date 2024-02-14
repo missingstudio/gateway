@@ -9,7 +9,6 @@ import (
 	"strings"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/missingstudio/studio/backend/config"
 	"github.com/missingstudio/studio/common/errors"
 )
 
@@ -20,7 +19,7 @@ func isJSON(s string, v interface{}) bool {
 }
 
 func UnmarshalConfigHeaders(header http.Header, v interface{}) error {
-	msconfig := header.Get(config.XMSConfig)
+	msconfig := header.Get("x-ms-provider")
 	if msconfig == "" && isJSON(msconfig, v) {
 		return ErrGatewayConfigHeaderNotValid
 	}

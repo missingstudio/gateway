@@ -8,11 +8,12 @@ import (
 	"connectrpc.com/grpchealth"
 	"connectrpc.com/grpcreflect"
 
+	"github.com/missingstudio/studio/backend/internal/api"
 	v1 "github.com/missingstudio/studio/backend/internal/api/v1"
 	"github.com/missingstudio/studio/protos/pkg/llm/llmv1connect"
 )
 
-func NewConnectMux(d *v1.Deps) (*http.ServeMux, error) {
+func NewConnectMux(d api.Deps) (*http.ServeMux, error) {
 	mux := http.NewServeMux()
 
 	compress1KB := connect.WithCompressMinBytes(1024)

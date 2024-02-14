@@ -7,16 +7,18 @@ import (
 
 	"github.com/missingstudio/studio/backend/internal/ingester"
 	"github.com/missingstudio/studio/backend/internal/ratelimiter"
+	"github.com/missingstudio/studio/backend/internal/server"
+
 	"github.com/missingstudio/studio/common/config"
+	"github.com/missingstudio/studio/common/logger"
 )
 
 type Config struct {
-	Host          string             `yaml:"host" json:"host,omitempty" mapstructure:"host" default:"0.0.0.0"`
-	Port          int                `yaml:"port" json:"port,omitempty" mapstructure:"port" default:"8080"`
-	LogFormatJson bool               `yaml:"log_format_json" json:"log_format_json,omitempty" mapstructure:"log_format_json" default:"false"`
-	Ingester      ingester.Config    `yaml:"ingester" json:"ingester,omitempty" mapstructure:"ingester"`
-	Redis         RedisConfig        `yaml:"redis" mapstructure:"redis" json:"redis,omitempty"`
-	Ratelimiter   ratelimiter.Config `yaml:"ratelimiter" mapstructure:"ratelimiter" json:"ratelimiter,omitempty"`
+	App         server.Config      `yaml:"app"`
+	Log         logger.Config      `yaml:"log"`
+	Ingester    ingester.Config    `yaml:"ingester"`
+	Redis       RedisConfig        `yaml:"redis"`
+	Ratelimiter ratelimiter.Config `yaml:"ratelimiter"`
 }
 
 type RedisConfig struct {

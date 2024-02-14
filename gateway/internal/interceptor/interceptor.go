@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"connectrpc.com/connect"
-	"github.com/missingstudio/studio/backend/config"
+
 	"github.com/missingstudio/studio/backend/internal/ratelimiter"
 	"github.com/missingstudio/studio/backend/internal/schema"
 	"github.com/missingstudio/studio/backend/pkg/utils"
@@ -53,7 +53,7 @@ func ProviderInterceptor() connect.UnaryInterceptorFunc {
 			ctx context.Context,
 			req connect.AnyRequest,
 		) (connect.AnyResponse, error) {
-			provider := req.Header().Get(config.XMSProvider)
+			provider := req.Header().Get("x-ms-provider")
 			if provider == "" {
 				return nil, ErrProviderHeaderNotExit
 			}
