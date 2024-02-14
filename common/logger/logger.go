@@ -5,9 +5,26 @@ import (
 	"os"
 )
 
-func New(formatAsJson bool, opts *slog.HandlerOptions) *slog.Logger {
-	if formatAsJson {
-		return slog.New(slog.NewJSONHandler(os.Stdout, opts))
+type Option func(*slog.HandlerOptions)
+
+func WithLevel(level slog.Level) Option {
+	return func(opts *slog.HandlerOptions) {
+		opts.Level = level
 	}
-	return slog.New(slog.NewTextHandler(os.Stdout, opts))
+}
+
+func New(formatAsJson bool, options ...Option) *slog.Logger {
+	handlerOptions := &slog.HandlerOptions{}
+
+	if len(options) > 0 {
+		for _, option := range options {
+			option(handlerOptions)
+		}
+	}
+
+	if formatAsJson {
+		return slog.New(slog.NewJSONHandler(os.Stdout, handlerOptions))
+	}
+
+	return slog.New(slog.NewTextHandler(os.Stdout, handlerOptions))
 }

@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"os"
 	"os/signal"
 	"syscall"
@@ -20,7 +21,7 @@ func Serve(cfg *config.Config) error {
 	ctx, cancelFunc := signal.NotifyContext(context.Background(), syscall.SIGTERM, syscall.SIGINT)
 	defer cancelFunc()
 
-	logger := logger.New(cfg.Log.Json, nil)
+	logger := logger.New(cfg.Log.Json, logger.WithLevel(slog.Level(cfg.Log.Level)))
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("%s:%d", cfg.Redis.Host, cfg.Redis.Port),
 		Username: cfg.Redis.Username,
