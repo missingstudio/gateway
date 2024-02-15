@@ -14,11 +14,11 @@ import (
 )
 
 type Config struct {
-	App         server.Config      `yaml:"app"`
-	Log         logger.Config      `yaml:"log"`
-	Ingester    ingester.Config    `yaml:"ingester"`
-	Redis       RedisConfig        `yaml:"redis"`
-	Ratelimiter ratelimiter.Config `yaml:"ratelimiter"`
+	App         server.Config      `yaml:"app,omitempty"`
+	Log         logger.Config      `yaml:"log,omitempty"`
+	Ingester    ingester.Config    `yaml:"ingester,omitempty"`
+	Redis       RedisConfig        `yaml:"redis,omitempty"`
+	Ratelimiter ratelimiter.Config `yaml:"ratelimiter,omitempty"`
 }
 
 type RedisConfig struct {
