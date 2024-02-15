@@ -10,6 +10,7 @@ import (
 	"connectrpc.com/connect"
 
 	v1 "github.com/missingstudio/studio/backend/internal/api/v1"
+	"github.com/missingstudio/studio/backend/internal/errors"
 	"github.com/missingstudio/studio/backend/internal/interceptor"
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
 	"github.com/missingstudio/studio/protos/pkg/llm/llmv1connect"
@@ -54,7 +55,7 @@ func TestGatewayServer(t *testing.T) {
 			_, err := client.ChatCompletions(context.Background(), req)
 
 			require.NotNil(t, err)
-			assert.True(t, strings.Contains(err.Error(), interceptor.ErrProviderHeaderNotExit.Error()))
+			assert.True(t, strings.Contains(err.Error(), errors.ErrRequiredHeaderNotExit.Error()))
 		}
 	})
 }

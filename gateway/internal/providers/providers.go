@@ -2,46 +2,41 @@ package providers
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 
+	"github.com/missingstudio/studio/backend/internal/constants"
+	"github.com/missingstudio/studio/backend/internal/errors"
 	"github.com/missingstudio/studio/backend/internal/providers/anyscale"
 	"github.com/missingstudio/studio/backend/internal/providers/azure"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
 	"github.com/missingstudio/studio/backend/internal/providers/deepinfra"
 	"github.com/missingstudio/studio/backend/internal/providers/openai"
 	"github.com/missingstudio/studio/backend/internal/providers/togetherai"
-	"github.com/missingstudio/studio/common/errors"
-)
-
-var (
-	ErrProviderHeaderNotExit = errors.New(fmt.Errorf("x-ms-provider provider header not available"))
-	ErrProviderNotFound      = errors.NewNotFound("provider is not found")
 )
 
 type ProviderFactory interface {
 	Create(headers http.Header) (base.ProviderInterface, error)
 }
 
-var providerFactories = make(map[string]ProviderFactory)
+var ProviderFactories = make(map[string]ProviderFactory)
 
 func init() {
-	providerFactories["openai"] = openai.OpenAIProviderFactory{}
-	providerFactories["azure"] = azure.AzureProviderFactory{}
-	providerFactories["anyscale"] = anyscale.AnyscaleProviderFactory{}
-	providerFactories["deepinfra"] = deepinfra.DeepinfraProviderFactory{}
-	providerFactories["togetherai"] = togetherai.TogetherAIProviderFactory{}
+	ProviderFactories["openai"] = openai.OpenAIProviderFactory{}
+	ProviderFactories["azure"] = azure.AzureProviderFactory{}
+	ProviderFactories["anyscale"] = anyscale.AnyscaleProviderFactory{}
+	ProviderFactories["deepinfra"] = deepinfra.DeepinfraProviderFactory{}
+	ProviderFactories["togetherai"] = togetherai.TogetherAIProviderFactory{}
 }
 
 func GetProvider(ctx context.Context, headers http.Header) (base.ProviderInterface, error) {
-	providerName := headers.Get("x-ms-provider")
+	providerName := headers.Get(constants.XMSProvider)
 	if providerName == "" {
-		return nil, ErrProviderHeaderNotExit
+		return nil, errors.ErrProviderHeaderNotExit
 	}
 
-	providerFactory, ok := providerFactories[providerName]
+	providerFactory, ok := ProviderFactories[providerName]
 	if !ok {
-		return nil, ErrProviderNotFound
+		return nil, errors.ErrProviderNotFound
 	}
 
 	return providerFactory.Create(headers)

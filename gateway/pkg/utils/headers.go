@@ -10,6 +10,7 @@ import (
 
 	"connectrpc.com/connect"
 	"github.com/go-playground/validator/v10"
+	"github.com/missingstudio/studio/backend/internal/constants"
 	"github.com/missingstudio/studio/common/errors"
 )
 
@@ -20,7 +21,7 @@ func isJSON(s string, v interface{}) bool {
 }
 
 func UnmarshalConfigHeaders(header http.Header, v interface{}) error {
-	msconfig := header.Get("x-ms-provider")
+	msconfig := header.Get(constants.XMSProvider)
 	if msconfig == "" && isJSON(msconfig, v) {
 		return ErrGatewayConfigHeaderNotValid
 	}

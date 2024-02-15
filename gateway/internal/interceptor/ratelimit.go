@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"connectrpc.com/connect"
+	"github.com/missingstudio/studio/backend/internal/errors"
 	"github.com/missingstudio/studio/backend/internal/ratelimiter"
 )
 
@@ -15,7 +16,7 @@ func RateLimiterInterceptor(rl *ratelimiter.RateLimiter) connect.UnaryIntercepto
 		) (connect.AnyResponse, error) {
 			key := "req_count"
 			if !rl.Limiter.Validate(key) {
-				return nil, ErrRateLimitExceeded
+				return nil, errors.ErrRateLimitExceeded
 			}
 
 			return next(ctx, req)
