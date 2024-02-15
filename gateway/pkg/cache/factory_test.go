@@ -8,7 +8,7 @@ import (
 
 func TestCreateConsulCache(t *testing.T) {
 	config := Config{
-		Driver:       Consul,
+		Provider:     Consul,
 		ConsulConfig: ConsulConfig{},
 	}
 	reg, err := NewCache(&config)
@@ -18,7 +18,7 @@ func TestCreateConsulCache(t *testing.T) {
 
 func TestCreateRedisCache(t *testing.T) {
 	config := Config{
-		Driver:      Redis,
+		Provider:    Redis,
 		RedisConfig: RedisConfig{},
 	}
 	reg, err := NewCache(&config)
@@ -26,9 +26,9 @@ func TestCreateRedisCache(t *testing.T) {
 	assert.NotNil(t, err)
 }
 
-func TestInvalidCacheDriver(t *testing.T) {
+func TestInvalidCacheProvider(t *testing.T) {
 	config := Config{
-		Driver: "invalid",
+		Provider: "invalid",
 	}
 	reg, err := NewCache(&config)
 	assert.NotNil(t, err)

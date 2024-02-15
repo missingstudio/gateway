@@ -1,7 +1,7 @@
 package cache
 
 type Config struct {
-	Driver       string
+	Provider     string
 	RedisConfig  RedisConfig
 	ConsulConfig ConsulConfig
 }

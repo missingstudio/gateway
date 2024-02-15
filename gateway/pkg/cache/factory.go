@@ -11,7 +11,7 @@ const (
 
 // NewCache initializes the cache instance based on Config
 func NewCache(config *Config) (ICache, error) {
-	switch config.Driver {
+	switch config.Provider {
 	case Consul:
 		r, err := NewConsulClient(&config.ConsulConfig)
 		if err != nil {
@@ -25,6 +25,6 @@ func NewCache(config *Config) (ICache, error) {
 		}
 		return r, nil
 	default:
-		return nil, fmt.Errorf("Unknown Cache Driver: %s", config.Driver)
+		return nil, fmt.Errorf("Unknown Cache Driver: %s", config.Provider)
 	}
 }
