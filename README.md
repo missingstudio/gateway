@@ -39,9 +39,8 @@ http://localhost:8080/v1/chat/completions
 - *AI Gateway* for Security, Reliability and Observability
   - [ ] Load balancing across multiple provider and models   
   - [X] Atomatic Retries with exponential backoff
-  - [ ] Rate limiting
+  - [X] Rate limiting
   - [ ] Caching
-  - [ ] Failovers
   - [ ] Fallbacks
   - [ ] Monitoring
   - [ ] Alerting

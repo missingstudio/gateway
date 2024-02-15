@@ -3,10 +3,12 @@ package v1
 import (
 	"context"
 	"encoding/json"
+	"time"
 
 	"connectrpc.com/connect"
 	"github.com/missingstudio/studio/backend/internal/providers"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
+	"github.com/missingstudio/studio/backend/pkg/utils"
 	"github.com/missingstudio/studio/common/errors"
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
 )
@@ -20,6 +22,8 @@ func (s *V1Handler) ChatCompletions(
 	ctx context.Context,
 	req *connect.Request[llmv1.ChatCompletionRequest],
 ) (*connect.Response[llmv1.ChatCompletionResponse], error) {
+	startTime := time.Now()
+
 	provider, err := providers.GetProvider(ctx, req.Header())
 	if err != nil {
 		return nil, errors.New(err)
@@ -44,6 +48,7 @@ func (s *V1Handler) ChatCompletions(
 		return nil, errors.New(err)
 	}
 
+	latency := time.Since(startTime)
 	data := &llmv1.ChatCompletionResponse{}
 	if err := json.NewDecoder(resp.Body).Decode(data); err != nil {
 		return nil, errors.New(err)
@@ -52,12 +57,14 @@ func (s *V1Handler) ChatCompletions(
 	ingesterdata := make(map[string]interface{})
 	ingesterdata["provider"] = provider.GetName()
 	ingesterdata["model"] = data.Model
+	ingesterdata["latency"] = latency
 	ingesterdata["usage"] = map[string]interface{}{
 		"total_tokens":      data.Usage.TotalTokens,
 		"prompt_tokens":     data.Usage.PromptTokens,
 		"completion_tokens": data.Usage.CompletionTokens,
 	}
-
 	go s.ingester.Ingest(ingesterdata, "analytics")
-	return connect.NewResponse(data), nil
+
+	response := connect.NewResponse(data)
+	return utils.CopyHeaders[llmv1.ChatCompletionResponse](resp, response), nil
 }

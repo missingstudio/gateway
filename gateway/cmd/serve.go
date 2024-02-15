@@ -36,7 +36,7 @@ func Serve(cfg *config.Config) error {
 
 	rl := ratelimiter.NewRateLimiter(cfg.Ratelimiter, logger, cfg.Ratelimiter.Type, rdb)
 	ingester := ingester.GetIngesterWithDefault(ctx, cfg.Ingester, logger)
-	deps := api.NewDeps(ingester, rl)
+	deps := api.NewDeps(logger, ingester, rl)
 
 	if err := server.Serve(ctx, logger, cfg.App, deps); err != nil {
 		logger.Error("error starting server", "error", err)

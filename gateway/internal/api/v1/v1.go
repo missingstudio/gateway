@@ -41,6 +41,7 @@ func Register(d api.Deps) (http.Handler, error) {
 	stdInterceptors := []connect.Interceptor{
 		validateInterceptor,
 		otelconnectInterceptor,
+		interceptor.NewLoggingInterceptor(d.Logger),
 		interceptor.RateLimiterInterceptor(d.RateLimiter),
 		interceptor.ProviderInterceptor(),
 		interceptor.RetryInterceptor(),

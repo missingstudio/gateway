@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 
+	"connectrpc.com/connect"
 	"github.com/go-playground/validator/v10"
 	"github.com/missingstudio/studio/common/errors"
 )
@@ -90,4 +91,14 @@ func ValidateHeaders(data interface{}) error {
 	}
 
 	return nil
+}
+
+func CopyHeaders[T any](resp *http.Response, newResponse *connect.Response[T]) *connect.Response[T] {
+	for key, values := range resp.Header {
+		for _, value := range values {
+			newResponse.Header().Set(key, value)
+		}
+	}
+
+	return newResponse
 }
