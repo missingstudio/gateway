@@ -52,6 +52,24 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            "--tw-prose-body": "var(--text-primary)",
+            "--tw-prose-headings": "var(--text-primary)",
+            "--tw-prose-links": "var(--text-blue)",
+            "--tw-prose-bold": "var(--text-primary)",
+            "--tw-prose-counters": "var(--text-primary)",
+            "--tw-prose-bullets": "var(--text-primary)",
+            "--tw-prose-hr": "var(--border-primary)",
+            "--tw-prose-quotes": "var(--text-primary)",
+            "--tw-prose-quote-borders": "var(--border-secondary)",
+            "--tw-prose-code": "var(--text-primary)",
+            "--tw-prose-th-borders": "var(--border-secondary)",
+            "--tw-prose-td-borders": "var(--border-primary)",
+          },
+        },
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -73,7 +91,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;
 
 export default config;
