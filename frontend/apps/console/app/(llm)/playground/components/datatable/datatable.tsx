@@ -26,7 +26,6 @@ import {
 
 import { columns } from "~/app/(llm)/playground/components/datatable/columns";
 import { DataTablePagination } from "~/app/(llm)/playground/components/datatable/pagination";
-import { DataTableToolbar } from "~/app/(llm)/playground/components/datatable/toolbar";
 import { useLogsFetch } from "~/app/(llm)/playground/hooks/useLogsFetch";
 import { useStore } from "~/app/(llm)/playground/store";
 
@@ -38,6 +37,7 @@ export default function DataTable<TData, TValue>() {
     []
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
+
   useLogsFetch();
   const { logs } = useStore();
 
@@ -65,7 +65,6 @@ export default function DataTable<TData, TValue>() {
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

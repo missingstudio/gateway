@@ -52,14 +52,14 @@ export default function ModelSelector(props: ModelSelectorProps) {
               <CommandEmpty>No Models found.</CommandEmpty>
               {providers.map((provider) => (
                 <CommandGroup key={provider.name} heading={provider.name}>
-                  {provider.models.map((singleModel) => (
+                  {provider.models.map((singleModel, index) => (
                     <ModelItem
-                      key={singleModel}
-                      id={singleModel}
-                      isSelected={model === singleModel}
+                      key={`${index}_${provider.name}_${singleModel.value}`}
+                      id={`${singleModel.value}`}
+                      isSelected={model === singleModel.value}
                       onSelect={() => {
                         setProvider(provider.name);
-                        setModel(singleModel);
+                        setModel(singleModel.value);
                         setOpen(false);
                       }}
                     />

@@ -33,47 +33,7 @@ export const columns: ColumnDef<any>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  {
-    accessorKey: "log_id",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="ID" />
-    ),
-    cell: ({ row }) => <div className="w-[15px]">{row.original.log_id}</div>,
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "chat_input",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Input" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[200px] truncate font-medium">
-            {row.original.chat_input}
-          </span>
-        </div>
-      );
-    },
-    enableSorting: false,
-  },
-  {
-    accessorKey: "chat_output",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Output" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[200px] truncate font-medium">
-            {row.original.chat_output}
-          </span>
-        </div>
-      );
-    },
-    enableSorting: false,
-  },
+
   {
     accessorKey: "model",
     header: ({ column }) => (
@@ -91,46 +51,47 @@ export const columns: ColumnDef<any>[] = [
     },
     enableSorting: false,
   },
+
   {
-    accessorKey: "cost",
+    accessorKey: "prompt_tokens",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Cost" />
+      <DataTableColumnHeader column={column} title="Prompt Tokens" />
     ),
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[100px] truncate font-medium">
-            ${row.original.metrics.cost.toFixed(6)}
+          <span className="max-w-[50px] truncate font-medium">
+            {row.original.prompt_tokens}
           </span>
         </div>
       );
     },
   },
   {
-    accessorKey: "input_tokens",
+    accessorKey: "completion_tokens",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Input Tokens" />
+      <DataTableColumnHeader column={column} title="Completion Tokens" />
     ),
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
           <span className="max-w-[50px] truncate font-medium">
-            {row.original.metrics.input_tokens}
+            {row.original.completion_tokens}
           </span>
         </div>
       );
     },
   },
   {
-    accessorKey: "output_tokens",
+    accessorKey: "total_tokens",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Output Tokens" />
+      <DataTableColumnHeader column={column} title="Total Tokens" />
     ),
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
           <span className="max-w-[50px] truncate font-medium">
-            {row.original.metrics.output_tokens}
+            {row.original.total_tokens}
           </span>
         </div>
       );
@@ -145,57 +106,13 @@ export const columns: ColumnDef<any>[] = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[100px] truncate font-medium">
-            {row.original.metrics.latency.toFixed(3)}s
+            {row.original.latency}
           </span>
         </div>
       );
     },
   },
-  {
-    accessorKey: "ttft",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="TTFT" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[100px] truncate font-medium">
-            {row.original.metrics.time_to_first_token.toFixed(3)}s
-          </span>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "itl",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="ITL" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[100px] truncate font-medium">
-            {row.original.metrics.inter_token_latency.toFixed(3)}s
-          </span>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "tps",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="T/S" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[100px] truncate font-medium">
-            {row.original.metrics.tokens_per_second.toFixed(0)}
-          </span>
-        </div>
-      );
-    },
-  },
+
   {
     id: "actions",
     cell: ({ row }) => <DataTableRowActions row={row} />,

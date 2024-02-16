@@ -1,23 +1,12 @@
 import { create } from "zustand";
 
 export interface Log {
-  log_id: string;
-  chat_input: string;
-  chat_output: string;
   provider: string;
   model: string;
-  created_at: Date;
-  parameters: Record<string, unknown>;
-  metrics: {
-    input_tokens: number;
-    output_tokens: number;
-    total_tokens: number;
-    cost: number;
-    latency: number;
-    time_to_first_token: number;
-    inter_token_latency: number;
-    tokens_per_second: number;
-  };
+  latency: string;
+  prompt_tokens: number;
+  completion_tokens: number;
+  total_tokens: number;
 }
 
 interface Store {
@@ -46,7 +35,7 @@ export const useStore = create<Store>()((set, get) => ({
   input: "",
   output: "",
   provider: "Open AI",
-  model: "gpt-4-1106-preview",
+  model: "gpt-3.5-turbo",
   parameters: {},
   setStatus: (status) => set({ status: status }),
   setLogs: (logs: Log[]) => set({ logs: logs }),
