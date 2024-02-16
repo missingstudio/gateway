@@ -1,0 +1,47 @@
+[
+  {
+    "id": "temperature",
+    "name": "Temperature",
+    "type": "float",
+    "default": 1,
+    "min": 0,
+    "max": 2,
+    "step": 0.01
+  },
+  {
+    "id": "max_tokens",
+    "name": "Maximum length",
+    "type": "int",
+    "default": 256,
+    "min": 1,
+    "max": 4096,
+    "step": 1
+  },
+  {
+    "id": "top_p",
+    "name": "Top P",
+    "type": "float",
+    "default": 1,
+    "min": 0,
+    "max": 1,
+    "step": 0.01
+  },
+  {
+    "id": "frequency_penalty",
+    "name": "Frequency Penalty",
+    "type": "float",
+    "default": 0,
+    "min": 0,
+    "max": 2,
+    "step": 0.01
+  },
+  {
+    "id": "presence_penalty",
+    "name": "Presence Penalty",
+    "type": "float",
+    "default": 0,
+    "min": 0,
+    "max": 2,
+    "step": 0.01
+  }
+]

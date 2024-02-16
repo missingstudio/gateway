@@ -1,60 +1,41 @@
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
-import { sizes } from "../utils/cva";
-import { cn } from "../utils/helpers";
+
+import { cn } from "../lib/utils";
 
 const buttonVariants = cva(
-  `relative 
-  flex items-center justify-center
-  cursor-pointer 
-  inline-flex 
-  items-center 
-  space-x-2 
-  text-center 
-  font-regular 
-  ease-out 
-  duration-200 
-  rounded-md
-  outline-none 
-  transition-all 
-  outline-0 
-  focus-visible:outline-4 
-  focus-visible:outline-offset-1
-  border
-  `,
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        primary: `bg-primary text-primary-foreground shadow hover:bg-primary/90`,
-        secondary: `bg-scale-1200 text-scale-100 hover:text-scale-800 focus-visible:text-scale-600 border-scale-1100 hover:border-scale-900 focus-visible:outline-scale-700 shadow-sm`,
-        default: `text-scale-1200 bg-scale-100 hover:bg-scale-300 border-scale-600 hover:border-scale-700 dark:border-scale-700 hover:dark:border-scale-800 dark:bg-scale-500 dark:hover:bg-scale-600 focus-visible:outline-brand-600 shadow-sm`,
-        alternative: `text-brand-600 bg-primary text-primary-foreground shadow hover:bg-primary/90-200 hover:bg-primary text-primary-foreground shadow hover:bg-primary/90-400 border-brand-600 hover:border-brand-300 dark:border-brand-400 hover:dark:border-brand-300 focus-visible:border-brand-300 focus-visible:outline-brand-600 shadow-sm`,
-        outline: `text-scale-1200 bg-transparent border-scale-600 hover:border-scale-700 dark:border-scale-800 hover:dark:border-scale-900 focus-visible:outline-scale-700`,
-        dashed: `text-scale-1200 border border-dashed border-scale-700 hover:border-scale-900 bg-transparent focus-visible:outline-scale-700 shadow-sm`,
-        link: `text-brand-600 border border-transparent hover:bg-primary text-primary-foreground shadow hover:bg-primary/90-400 border-opacity-0 bg-opacity-0 dark:bg-opacity-0 shadow-none focus-visible:outline-scale-700`,
-        text: `text-scale-1200 hover:bg-scale-500 shadow-none focus-visible:outline-scale-700 border-transparent`,
-        danger: `text-red-1100 bg-red-200 border-red-700 hover:border-red-900 hover:bg-red-900 hover:text-lo-contrast focus-visible:outline-red-700 shadow-sm`,
-        warning: `text-amber-1100 bg-amber-200 border-amber-700 hover:border-amber-900 hover:bg-amber-900 hover:text-hi-contrast focus-visible:outline-amber-700 shadow-sm`,
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline:
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        ...sizes,
-      },
-      disabled: {
-        true: "opacity-50 cursor-not-allowed pointer-events-none",
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
       },
     },
     defaultVariants: {
-      variant: "primary",
-      size: "small",
+      variant: "default",
+      size: "default",
     },
-  },
+  }
 );
 
-export type ButtonVariantProps = VariantProps<typeof buttonVariants>;
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    Omit<ButtonVariantProps, "disabled"> {
+    VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 
@@ -68,7 +49,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       />
     );
-  },
+  }
 );
 Button.displayName = "Button";
 
