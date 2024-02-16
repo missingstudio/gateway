@@ -3,8 +3,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ChatCompletionRequest, ChatCompletionResponse, ModelRequest, ModelResponse } from "./service_pb";
-import { MethodKind } from "@bufbuild/protobuf";
+import { ChatCompletionRequest, ChatCompletionResponse, LogResponse, ModelRequest, ModelResponse } from "./service_pb";
+import { Empty, MethodKind } from "@bufbuild/protobuf";
 
 /**
  * @generated from service llm.v1.LLMService
@@ -22,6 +22,15 @@ export const LLMService = {
       kind: MethodKind.Unary,
     },
     /**
+     * @generated from rpc llm.v1.LLMService.GetStreamChatCompletions
+     */
+    getStreamChatCompletions: {
+      name: "GetStreamChatCompletions",
+      I: ChatCompletionRequest,
+      O: ChatCompletionResponse,
+      kind: MethodKind.ServerStreaming,
+    },
+    /**
      * @generated from rpc llm.v1.LLMService.ListModels
      */
     listModels: {
@@ -31,13 +40,13 @@ export const LLMService = {
       kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc llm.v1.LLMService.GetStreamChatCompletions
+     * @generated from rpc llm.v1.LLMService.ListTrackingLogs
      */
-    getStreamChatCompletions: {
-      name: "GetStreamChatCompletions",
-      I: ChatCompletionRequest,
-      O: ChatCompletionResponse,
-      kind: MethodKind.ServerStreaming,
+    listTrackingLogs: {
+      name: "ListTrackingLogs",
+      I: Empty,
+      O: LogResponse,
+      kind: MethodKind.Unary,
     },
   }
 } as const;

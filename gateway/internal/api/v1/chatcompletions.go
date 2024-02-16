@@ -60,11 +60,10 @@ func (s *V1Handler) GetChatCompletions(
 	ingesterdata["provider"] = provider.GetName()
 	ingesterdata["model"] = data.Model
 	ingesterdata["latency"] = latency
-	ingesterdata["usage"] = map[string]interface{}{
-		"total_tokens":      data.Usage.TotalTokens,
-		"prompt_tokens":     data.Usage.PromptTokens,
-		"completion_tokens": data.Usage.CompletionTokens,
-	}
+	ingesterdata["total_tokens"] = *data.Usage.TotalTokens
+	ingesterdata["prompt_tokens"] = *data.Usage.PromptTokens
+	ingesterdata["completion_tokens"] = *data.Usage.CompletionTokens
+
 	go s.ingester.Ingest(ingesterdata, "analytics")
 
 	response := connect.NewResponse(data)

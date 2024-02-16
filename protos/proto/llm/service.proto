@@ -11,13 +11,19 @@ service LLMService {
     option (google.api.http).post = "/v1/chat/completions";
     option (google.api.http).body = "*";
   }
+  
+  rpc GetStreamChatCompletions(ChatCompletionRequest) returns (stream ChatCompletionResponse) {
+    option (google.api.http).post = "/v1/chat/completions:stream";
+    option (google.api.http).body = "*";
+  }
+
   rpc ListModels(ModelRequest) returns (ModelResponse) {
     option (google.api.http).get = "/v1/models";
     option (google.api.http).body = "*";
   }
 
-  rpc GetStreamChatCompletions(ChatCompletionRequest) returns (stream ChatCompletionResponse) {
-    option (google.api.http).post = "/v1/chat/completions:stream";
+  rpc ListTrackingLogs(google.protobuf.Empty) returns (LogResponse) {
+    option (google.api.http).get = "/v1/tracking/logs"; 
     option (google.api.http).body = "*";
   }
 }
@@ -129,4 +135,8 @@ message ProviderModels {
 message Model {
   string name = 1;
   string value = 2;
+}
+
+message LogResponse {
+  repeated google.protobuf.Struct logs = 1;
 }

@@ -84,8 +84,10 @@ func newCORS() *cors.Cors {
 		ExposedHeaders: []string{
 			// Content-Type is in the default safelist.
 			"Accept",
+			"Authorization",
 			"Accept-Encoding",
 			"Accept-Post",
+			"Content-Type",
 			"Connect-Accept-Encoding",
 			"Connect-Content-Encoding",
 			"Content-Encoding",

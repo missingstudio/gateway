@@ -95,11 +95,5 @@ func ValidateHeaders(data interface{}) error {
 }
 
 func CopyHeaders[T any](resp *http.Response, newResponse *connect.Response[T]) *connect.Response[T] {
-	for key, values := range resp.Header {
-		for _, value := range values {
-			newResponse.Header().Set(key, value)
-		}
-	}
-
 	return newResponse
 }

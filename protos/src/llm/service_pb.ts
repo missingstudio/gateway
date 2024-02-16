@@ -691,3 +691,40 @@ export class Model extends Message<Model> {
   }
 }
 
+/**
+ * @generated from message llm.v1.LogResponse
+ */
+export class LogResponse extends Message<LogResponse> {
+  /**
+   * @generated from field: repeated google.protobuf.Struct logs = 1;
+   */
+  logs: Struct[] = [];
+
+  constructor(data?: PartialMessage<LogResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.LogResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "logs", kind: "message", T: Struct, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): LogResponse {
+    return new LogResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): LogResponse {
+    return new LogResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): LogResponse {
+    return new LogResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: LogResponse | PlainMessage<LogResponse> | undefined, b: LogResponse | PlainMessage<LogResponse> | undefined): boolean {
+    return proto3.util.equals(LogResponse, a, b);
+  }
+}
+

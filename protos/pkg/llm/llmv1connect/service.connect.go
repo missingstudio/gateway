@@ -9,6 +9,7 @@ import (
 	context "context"
 	errors "errors"
 	llm "github.com/missingstudio/studio/protos/pkg/llm"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	http "net/http"
 	strings "strings"
 )
@@ -36,26 +37,31 @@ const (
 	// LLMServiceGetChatCompletionsProcedure is the fully-qualified name of the LLMService's
 	// GetChatCompletions RPC.
 	LLMServiceGetChatCompletionsProcedure = "/llm.v1.LLMService/GetChatCompletions"
-	// LLMServiceListModelsProcedure is the fully-qualified name of the LLMService's ListModels RPC.
-	LLMServiceListModelsProcedure = "/llm.v1.LLMService/ListModels"
 	// LLMServiceGetStreamChatCompletionsProcedure is the fully-qualified name of the LLMService's
 	// GetStreamChatCompletions RPC.
 	LLMServiceGetStreamChatCompletionsProcedure = "/llm.v1.LLMService/GetStreamChatCompletions"
+	// LLMServiceListModelsProcedure is the fully-qualified name of the LLMService's ListModels RPC.
+	LLMServiceListModelsProcedure = "/llm.v1.LLMService/ListModels"
+	// LLMServiceListTrackingLogsProcedure is the fully-qualified name of the LLMService's
+	// ListTrackingLogs RPC.
+	LLMServiceListTrackingLogsProcedure = "/llm.v1.LLMService/ListTrackingLogs"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
 	lLMServiceServiceDescriptor                        = llm.File_llm_service_proto.Services().ByName("LLMService")
 	lLMServiceGetChatCompletionsMethodDescriptor       = lLMServiceServiceDescriptor.Methods().ByName("GetChatCompletions")
-	lLMServiceListModelsMethodDescriptor               = lLMServiceServiceDescriptor.Methods().ByName("ListModels")
 	lLMServiceGetStreamChatCompletionsMethodDescriptor = lLMServiceServiceDescriptor.Methods().ByName("GetStreamChatCompletions")
+	lLMServiceListModelsMethodDescriptor               = lLMServiceServiceDescriptor.Methods().ByName("ListModels")
+	lLMServiceListTrackingLogsMethodDescriptor         = lLMServiceServiceDescriptor.Methods().ByName("ListTrackingLogs")
 )
 
 // LLMServiceClient is a client for the llm.v1.LLMService service.
 type LLMServiceClient interface {
 	GetChatCompletions(context.Context, *connect.Request[llm.ChatCompletionRequest]) (*connect.Response[llm.ChatCompletionResponse], error)
-	ListModels(context.Context, *connect.Request[llm.ModelRequest]) (*connect.Response[llm.ModelResponse], error)
 	GetStreamChatCompletions(context.Context, *connect.Request[llm.ChatCompletionRequest]) (*connect.ServerStreamForClient[llm.ChatCompletionResponse], error)
+	ListModels(context.Context, *connect.Request[llm.ModelRequest]) (*connect.Response[llm.ModelResponse], error)
+	ListTrackingLogs(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[llm.LogResponse], error)
 }
 
 // NewLLMServiceClient constructs a client for the llm.v1.LLMService service. By default, it uses
@@ -74,16 +80,22 @@ func NewLLMServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(lLMServiceGetChatCompletionsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		getStreamChatCompletions: connect.NewClient[llm.ChatCompletionRequest, llm.ChatCompletionResponse](
+			httpClient,
+			baseURL+LLMServiceGetStreamChatCompletionsProcedure,
+			connect.WithSchema(lLMServiceGetStreamChatCompletionsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 		listModels: connect.NewClient[llm.ModelRequest, llm.ModelResponse](
 			httpClient,
 			baseURL+LLMServiceListModelsProcedure,
 			connect.WithSchema(lLMServiceListModelsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		getStreamChatCompletions: connect.NewClient[llm.ChatCompletionRequest, llm.ChatCompletionResponse](
+		listTrackingLogs: connect.NewClient[emptypb.Empty, llm.LogResponse](
 			httpClient,
-			baseURL+LLMServiceGetStreamChatCompletionsProcedure,
-			connect.WithSchema(lLMServiceGetStreamChatCompletionsMethodDescriptor),
+			baseURL+LLMServiceListTrackingLogsProcedure,
+			connect.WithSchema(lLMServiceListTrackingLogsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 	}
@@ -92,8 +104,9 @@ func NewLLMServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 // lLMServiceClient implements LLMServiceClient.
 type lLMServiceClient struct {
 	getChatCompletions       *connect.Client[llm.ChatCompletionRequest, llm.ChatCompletionResponse]
-	listModels               *connect.Client[llm.ModelRequest, llm.ModelResponse]
 	getStreamChatCompletions *connect.Client[llm.ChatCompletionRequest, llm.ChatCompletionResponse]
+	listModels               *connect.Client[llm.ModelRequest, llm.ModelResponse]
+	listTrackingLogs         *connect.Client[emptypb.Empty, llm.LogResponse]
 }
 
 // GetChatCompletions calls llm.v1.LLMService.GetChatCompletions.
@@ -101,21 +114,27 @@ func (c *lLMServiceClient) GetChatCompletions(ctx context.Context, req *connect.
 	return c.getChatCompletions.CallUnary(ctx, req)
 }
 
-// ListModels calls llm.v1.LLMService.ListModels.
-func (c *lLMServiceClient) ListModels(ctx context.Context, req *connect.Request[llm.ModelRequest]) (*connect.Response[llm.ModelResponse], error) {
-	return c.listModels.CallUnary(ctx, req)
-}
-
 // GetStreamChatCompletions calls llm.v1.LLMService.GetStreamChatCompletions.
 func (c *lLMServiceClient) GetStreamChatCompletions(ctx context.Context, req *connect.Request[llm.ChatCompletionRequest]) (*connect.ServerStreamForClient[llm.ChatCompletionResponse], error) {
 	return c.getStreamChatCompletions.CallServerStream(ctx, req)
 }
 
+// ListModels calls llm.v1.LLMService.ListModels.
+func (c *lLMServiceClient) ListModels(ctx context.Context, req *connect.Request[llm.ModelRequest]) (*connect.Response[llm.ModelResponse], error) {
+	return c.listModels.CallUnary(ctx, req)
+}
+
+// ListTrackingLogs calls llm.v1.LLMService.ListTrackingLogs.
+func (c *lLMServiceClient) ListTrackingLogs(ctx context.Context, req *connect.Request[emptypb.Empty]) (*connect.Response[llm.LogResponse], error) {
+	return c.listTrackingLogs.CallUnary(ctx, req)
+}
+
 // LLMServiceHandler is an implementation of the llm.v1.LLMService service.
 type LLMServiceHandler interface {
 	GetChatCompletions(context.Context, *connect.Request[llm.ChatCompletionRequest]) (*connect.Response[llm.ChatCompletionResponse], error)
-	ListModels(context.Context, *connect.Request[llm.ModelRequest]) (*connect.Response[llm.ModelResponse], error)
 	GetStreamChatCompletions(context.Context, *connect.Request[llm.ChatCompletionRequest], *connect.ServerStream[llm.ChatCompletionResponse]) error
+	ListModels(context.Context, *connect.Request[llm.ModelRequest]) (*connect.Response[llm.ModelResponse], error)
+	ListTrackingLogs(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[llm.LogResponse], error)
 }
 
 // NewLLMServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -130,26 +149,34 @@ func NewLLMServiceHandler(svc LLMServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(lLMServiceGetChatCompletionsMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	lLMServiceListModelsHandler := connect.NewUnaryHandler(
-		LLMServiceListModelsProcedure,
-		svc.ListModels,
-		connect.WithSchema(lLMServiceListModelsMethodDescriptor),
-		connect.WithHandlerOptions(opts...),
-	)
 	lLMServiceGetStreamChatCompletionsHandler := connect.NewServerStreamHandler(
 		LLMServiceGetStreamChatCompletionsProcedure,
 		svc.GetStreamChatCompletions,
 		connect.WithSchema(lLMServiceGetStreamChatCompletionsMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	lLMServiceListModelsHandler := connect.NewUnaryHandler(
+		LLMServiceListModelsProcedure,
+		svc.ListModels,
+		connect.WithSchema(lLMServiceListModelsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	lLMServiceListTrackingLogsHandler := connect.NewUnaryHandler(
+		LLMServiceListTrackingLogsProcedure,
+		svc.ListTrackingLogs,
+		connect.WithSchema(lLMServiceListTrackingLogsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/llm.v1.LLMService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case LLMServiceGetChatCompletionsProcedure:
 			lLMServiceGetChatCompletionsHandler.ServeHTTP(w, r)
-		case LLMServiceListModelsProcedure:
-			lLMServiceListModelsHandler.ServeHTTP(w, r)
 		case LLMServiceGetStreamChatCompletionsProcedure:
 			lLMServiceGetStreamChatCompletionsHandler.ServeHTTP(w, r)
+		case LLMServiceListModelsProcedure:
+			lLMServiceListModelsHandler.ServeHTTP(w, r)
+		case LLMServiceListTrackingLogsProcedure:
+			lLMServiceListTrackingLogsHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -163,10 +190,14 @@ func (UnimplementedLLMServiceHandler) GetChatCompletions(context.Context, *conne
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.GetChatCompletions is not implemented"))
 }
 
+func (UnimplementedLLMServiceHandler) GetStreamChatCompletions(context.Context, *connect.Request[llm.ChatCompletionRequest], *connect.ServerStream[llm.ChatCompletionResponse]) error {
+	return connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.GetStreamChatCompletions is not implemented"))
+}
+
 func (UnimplementedLLMServiceHandler) ListModels(context.Context, *connect.Request[llm.ModelRequest]) (*connect.Response[llm.ModelResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.ListModels is not implemented"))
 }
 
-func (UnimplementedLLMServiceHandler) GetStreamChatCompletions(context.Context, *connect.Request[llm.ChatCompletionRequest], *connect.ServerStream[llm.ChatCompletionResponse]) error {
-	return connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.GetStreamChatCompletions is not implemented"))
+func (UnimplementedLLMServiceHandler) ListTrackingLogs(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[llm.LogResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.ListTrackingLogs is not implemented"))
 }
