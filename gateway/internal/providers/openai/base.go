@@ -1,61 +1,33 @@
 package openai
 
 import (
-	"net/http"
-	"strings"
-
 	"github.com/missingstudio/studio/backend/internal/providers/base"
 	"github.com/missingstudio/studio/backend/pkg/utils"
-	"github.com/missingstudio/studio/common/errors"
 )
 
-type OpenAIProviderFactory struct{}
+var _ base.ProviderInterface = &openAIProvider{}
 
-type OpenAIHeaders struct {
-	APIKey string `validate:"required" json:"Authorization" error:"API key is required"`
-}
-
-func (oaif OpenAIProviderFactory) GetHeaders(headers http.Header) (*OpenAIHeaders, error) {
-	var oaiHeaders OpenAIHeaders
-	if err := utils.UnmarshalHeader(headers, &oaiHeaders); err != nil {
-		return nil, errors.New(err)
-	}
-
-	return &oaiHeaders, nil
-}
-
-func (oaif OpenAIProviderFactory) Create(headers http.Header) (base.ProviderInterface, error) {
-	oaiHeaders, err := oaif.GetHeaders(headers)
-	if err != nil {
-		return nil, err
-	}
-
-	oaiHeaders.APIKey = strings.Replace(oaiHeaders.APIKey, "Bearer ", "", 1)
-	openAIProvider := NewOpenAIProvider(*oaiHeaders)
-	return openAIProvider, nil
-}
-
-type OpenAIProvider struct {
+type openAIProvider struct {
 	Name   string
 	Config base.ProviderConfig
 	OpenAIHeaders
 }
 
-func NewOpenAIProvider(headers OpenAIHeaders) *OpenAIProvider {
+func NewOpenAIProvider(headers OpenAIHeaders) *openAIProvider {
 	config := getOpenAIConfig("https://api.openai.com")
 
-	return &OpenAIProvider{
+	return &openAIProvider{
 		Name:          "OpenAI",
 		Config:        config,
 		OpenAIHeaders: headers,
 	}
 }
 
-func (oai OpenAIProvider) GetName() string {
+func (oai openAIProvider) GetName() string {
 	return oai.Name
 }
 
-func (oai OpenAIProvider) Validate() error {
+func (oai openAIProvider) Validate() error {
 	return utils.ValidateHeaders(oai.OpenAIHeaders)
 }
 

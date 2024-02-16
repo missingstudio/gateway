@@ -1,61 +1,33 @@
 package anyscale
 
 import (
-	"net/http"
-	"strings"
-
 	"github.com/missingstudio/studio/backend/internal/providers/base"
 	"github.com/missingstudio/studio/backend/pkg/utils"
-	"github.com/missingstudio/studio/common/errors"
 )
 
-type AnyscaleProviderFactory struct{}
+var _ base.ProviderInterface = &anyscaleProvider{}
 
-type AnyscaleHeaders struct {
-	APIKey string `validate:"required" json:"Authorization" error:"API key is required"`
-}
-
-func (anyscale AnyscaleProviderFactory) GetHeaders(headers http.Header) (*AnyscaleHeaders, error) {
-	var anyscaleHeaders AnyscaleHeaders
-	if err := utils.UnmarshalHeader(headers, &anyscaleHeaders); err != nil {
-		return nil, errors.New(err)
-	}
-
-	return &anyscaleHeaders, nil
-}
-
-func (anyscale AnyscaleProviderFactory) Create(headers http.Header) (base.ProviderInterface, error) {
-	anyscaleHeaders, err := anyscale.GetHeaders(headers)
-	if err != nil {
-		return nil, err
-	}
-
-	anyscaleHeaders.APIKey = strings.Replace(anyscaleHeaders.APIKey, "Bearer ", "", 1)
-	openAIProvider := NewAnyscaleProvider(*anyscaleHeaders)
-	return openAIProvider, nil
-}
-
-type AnyscaleProvider struct {
+type anyscaleProvider struct {
 	Name   string
 	Config base.ProviderConfig
 	AnyscaleHeaders
 }
 
-func NewAnyscaleProvider(headers AnyscaleHeaders) *AnyscaleProvider {
+func NewAnyscaleProvider(headers AnyscaleHeaders) *anyscaleProvider {
 	config := getAnyscaleConfig("https://api.endpoints.anyscale.com")
 
-	return &AnyscaleProvider{
+	return &anyscaleProvider{
 		Name:            "Anyscale",
 		Config:          config,
 		AnyscaleHeaders: headers,
 	}
 }
 
-func (anyscale AnyscaleProvider) GetName() string {
+func (anyscale anyscaleProvider) GetName() string {
 	return anyscale.Name
 }
 
-func (anyscale AnyscaleProvider) Validate() error {
+func (anyscale anyscaleProvider) Validate() error {
 	return utils.ValidateHeaders(anyscale.AnyscaleHeaders)
 }
 

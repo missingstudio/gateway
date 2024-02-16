@@ -6,7 +6,6 @@ import (
 	"connectrpc.com/connect"
 	"github.com/missingstudio/studio/backend/internal/constants"
 	"github.com/missingstudio/studio/backend/internal/errors"
-	"github.com/missingstudio/studio/backend/internal/providers"
 )
 
 func ProviderInterceptor() connect.UnaryInterceptorFunc {
@@ -23,11 +22,6 @@ func ProviderInterceptor() connect.UnaryInterceptorFunc {
 			}
 
 			// Check if provider has registered of not
-			_, ok := providers.ProviderFactories[provider]
-			if !ok {
-				return nil, errors.ErrProviderNotFound
-			}
-
 			return next(ctx, req)
 		})
 	}

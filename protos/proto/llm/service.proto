@@ -11,6 +11,11 @@ service LLMService {
     option (google.api.http).post = "/v1/chat/completions";
     option (google.api.http).body = "*";
   }
+  rpc Models(ModelRequest) returns (ModelResponse) {
+    option (google.api.http).post = "/v1/models";
+    option (google.api.http).body = "*";
+  }
+
   rpc StreamChatCompletions(ChatCompletionRequest) returns (stream ChatCompletionResponse) {
     option (google.api.http).post = "/v1/chat/completions:stream";
     option (google.api.http).body = "*";
@@ -106,4 +111,12 @@ message ChatCompletionResponse {
   // usage statistics for the completion request.
   Usage usage = 6;
   string system_fingerprint = 7;
+}
+
+message ModelRequest {
+  string provider = 1;
+}
+
+message ModelResponse {
+  optional google.protobuf.Struct models = 1;
 }

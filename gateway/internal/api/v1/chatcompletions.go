@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"connectrpc.com/connect"
+	"github.com/missingstudio/studio/backend/internal/constants"
 	"github.com/missingstudio/studio/backend/internal/providers"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
 	"github.com/missingstudio/studio/backend/pkg/utils"
@@ -24,7 +25,8 @@ func (s *V1Handler) ChatCompletions(
 ) (*connect.Response[llmv1.ChatCompletionResponse], error) {
 	startTime := time.Now()
 
-	provider, err := providers.GetProvider(ctx, req.Header())
+	providerName := req.Header().Get(constants.XMSProvider)
+	provider, err := providers.NewProvider(providerName, req.Header())
 	if err != nil {
 		return nil, errors.New(err)
 	}

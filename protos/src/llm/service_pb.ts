@@ -531,3 +531,77 @@ export class ChatCompletionResponse extends Message<ChatCompletionResponse> {
   }
 }
 
+/**
+ * @generated from message llm.v1.ModelRequest
+ */
+export class ModelRequest extends Message<ModelRequest> {
+  /**
+   * @generated from field: string provider = 1;
+   */
+  provider = "";
+
+  constructor(data?: PartialMessage<ModelRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.ModelRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "provider", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ModelRequest {
+    return new ModelRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ModelRequest {
+    return new ModelRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ModelRequest {
+    return new ModelRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ModelRequest | PlainMessage<ModelRequest> | undefined, b: ModelRequest | PlainMessage<ModelRequest> | undefined): boolean {
+    return proto3.util.equals(ModelRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.ModelResponse
+ */
+export class ModelResponse extends Message<ModelResponse> {
+  /**
+   * @generated from field: optional google.protobuf.Struct models = 1;
+   */
+  models?: Struct;
+
+  constructor(data?: PartialMessage<ModelResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.ModelResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "models", kind: "message", T: Struct, opt: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ModelResponse {
+    return new ModelResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ModelResponse {
+    return new ModelResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ModelResponse {
+    return new ModelResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ModelResponse | PlainMessage<ModelResponse> | undefined, b: ModelResponse | PlainMessage<ModelResponse> | undefined): boolean {
+    return proto3.util.equals(ModelResponse, a, b);
+  }
+}
+
