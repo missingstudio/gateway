@@ -12,7 +12,7 @@ type ProviderConfig struct {
 
 type ProviderInterface interface {
 	GetName() string
-	GetModels() []interface{}
+	GetModels() []string
 	Validate() error
 }
 

@@ -7,16 +7,16 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/struct.proto";
 
 service LLMService {
-  rpc ChatCompletions(ChatCompletionRequest) returns (ChatCompletionResponse) {
+  rpc GetChatCompletions(ChatCompletionRequest) returns (ChatCompletionResponse) {
     option (google.api.http).post = "/v1/chat/completions";
     option (google.api.http).body = "*";
   }
-  rpc Models(ModelRequest) returns (ModelResponse) {
-    option (google.api.http).post = "/v1/models";
+  rpc ListModels(ModelRequest) returns (ModelResponse) {
+    option (google.api.http).get = "/v1/models";
     option (google.api.http).body = "*";
   }
 
-  rpc StreamChatCompletions(ChatCompletionRequest) returns (stream ChatCompletionResponse) {
+  rpc GetStreamChatCompletions(ChatCompletionRequest) returns (stream ChatCompletionResponse) {
     option (google.api.http).post = "/v1/chat/completions:stream";
     option (google.api.http).body = "*";
   }
@@ -118,5 +118,15 @@ message ModelRequest {
 }
 
 message ModelResponse {
-  optional google.protobuf.Struct models = 1;
+  map<string, ProviderModels> models = 1;
+}
+
+message ProviderModels {
+  string name = 1;
+  repeated Model models = 2;
+}
+
+message Model {
+  string name = 1;
+  string value = 2;
 }

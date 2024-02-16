@@ -22,6 +22,6 @@ func (p providerMock) Validate() error {
 	return nil
 }
 
-func (*providerMock) GetModels() []interface{} {
-	return []interface{}{}
+func (*providerMock) GetModels() []string {
+	return []string{}
 }

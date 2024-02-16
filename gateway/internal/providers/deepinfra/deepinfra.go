@@ -20,8 +20,8 @@ func (deepinfra *deepinfraProvider) ChatCompletion(ctx context.Context, payload 
 	return client.SendRequestRaw(req)
 }
 
-func (deepinfra *deepinfraProvider) GetModels() []interface{} {
-	return []interface{}{
+func (deepinfra *deepinfraProvider) GetModels() []string {
+	return []string{
 		"DeepInfra/pygmalion-13b-4bit-128g",
 		"codellama/CodeLlama-70b-Instruct-hf",
 		"cognitivecomputations/dolphin-2.6-mixtral-8x7b",

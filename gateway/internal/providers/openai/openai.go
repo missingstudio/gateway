@@ -9,7 +9,7 @@ import (
 	"github.com/missingstudio/studio/backend/pkg/requester"
 )
 
-var OpenAIModels = []interface{}{
+var OpenAIModels = []string{
 	"gpt-4-0125-preview",
 	"gpt-4-turbo-preview",
 	"gpt-4-1106-preview",
@@ -37,6 +37,6 @@ func (oai *openAIProvider) ChatCompletion(ctx context.Context, payload []byte) (
 	return client.SendRequestRaw(req)
 }
 
-func (*openAIProvider) GetModels() []interface{} {
+func (*openAIProvider) GetModels() []string {
 	return OpenAIModels
 }

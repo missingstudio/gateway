@@ -19,7 +19,7 @@ var (
 	ErrChatCompletionNotSupported       = errors.NewInternalError("provider don't have chat Completion capabilities")
 )
 
-func (s *V1Handler) ChatCompletions(
+func (s *V1Handler) GetChatCompletions(
 	ctx context.Context,
 	req *connect.Request[llmv1.ChatCompletionRequest],
 ) (*connect.Response[llmv1.ChatCompletionResponse], error) {

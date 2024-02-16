@@ -20,8 +20,8 @@ func (ta *togetherAIProvider) ChatCompletion(ctx context.Context, payload []byte
 	return client.SendRequestRaw(req)
 }
 
-func (*togetherAIProvider) GetModels() []interface{} {
-	return []interface{}{
+func (*togetherAIProvider) GetModels() []string {
+	return []string{
 		"togethercomputer/CodeLlama-7b-Instruct",
 		"togethercomputer/CodeLlama-13b-Instruct",
 		"togethercomputer/CodeLlama-34b-Instruct",

@@ -17,7 +17,7 @@ func ProviderInterceptor() connect.UnaryInterceptorFunc {
 			// Check if required headers are available
 			provider := req.Header().Get(constants.XMSProvider)
 			config := req.Header().Get(constants.XMSConfig)
-			if provider == "" || config == "" {
+			if provider == "" && config == "" {
 				return nil, errors.ErrRequiredHeaderNotExit
 			}
 

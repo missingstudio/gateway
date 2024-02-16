@@ -19,6 +19,6 @@ func (az *azureProvider) ChatCompletion(ctx context.Context, cr *llmv1.ChatCompl
 	return nil, errors.New("Not yet implemented")
 }
 
-func (az *azureProvider) GetModels() []interface{} {
+func (az *azureProvider) GetModels() []string {
 	return openai.OpenAIModels
 }

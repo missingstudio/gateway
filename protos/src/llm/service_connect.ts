@@ -13,28 +13,28 @@ export const LLMService = {
   typeName: "llm.v1.LLMService",
   methods: {
     /**
-     * @generated from rpc llm.v1.LLMService.ChatCompletions
+     * @generated from rpc llm.v1.LLMService.GetChatCompletions
      */
-    chatCompletions: {
-      name: "ChatCompletions",
+    getChatCompletions: {
+      name: "GetChatCompletions",
       I: ChatCompletionRequest,
       O: ChatCompletionResponse,
       kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc llm.v1.LLMService.Models
+     * @generated from rpc llm.v1.LLMService.ListModels
      */
-    models: {
-      name: "Models",
+    listModels: {
+      name: "ListModels",
       I: ModelRequest,
       O: ModelResponse,
       kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc llm.v1.LLMService.StreamChatCompletions
+     * @generated from rpc llm.v1.LLMService.GetStreamChatCompletions
      */
-    streamChatCompletions: {
-      name: "StreamChatCompletions",
+    getStreamChatCompletions: {
+      name: "GetStreamChatCompletions",
       I: ChatCompletionRequest,
       O: ChatCompletionResponse,
       kind: MethodKind.ServerStreaming,

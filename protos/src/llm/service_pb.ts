@@ -573,9 +573,9 @@ export class ModelRequest extends Message<ModelRequest> {
  */
 export class ModelResponse extends Message<ModelResponse> {
   /**
-   * @generated from field: optional google.protobuf.Struct models = 1;
+   * @generated from field: map<string, llm.v1.ProviderModels> models = 1;
    */
-  models?: Struct;
+  models: { [key: string]: ProviderModels } = {};
 
   constructor(data?: PartialMessage<ModelResponse>) {
     super();
@@ -585,7 +585,7 @@ export class ModelResponse extends Message<ModelResponse> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "llm.v1.ModelResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "models", kind: "message", T: Struct, opt: true },
+    { no: 1, name: "models", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: ProviderModels} },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ModelResponse {
@@ -602,6 +602,92 @@ export class ModelResponse extends Message<ModelResponse> {
 
   static equals(a: ModelResponse | PlainMessage<ModelResponse> | undefined, b: ModelResponse | PlainMessage<ModelResponse> | undefined): boolean {
     return proto3.util.equals(ModelResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.ProviderModels
+ */
+export class ProviderModels extends Message<ProviderModels> {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name = "";
+
+  /**
+   * @generated from field: repeated llm.v1.Model models = 2;
+   */
+  models: Model[] = [];
+
+  constructor(data?: PartialMessage<ProviderModels>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.ProviderModels";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "models", kind: "message", T: Model, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ProviderModels {
+    return new ProviderModels().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ProviderModels {
+    return new ProviderModels().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ProviderModels {
+    return new ProviderModels().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ProviderModels | PlainMessage<ProviderModels> | undefined, b: ProviderModels | PlainMessage<ProviderModels> | undefined): boolean {
+    return proto3.util.equals(ProviderModels, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.Model
+ */
+export class Model extends Message<Model> {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name = "";
+
+  /**
+   * @generated from field: string value = 2;
+   */
+  value = "";
+
+  constructor(data?: PartialMessage<Model>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.Model";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "value", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Model {
+    return new Model().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Model {
+    return new Model().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Model {
+    return new Model().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Model | PlainMessage<Model> | undefined, b: Model | PlainMessage<Model> | undefined): boolean {
+    return proto3.util.equals(Model, a, b);
   }
 }
 

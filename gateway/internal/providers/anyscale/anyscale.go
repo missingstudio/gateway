@@ -20,8 +20,8 @@ func (anyscale *anyscaleProvider) ChatCompletion(ctx context.Context, payload []
 	return client.SendRequestRaw(req)
 }
 
-func (anyscale *anyscaleProvider) GetModels() []interface{} {
-	return []interface{}{
+func (anyscale *anyscaleProvider) GetModels() []string {
+	return []string{
 		"meta-llama/Llama-2-7b-chat-hf",
 		"meta-llama/Llama-2-13b-chat-hf",
 		"meta-llama/Llama-2-70b-chat-hf",

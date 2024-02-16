@@ -52,7 +52,7 @@ func TestGatewayServer(t *testing.T) {
 		for _, client := range clients {
 
 			req := connect.NewRequest(&llmv1.ChatCompletionRequest{})
-			_, err := client.ChatCompletions(context.Background(), req)
+			_, err := client.GetChatCompletions(context.Background(), req)
 
 			require.NotNil(t, err)
 			assert.True(t, strings.Contains(err.Error(), errors.ErrRequiredHeaderNotExit.Error()))
