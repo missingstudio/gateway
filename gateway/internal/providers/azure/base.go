@@ -1,9 +1,13 @@
 package azure
 
 import (
+	_ "embed"
+
 	"github.com/missingstudio/studio/backend/internal/providers/base"
-	"github.com/missingstudio/studio/backend/pkg/utils"
 )
+
+//go:embed schema.json
+var schema []byte
 
 var _ base.IProvider = &azureProvider{}
 
@@ -27,12 +31,8 @@ func (az azureProvider) Name() string {
 	return az.name
 }
 
-func (togetherAI azureProvider) Schema() []byte {
-	return []byte{}
-}
-
-func (az azureProvider) Validate() error {
-	return utils.ValidateHeaders(az.AzureHeaders)
+func (az azureProvider) Schema() []byte {
+	return schema
 }
 
 func getAzureConfig() base.ProviderConfig {

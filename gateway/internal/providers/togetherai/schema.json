@@ -1,6 +1,6 @@
 {
-  "description": "OpenAI configuration schema",
-  "title": "Open AI",
+  "description": "Together AI configuration schema",
+  "title": "Together AI",
   "type": "object",
   "properties": {
     "headers": {
@@ -12,7 +12,7 @@
         "Authorization": {
           "type": "string",
           "title": "API Key",
-          "description": "OpenAI API key"
+          "description": "Together AI API key"
         }
       },
       "required": ["Authorization"]

@@ -4,7 +4,6 @@ import (
 	_ "embed"
 
 	"github.com/missingstudio/studio/backend/internal/providers/base"
-	"github.com/missingstudio/studio/backend/pkg/utils"
 )
 
 //go:embed schema.json
@@ -32,12 +31,8 @@ func (oai openAIProvider) Name() string {
 	return oai.name
 }
 
-func (togetherAI openAIProvider) Schema() []byte {
+func (oai openAIProvider) Schema() []byte {
 	return schema
-}
-
-func (oai openAIProvider) Validate() error {
-	return utils.ValidateHeaders(oai.OpenAIHeaders)
 }
 
 func getOpenAIConfig(baseURL string) base.ProviderConfig {

@@ -25,24 +25,33 @@ func (s *V1Handler) GetChatCompletions(
 ) (*connect.Response[llmv1.ChatCompletionResponse], error) {
 	startTime := time.Now()
 
+	payload, err := json.Marshal(req.Msg)
+	if err != nil {
+		return nil, errors.New(err)
+	}
+
 	providerName := req.Header().Get(constants.XMSProvider)
 	provider, err := providers.NewProvider(providerName, req.Header())
 	if err != nil {
 		return nil, errors.New(err)
 	}
 
-	if err := provider.Validate(); err != nil {
-		return nil, errors.New(err)
+	headersMap := make(map[string]any)
+	for key, values := range req.Header() {
+		if len(values) > 0 {
+			headersMap[key] = values[0]
+		}
+	}
+	err = providers.Validate(provider, map[string]any{
+		"headers": headersMap,
+	})
+	if err != nil {
+		return nil, errors.NewBadRequest(err.Error())
 	}
 
 	chatCompletionProvider, ok := provider.(base.ChatCompletionInterface)
 	if !ok {
 		return nil, ErrChatCompletionNotSupported
-	}
-
-	payload, err := json.Marshal(req.Msg)
-	if err != nil {
-		return nil, errors.New(err)
 	}
 
 	resp, err := chatCompletionProvider.ChatCompletion(ctx, payload)

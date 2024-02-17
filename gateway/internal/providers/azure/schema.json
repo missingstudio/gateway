@@ -1,6 +1,6 @@
 {
-  "description": "OpenAI configuration schema",
-  "title": "Open AI",
+  "description": "Azure configuration schema",
+  "title": "Azure",
   "type": "object",
   "properties": {
     "headers": {
@@ -12,7 +12,7 @@
         "Authorization": {
           "type": "string",
           "title": "API Key",
-          "description": "OpenAI API key"
+          "description": "Azure API key"
         }
       },
       "required": ["Authorization"]

@@ -1,9 +1,13 @@
 package deepinfra
 
 import (
+	_ "embed"
+
 	"github.com/missingstudio/studio/backend/internal/providers/base"
-	"github.com/missingstudio/studio/backend/pkg/utils"
 )
+
+//go:embed schema.json
+var schema []byte
 
 var _ base.IProvider = &deepinfraProvider{}
 
@@ -27,12 +31,8 @@ func (deepinfra deepinfraProvider) Name() string {
 	return deepinfra.name
 }
 
-func (togetherAI deepinfraProvider) Schema() []byte {
-	return []byte{}
-}
-
-func (deepinfra deepinfraProvider) Validate() error {
-	return utils.ValidateHeaders(deepinfra.DeepinfraHeaders)
+func (deepinfra deepinfraProvider) Schema() []byte {
+	return schema
 }
 
 func getDeepinfraConfig(baseURL string) base.ProviderConfig {

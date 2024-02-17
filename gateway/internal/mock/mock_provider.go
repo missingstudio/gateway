@@ -18,14 +18,10 @@ func (p providerMock) Name() string {
 	return p.name
 }
 
-func (togetherAI providerMock) Schema() []byte {
+func (p providerMock) Schema() []byte {
 	return []byte{}
 }
 
-func (p providerMock) Validate() error {
-	return nil
-}
-
-func (*providerMock) Models() []string {
+func (p providerMock) Models() []string {
 	return []string{}
 }

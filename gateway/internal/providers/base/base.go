@@ -14,7 +14,6 @@ type IProvider interface {
 	Name() string
 	Models() []string
 	Schema() []byte
-	Validate() error
 }
 
 type ChatCompletionInterface interface {

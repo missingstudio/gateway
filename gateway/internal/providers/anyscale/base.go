@@ -1,9 +1,13 @@
 package anyscale
 
 import (
+	_ "embed"
+
 	"github.com/missingstudio/studio/backend/internal/providers/base"
-	"github.com/missingstudio/studio/backend/pkg/utils"
 )
+
+//go:embed schema.json
+var schema []byte
 
 var _ base.IProvider = &anyscaleProvider{}
 
@@ -27,12 +31,8 @@ func (anyscale anyscaleProvider) Name() string {
 	return anyscale.name
 }
 
-func (togetherAI anyscaleProvider) Schema() []byte {
-	return []byte{}
-}
-
-func (anyscale anyscaleProvider) Validate() error {
-	return utils.ValidateHeaders(anyscale.AnyscaleHeaders)
+func (anyscale anyscaleProvider) Schema() []byte {
+	return schema
 }
 
 func getAnyscaleConfig(baseURL string) base.ProviderConfig {

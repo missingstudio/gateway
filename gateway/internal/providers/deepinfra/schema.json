@@ -1,6 +1,6 @@
 {
-  "description": "OpenAI configuration schema",
-  "title": "Open AI",
+  "description": "Deepinfra configuration schema",
+  "title": "Deepinfra",
   "type": "object",
   "properties": {
     "headers": {
@@ -12,7 +12,7 @@
         "Authorization": {
           "type": "string",
           "title": "API Key",
-          "description": "OpenAI API key"
+          "description": "Deepinfra API key"
         }
       },
       "required": ["Authorization"]

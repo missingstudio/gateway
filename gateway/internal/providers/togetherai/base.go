@@ -1,9 +1,13 @@
 package togetherai
 
 import (
+	_ "embed"
+
 	"github.com/missingstudio/studio/backend/internal/providers/base"
-	"github.com/missingstudio/studio/backend/pkg/utils"
 )
+
+//go:embed schema.json
+var schema []byte
 
 var _ base.IProvider = &togetherAIProvider{}
 
@@ -28,11 +32,7 @@ func (togetherAI togetherAIProvider) Name() string {
 }
 
 func (togetherAI togetherAIProvider) Schema() []byte {
-	return []byte{}
-}
-
-func (togetherAI togetherAIProvider) Validate() error {
-	return utils.ValidateHeaders(togetherAI.TogetherAIHeaders)
+	return schema
 }
 
 func getTogetherAIConfig(baseURL string) base.ProviderConfig {
