@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { opensans } from "styles/fonts";
+import { outfit } from "styles/fonts";
 import "styles/globals.css";
 import { Providers } from "./providers";
 
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${opensans.className} antialiased bg-slate-900 text-slate-100 tracking-tight`}
+        className={`${outfit.className} antialiased bg-slate-900 text-slate-100 tracking-tight`}
       >
         <div className="flex flex-col min-h-screen overflow-hidden">
           <Providers>{children}</Providers>

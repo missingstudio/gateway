@@ -30,10 +30,11 @@ export default function Features() {
                     Universal API
                   </div>
                 </div>
-                <h3 className="h3 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-3">
+
+                <h3 className="h3 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-violet-200 to-slate-200/60 pb-3">
                   Universal API for providers
                 </h3>
-                <p className="text-lg text-slate-400 mb-8">
+                <p className="text-sm sm:text-lg text-slate-400 mb-8 tracking-wide">
                   Familiar with spending hundreds of hours with multiple
                   providers to get things right. Try our universal API for
                   seamless integration with 100+ providers like OpenAI,

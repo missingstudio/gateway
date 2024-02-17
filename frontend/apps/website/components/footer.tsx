@@ -11,7 +11,7 @@ export default function Footer() {
                 <div className="mb-4">
                   <Logo />
                 </div>
-                <div className="text-sm text-slate-300">
+                <div className="text-md text-slate-300">
                   © missing studio <span className="text-slate-500">-</span>{" "}
                   All rights reserved.
                 </div>
@@ -54,11 +54,11 @@ export default function Footer() {
           </div>
 
           <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h6 className="text-sm text-slate-50 font-medium mb-2">Company</h6>
-            <ul className="text-sm space-y-2">
+            <h6 className="text-md text-slate-50 font-medium mb-2">Company</h6>
+            <ul className="text-md space-y-2">
               <li>
                 <a
-                  className="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out"
+                  className=" text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out"
                   href="#0"
                 >
                   About us
@@ -85,10 +85,10 @@ export default function Footer() {
           </div>
 
           <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h6 className="text-sm text-slate-50 font-medium mb-2">
+            <h6 className="text-md text-slate-50 font-medium mb-2">
               Resources
             </h6>
-            <ul className="text-sm space-y-2">
+            <ul className="text-md space-y-2">
               <li>
                 <a
                   className="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out"
@@ -117,8 +117,8 @@ export default function Footer() {
           </div>
 
           <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h6 className="text-sm text-slate-50 font-medium mb-2">Legals</h6>
-            <ul className="text-sm space-y-2">
+            <h6 className="text-md text-slate-50 font-medium mb-2">Legals</h6>
+            <ul className="text-md space-y-2">
               <li>
                 <a
                   className="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out"
