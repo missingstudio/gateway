@@ -7,26 +7,27 @@ export default function Hero() {
         <MilkeyWay />
         <div className="pt-32 pb-16 md:pt-52 md:pb-32">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="mb-6" data-aos="fade-down">
-              <span className="relative inline-flex items-center font-bold uppercase">
-                AI Studio for Enterprise
+            <div className="mb-4" data-aos="fade-down">
+              <span className="relative inline-flex items-center font-bold uppercase tracking-[0.12rem] text-violet-400">
+                AI Studio for developer
               </span>
             </div>
             <h1
-              className="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4"
+              className="text-3xl md:text-6xl font-bold bg-clip-text !leading-tight text-transparent bg-gradient-to-r from-slate-200/60 via-violet-200 to-slate-200/60 mb-4"
               data-aos="fade-down"
             >
-              An Open-source <br />
-              Enterprise AI Studio
+              Open-source
+              <br />
+              AI studio for AI Apps
             </h1>
             <p
-              className="text-lg text-slate-300 mb-8"
+              className="text-sm sm:text-xl text-slate-400 tracking-wide mb-8 antialiased leading-snug"
               data-aos="fade-down"
               data-aos-delay="200"
             >
-              An open-source AI Studio for rapid development and robust
+              An open-source AI studio for rapid development and robust
               deployment of generative AI applications that seamlessly
-              integrates with top providers like OpenAI, Anthropic, and more
+              integrates with top providers like OpenAI, Anthropic etc
             </p>
             <div
               className="max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4"
