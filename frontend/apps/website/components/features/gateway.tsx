@@ -1,5 +1,6 @@
 import Highlighter, { HighlighterItem } from "components/highlighter";
 import Particles from "components/particles";
+import Balance from "react-wrap-balancer";
 
 export default function Features() {
   return (
@@ -18,12 +19,12 @@ export default function Features() {
             <h2 className="text-3xl md:text-6xl font-bold bg-clip-text !leading-tight text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 mb-4">
               AI Gateway
             </h2>
-            <p className="text-sm sm:text-xl text-slate-400 tracking-wide mb-8 antialiased leading-snug">
+            <Balance className="text-sm sm:text-xl text-slate-400 tracking-wide mb-8 antialiased leading-snug">
               Missing studio AI gateway allow you gain visibility, control and
               insights about API Application uses. It allow you control how your
               application scales with features such as caching, rate limiting,
               as well as request retries, model fallback, and more
-            </p>
+            </Balance>
           </div>
 
           <div className="relative pb-12 md:pb-20">

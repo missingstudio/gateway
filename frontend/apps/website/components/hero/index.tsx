@@ -1,3 +1,4 @@
+import Balance from "react-wrap-balancer";
 import { MilkeyWay } from "../milkway";
 
 export default function Hero() {
@@ -20,7 +21,8 @@ export default function Hero() {
               <br />
               AI studio for AI Apps
             </h1>
-            <p
+
+            <Balance
               className="text-sm sm:text-xl text-slate-400 tracking-wide mb-8 antialiased leading-snug"
               data-aos="fade-down"
               data-aos-delay="200"
@@ -28,7 +30,7 @@ export default function Hero() {
               An open-source AI studio for rapid development and robust
               deployment of generative AI applications that seamlessly
               integrates with top providers like OpenAI, Anthropic etc
-            </p>
+            </Balance>
             <div
               className="max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4"
               data-aos="fade-down"

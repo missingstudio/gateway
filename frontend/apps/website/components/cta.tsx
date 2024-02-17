@@ -1,3 +1,5 @@
+import Balance from "react-wrap-balancer";
+
 export default function CTA() {
   return (
     <section>
@@ -20,11 +22,11 @@ export default function CTA() {
             <h2 className="text-3xl md:text-6xl font-bold bg-clip-text !leading-tight text-transparent bg-gradient-to-r from-slate-200/60 via-violet-200 to-slate-200/60 mb-4">
               AI workflows
             </h2>
-            <p className="text-sm sm:text-xl text-slate-400 tracking-wide mb-8 antialiased leading-snug">
+            <Balance className="text-sm sm:text-xl text-slate-400 tracking-wide mb-8 antialiased leading-snug">
               Use AI studio to create, experiment, deploy and scale LLM powered
               workflows using the latest AI models like GPT-4-turbo, DALL·E 3
               and Claude 2
-            </p>
+            </Balance>
             <div>
               <a
                 className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white transition duration-150 ease-in-out group"
