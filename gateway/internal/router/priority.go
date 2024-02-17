@@ -12,10 +12,10 @@ const (
 
 type PriorityRouter struct {
 	idx       *atomic.Uint64
-	providers []base.ProviderInterface
+	providers []base.IProvider
 }
 
-func NewPriorityRouter(providers []base.ProviderInterface) *PriorityRouter {
+func NewPriorityRouter(providers []base.IProvider) *PriorityRouter {
 	return &PriorityRouter{
 		idx:       &atomic.Uint64{},
 		providers: providers,
@@ -26,7 +26,7 @@ func (r *PriorityRouter) Iterator() ProviderIterator {
 	return r
 }
 
-func (r *PriorityRouter) Next() (base.ProviderInterface, error) {
+func (r *PriorityRouter) Next() (base.IProvider, error) {
 	idx := int(r.idx.Load())
 
 	// Todo: make a check for healthy provider

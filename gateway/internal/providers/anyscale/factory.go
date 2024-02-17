@@ -24,7 +24,7 @@ func (anyscale AnyscaleProviderFactory) GetHeaders(headers http.Header) (*Anysca
 	return &anyscaleHeaders, nil
 }
 
-func (anyscale AnyscaleProviderFactory) Create(headers http.Header) (base.ProviderInterface, error) {
+func (anyscale AnyscaleProviderFactory) Create(headers http.Header) (base.IProvider, error) {
 	anyscaleHeaders, err := anyscale.GetHeaders(headers)
 	if err != nil {
 		return nil, err

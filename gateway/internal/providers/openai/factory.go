@@ -24,7 +24,7 @@ func (oaif OpenAIProviderFactory) GetHeaders(headers http.Header) (*OpenAIHeader
 	return &oaiHeaders, nil
 }
 
-func (oaif OpenAIProviderFactory) Create(headers http.Header) (base.ProviderInterface, error) {
+func (oaif OpenAIProviderFactory) Create(headers http.Header) (base.IProvider, error) {
 	oaiHeaders, err := oaif.GetHeaders(headers)
 	if err != nil {
 		return nil, err

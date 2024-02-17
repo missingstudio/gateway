@@ -1,0 +1,20 @@
+{
+  "title": "Open AI",
+  "description": "OpenAI configuration schema",
+  "type": "object",
+  "properties": {
+    "headers": {
+      "type": "object",
+      "title": "Headers",
+      "description": "Authorization properties",
+      "properties": {
+        "authorization": {
+          "type": "string",
+          "title": "API Key",
+          "description": "OpenAI API key"
+        },
+        "required": ["authorization"]
+      }
+    }
+  }
+}

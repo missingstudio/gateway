@@ -24,7 +24,7 @@ func (deepinfra DeepinfraProviderFactory) GetHeaders(headers http.Header) (*Deep
 	return &deepinfraHeaders, nil
 }
 
-func (deepinfra DeepinfraProviderFactory) Create(headers http.Header) (base.ProviderInterface, error) {
+func (deepinfra DeepinfraProviderFactory) Create(headers http.Header) (base.IProvider, error) {
 	deepinfraHeaders, err := deepinfra.GetHeaders(headers)
 	if err != nil {
 		return nil, err

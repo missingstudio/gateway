@@ -5,11 +5,11 @@ import (
 	"github.com/missingstudio/studio/backend/pkg/utils"
 )
 
-var _ base.ProviderInterface = &deepinfraProvider{}
+var _ base.IProvider = &deepinfraProvider{}
 
 type deepinfraProvider struct {
-	Name   string
-	Config base.ProviderConfig
+	name   string
+	config base.ProviderConfig
 	DeepinfraHeaders
 }
 
@@ -17,14 +17,18 @@ func NewDeepinfraProvider(headers DeepinfraHeaders) *deepinfraProvider {
 	config := getDeepinfraConfig("https://api.deepinfra.com/v1/openai")
 
 	return &deepinfraProvider{
-		Name:             "Deepinfra",
-		Config:           config,
+		name:             "Deepinfra",
+		config:           config,
 		DeepinfraHeaders: headers,
 	}
 }
 
-func (deepinfra deepinfraProvider) GetName() string {
-	return deepinfra.Name
+func (deepinfra deepinfraProvider) Name() string {
+	return deepinfra.name
+}
+
+func (togetherAI deepinfraProvider) Schema() []byte {
+	return []byte{}
 }
 
 func (deepinfra deepinfraProvider) Validate() error {

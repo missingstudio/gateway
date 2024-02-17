@@ -57,7 +57,7 @@ func (s *V1Handler) GetChatCompletions(
 	}
 
 	ingesterdata := make(map[string]interface{})
-	ingesterdata["provider"] = provider.GetName()
+	ingesterdata["provider"] = provider.Name()
 	ingesterdata["model"] = data.Model
 	ingesterdata["latency"] = latency
 	ingesterdata["total_tokens"] = *data.Usage.TotalTokens

@@ -24,7 +24,7 @@ func (ta TogetherAIProviderFactory) GetHeaders(headers http.Header) (*TogetherAI
 	return &togetherAIHeaders, nil
 }
 
-func (ta TogetherAIProviderFactory) Create(headers http.Header) (base.ProviderInterface, error) {
+func (ta TogetherAIProviderFactory) Create(headers http.Header) (base.IProvider, error) {
 	togetherAIHeaders, err := ta.GetHeaders(headers)
 	if err != nil {
 		return nil, err

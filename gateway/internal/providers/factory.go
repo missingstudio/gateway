@@ -23,7 +23,7 @@ const (
 var Providers = []string{Openai, Azure, Anyscale, Deepinfra, Togetherai}
 
 // NewProvider initializes the provider instance based on Config
-func NewProvider(provider string, headers http.Header) (base.ProviderInterface, error) {
+func NewProvider(provider string, headers http.Header) (base.IProvider, error) {
 	switch provider {
 	case Openai:
 		providerFactory := openai.OpenAIProviderFactory{}

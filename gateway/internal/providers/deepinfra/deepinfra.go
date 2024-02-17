@@ -11,7 +11,7 @@ import (
 
 func (deepinfra *deepinfraProvider) ChatCompletion(ctx context.Context, payload []byte) (*http.Response, error) {
 	client := requester.NewHTTPClient()
-	requestURL := fmt.Sprintf("%s%s", deepinfra.Config.BaseURL, deepinfra.Config.ChatCompletions)
+	requestURL := fmt.Sprintf("%s%s", deepinfra.config.BaseURL, deepinfra.config.ChatCompletions)
 	req, _ := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
 
 	req.Header.Add("Content-Type", "application/json")
@@ -20,7 +20,7 @@ func (deepinfra *deepinfraProvider) ChatCompletion(ctx context.Context, payload 
 	return client.SendRequestRaw(req)
 }
 
-func (deepinfra *deepinfraProvider) GetModels() []string {
+func (deepinfra *deepinfraProvider) Models() []string {
 	return []string{
 		"DeepInfra/pygmalion-13b-4bit-128g",
 		"codellama/CodeLlama-70b-Instruct-hf",

@@ -2,26 +2,30 @@ package mock
 
 import "github.com/missingstudio/studio/backend/internal/providers/base"
 
-var _ base.ProviderInterface = &providerMock{}
+var _ base.IProvider = &providerMock{}
 
 type providerMock struct {
-	Name string
+	name string
 }
 
-func NewProviderMock(name string) base.ProviderInterface {
+func NewProviderMock(name string) base.IProvider {
 	return &providerMock{
-		Name: name,
+		name: name,
 	}
 }
 
-func (p providerMock) GetName() string {
-	return p.Name
+func (p providerMock) Name() string {
+	return p.name
+}
+
+func (togetherAI providerMock) Schema() []byte {
+	return []byte{}
 }
 
 func (p providerMock) Validate() error {
 	return nil
 }
 
-func (*providerMock) GetModels() []string {
+func (*providerMock) Models() []string {
 	return []string{}
 }

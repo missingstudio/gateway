@@ -5,26 +5,30 @@ import (
 	"github.com/missingstudio/studio/backend/pkg/utils"
 )
 
-var _ base.ProviderInterface = &azureProvider{}
+var _ base.IProvider = &azureProvider{}
 
 type azureProvider struct {
-	Name string
+	name   string
+	config base.ProviderConfig
 	AzureHeaders
-	Config base.ProviderConfig
 }
 
 func NewAzureProvider(headers AzureHeaders) *azureProvider {
 	config := getAzureConfig()
 
 	return &azureProvider{
-		Name:         "Azure",
-		Config:       config,
+		name:         "Azure",
+		config:       config,
 		AzureHeaders: headers,
 	}
 }
 
-func (az azureProvider) GetName() string {
-	return az.Name
+func (az azureProvider) Name() string {
+	return az.name
+}
+
+func (togetherAI azureProvider) Schema() []byte {
+	return []byte{}
 }
 
 func (az azureProvider) Validate() error {

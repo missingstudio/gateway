@@ -11,7 +11,7 @@ import (
 
 func (anyscale *anyscaleProvider) ChatCompletion(ctx context.Context, payload []byte) (*http.Response, error) {
 	client := requester.NewHTTPClient()
-	requestURL := fmt.Sprintf("%s%s", anyscale.Config.BaseURL, anyscale.Config.ChatCompletions)
+	requestURL := fmt.Sprintf("%s%s", anyscale.config.BaseURL, anyscale.config.ChatCompletions)
 	req, _ := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
 
 	req.Header.Add("Content-Type", "application/json")
@@ -20,7 +20,7 @@ func (anyscale *anyscaleProvider) ChatCompletion(ctx context.Context, payload []
 	return client.SendRequestRaw(req)
 }
 
-func (anyscale *anyscaleProvider) GetModels() []string {
+func (anyscale *anyscaleProvider) Models() []string {
 	return []string{
 		"meta-llama/Llama-2-7b-chat-hf",
 		"meta-llama/Llama-2-13b-chat-hf",

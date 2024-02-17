@@ -5,11 +5,11 @@ import (
 	"github.com/missingstudio/studio/backend/pkg/utils"
 )
 
-var _ base.ProviderInterface = &togetherAIProvider{}
+var _ base.IProvider = &togetherAIProvider{}
 
 type togetherAIProvider struct {
-	Name   string
-	Config base.ProviderConfig
+	name   string
+	config base.ProviderConfig
 	TogetherAIHeaders
 }
 
@@ -17,14 +17,18 @@ func NewTogetherAIProvider(headers TogetherAIHeaders) *togetherAIProvider {
 	config := getTogetherAIConfig("https://api.together.xyz")
 
 	return &togetherAIProvider{
-		Name:              "TogetherAI",
-		Config:            config,
+		name:              "TogetherAI",
+		config:            config,
 		TogetherAIHeaders: headers,
 	}
 }
 
-func (togetherAI togetherAIProvider) GetName() string {
-	return togetherAI.Name
+func (togetherAI togetherAIProvider) Name() string {
+	return togetherAI.name
+}
+
+func (togetherAI togetherAIProvider) Schema() []byte {
+	return []byte{}
 }
 
 func (togetherAI togetherAIProvider) Validate() error {

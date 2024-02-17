@@ -28,7 +28,7 @@ var OpenAIModels = []string{
 
 func (oai *openAIProvider) ChatCompletion(ctx context.Context, payload []byte) (*http.Response, error) {
 	client := requester.NewHTTPClient()
-	requestURL := fmt.Sprintf("%s%s", oai.Config.BaseURL, oai.Config.ChatCompletions)
+	requestURL := fmt.Sprintf("%s%s", oai.config.BaseURL, oai.config.ChatCompletions)
 	req, _ := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
 
 	req.Header.Add("Content-Type", "application/json")
@@ -37,6 +37,6 @@ func (oai *openAIProvider) ChatCompletion(ctx context.Context, payload []byte) (
 	return client.SendRequestRaw(req)
 }
 
-func (*openAIProvider) GetModels() []string {
+func (*openAIProvider) Models() []string {
 	return OpenAIModels
 }

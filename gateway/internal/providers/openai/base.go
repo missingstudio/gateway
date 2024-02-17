@@ -1,15 +1,20 @@
 package openai
 
 import (
+	_ "embed"
+
 	"github.com/missingstudio/studio/backend/internal/providers/base"
 	"github.com/missingstudio/studio/backend/pkg/utils"
 )
 
-var _ base.ProviderInterface = &openAIProvider{}
+//go:embed schema.json
+var schema []byte
+
+var _ base.IProvider = &openAIProvider{}
 
 type openAIProvider struct {
-	Name   string
-	Config base.ProviderConfig
+	name   string
+	config base.ProviderConfig
 	OpenAIHeaders
 }
 
@@ -17,14 +22,18 @@ func NewOpenAIProvider(headers OpenAIHeaders) *openAIProvider {
 	config := getOpenAIConfig("https://api.openai.com")
 
 	return &openAIProvider{
-		Name:          "OpenAI",
-		Config:        config,
+		name:          "OpenAI",
+		config:        config,
 		OpenAIHeaders: headers,
 	}
 }
 
-func (oai openAIProvider) GetName() string {
-	return oai.Name
+func (oai openAIProvider) Name() string {
+	return oai.name
+}
+
+func (togetherAI openAIProvider) Schema() []byte {
+	return schema
 }
 
 func (oai openAIProvider) Validate() error {

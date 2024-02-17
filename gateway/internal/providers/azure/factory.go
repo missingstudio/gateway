@@ -26,7 +26,7 @@ func (azf AzureProviderFactory) GetHeaders(headers http.Header) (*AzureHeaders, 
 	return &azHeaders, nil
 }
 
-func (azf AzureProviderFactory) Create(headers http.Header) (base.ProviderInterface, error) {
+func (azf AzureProviderFactory) Create(headers http.Header) (base.IProvider, error) {
 	azureHeaders, err := azf.GetHeaders(headers)
 	if err != nil {
 		return nil, err

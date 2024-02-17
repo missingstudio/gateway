@@ -5,11 +5,11 @@ import (
 	"github.com/missingstudio/studio/backend/pkg/utils"
 )
 
-var _ base.ProviderInterface = &anyscaleProvider{}
+var _ base.IProvider = &anyscaleProvider{}
 
 type anyscaleProvider struct {
-	Name   string
-	Config base.ProviderConfig
+	name   string
+	config base.ProviderConfig
 	AnyscaleHeaders
 }
 
@@ -17,14 +17,18 @@ func NewAnyscaleProvider(headers AnyscaleHeaders) *anyscaleProvider {
 	config := getAnyscaleConfig("https://api.endpoints.anyscale.com")
 
 	return &anyscaleProvider{
-		Name:            "Anyscale",
-		Config:          config,
+		name:            "Anyscale",
+		config:          config,
 		AnyscaleHeaders: headers,
 	}
 }
 
-func (anyscale anyscaleProvider) GetName() string {
-	return anyscale.Name
+func (anyscale anyscaleProvider) Name() string {
+	return anyscale.name
+}
+
+func (togetherAI anyscaleProvider) Schema() []byte {
+	return []byte{}
 }
 
 func (anyscale anyscaleProvider) Validate() error {

@@ -7,5 +7,5 @@ import (
 )
 
 type ProviderFactory interface {
-	Create(headers http.Header) (base.ProviderInterface, error)
+	Create(headers http.Header) (base.IProvider, error)
 }

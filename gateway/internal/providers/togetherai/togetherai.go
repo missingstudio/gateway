@@ -11,7 +11,7 @@ import (
 
 func (ta *togetherAIProvider) ChatCompletion(ctx context.Context, payload []byte) (*http.Response, error) {
 	client := requester.NewHTTPClient()
-	requestURL := fmt.Sprintf("%s%s", ta.Config.BaseURL, ta.Config.ChatCompletions)
+	requestURL := fmt.Sprintf("%s%s", ta.config.BaseURL, ta.config.ChatCompletions)
 	req, _ := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
 
 	req.Header.Add("Content-Type", "application/json")
@@ -20,7 +20,7 @@ func (ta *togetherAIProvider) ChatCompletion(ctx context.Context, payload []byte
 	return client.SendRequestRaw(req)
 }
 
-func (*togetherAIProvider) GetModels() []string {
+func (*togetherAIProvider) Models() []string {
 	return []string{
 		"togethercomputer/CodeLlama-7b-Instruct",
 		"togethercomputer/CodeLlama-13b-Instruct",
