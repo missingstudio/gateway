@@ -1,39 +1,45 @@
 package azure
 
 import (
+	_ "embed"
+
 	"github.com/missingstudio/studio/backend/internal/providers/base"
-	"github.com/missingstudio/studio/backend/pkg/utils"
+	"github.com/missingstudio/studio/backend/models"
 )
 
-var _ base.ProviderInterface = &azureProvider{}
+//go:embed schema.json
+var schema []byte
+
+var _ base.IProvider = &azureProvider{}
 
 type azureProvider struct {
-	Name string
-	AzureHeaders
-	Config base.ProviderConfig
+	name   string
+	config base.ProviderConfig
+	conn   models.Connection
 }
 
-func NewAzureProvider(headers AzureHeaders) *azureProvider {
-	config := getAzureConfig()
-
-	return &azureProvider{
-		Name:         "Azure",
-		Config:       config,
-		AzureHeaders: headers,
-	}
+func (az azureProvider) Name() string {
+	return az.name
 }
 
-func (az azureProvider) GetName() string {
-	return az.Name
-}
-
-func (az azureProvider) Validate() error {
-	return utils.ValidateHeaders(az.AzureHeaders)
+func (az azureProvider) Schema() []byte {
+	return schema
 }
 
 func getAzureConfig() base.ProviderConfig {
 	return base.ProviderConfig{
 		BaseURL:         "",
 		ChatCompletions: "/chat/completions",
+	}
+}
+
+func init() {
+	models.ProviderRegistry["azure"] = func(connection models.Connection) base.IProvider {
+		config := getAzureConfig()
+		return &azureProvider{
+			name:   "Azure",
+			config: config,
+			conn:   connection,
+		}
 	}
 }

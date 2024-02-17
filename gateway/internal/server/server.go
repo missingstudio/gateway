@@ -11,7 +11,7 @@ import (
 	"github.com/missingstudio/studio/backend/pkg/utils"
 )
 
-func Serve(ctx context.Context, logger *slog.Logger, cfg Config, deps api.Deps) error {
+func Serve(ctx context.Context, logger *slog.Logger, cfg Config, deps *api.Deps) error {
 	connectMux, err := connectrpc.NewConnectMux(deps)
 	if err != nil {
 		logger.Error("connect rpc mux not created", err)

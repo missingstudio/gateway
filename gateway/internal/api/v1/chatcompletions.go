@@ -9,6 +9,7 @@ import (
 	"github.com/missingstudio/studio/backend/internal/constants"
 	"github.com/missingstudio/studio/backend/internal/providers"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
+	"github.com/missingstudio/studio/backend/models"
 	"github.com/missingstudio/studio/backend/pkg/utils"
 	"github.com/missingstudio/studio/common/errors"
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
@@ -25,24 +26,40 @@ func (s *V1Handler) GetChatCompletions(
 ) (*connect.Response[llmv1.ChatCompletionResponse], error) {
 	startTime := time.Now()
 
-	providerName := req.Header().Get(constants.XMSProvider)
-	provider, err := providers.NewProvider(providerName, req.Header())
+	payload, err := json.Marshal(req.Msg)
 	if err != nil {
 		return nil, errors.New(err)
 	}
 
-	if err := provider.Validate(); err != nil {
+	// Convert headers into map[string]any
+	headerConfig := make(map[string]any)
+	for key, values := range req.Header() {
+		if len(values) > 0 {
+			headerConfig[key] = values[0]
+		}
+	}
+
+	providerName := req.Header().Get(constants.XMSProvider)
+	connectionObj := models.Connection{}
+	connectionObj.Name = providerName
+	connectionObj.Headers = headerConfig
+
+	provider, err := s.providerService.GetProvider(connectionObj)
+	if err != nil {
 		return nil, errors.New(err)
+	}
+
+	// Validate provider configs
+	err = providers.Validate(provider, map[string]any{
+		"headers": headerConfig,
+	})
+	if err != nil {
+		return nil, errors.NewBadRequest(err.Error())
 	}
 
 	chatCompletionProvider, ok := provider.(base.ChatCompletionInterface)
 	if !ok {
 		return nil, ErrChatCompletionNotSupported
-	}
-
-	payload, err := json.Marshal(req.Msg)
-	if err != nil {
-		return nil, errors.New(err)
 	}
 
 	resp, err := chatCompletionProvider.ChatCompletion(ctx, payload)
@@ -57,7 +74,7 @@ func (s *V1Handler) GetChatCompletions(
 	}
 
 	ingesterdata := make(map[string]interface{})
-	ingesterdata["provider"] = provider.GetName()
+	ingesterdata["provider"] = provider.Name()
 	ingesterdata["model"] = data.Model
 	ingesterdata["latency"] = latency
 	ingesterdata["total_tokens"] = *data.Usage.TotalTokens

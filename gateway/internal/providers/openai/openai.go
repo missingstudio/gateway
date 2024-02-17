@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/missingstudio/studio/backend/models"
 	"github.com/missingstudio/studio/backend/pkg/requester"
 )
 
@@ -14,7 +15,6 @@ var OpenAIModels = []string{
 	"gpt-4-turbo-preview",
 	"gpt-4-1106-preview",
 	"gpt-4-vision-preview",
-	"gpt-4-0125-preview",
 	"gpt-4-1106-vision-preview",
 	"gpt-4",
 	"gpt-4-0613",
@@ -28,15 +28,24 @@ var OpenAIModels = []string{
 
 func (oai *openAIProvider) ChatCompletion(ctx context.Context, payload []byte) (*http.Response, error) {
 	client := requester.NewHTTPClient()
-	requestURL := fmt.Sprintf("%s%s", oai.Config.BaseURL, oai.Config.ChatCompletions)
+	requestURL := fmt.Sprintf("%s%s", oai.config.BaseURL, oai.config.ChatCompletions)
 	req, _ := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
 
+	connectionConfigMap := oai.conn.GetHeaders([]string{
+		models.AuthorizationHeader,
+	})
+
+	var authorizationHeader string
+	if val, ok := connectionConfigMap[models.AuthorizationHeader].(string); ok && val != "" {
+		authorizationHeader = val
+	}
+
 	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", oai.APIKey))
+	req.Header.Add("Authorization", authorizationHeader)
 
 	return client.SendRequestRaw(req)
 }
 
-func (*openAIProvider) GetModels() []string {
+func (*openAIProvider) Models() []string {
 	return OpenAIModels
 }

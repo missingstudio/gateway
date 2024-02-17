@@ -10,13 +10,13 @@ type ProviderConfig struct {
 	ChatCompletions string
 }
 
-type ProviderInterface interface {
-	GetName() string
-	GetModels() []string
-	Validate() error
+type IProvider interface {
+	Name() string
+	Models() []string
+	Schema() []byte
 }
 
 type ChatCompletionInterface interface {
-	ProviderInterface
+	IProvider
 	ChatCompletion(context.Context, []byte) (*http.Response, error)
 }

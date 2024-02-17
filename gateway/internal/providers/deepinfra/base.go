@@ -1,39 +1,45 @@
 package deepinfra
 
 import (
+	_ "embed"
+
 	"github.com/missingstudio/studio/backend/internal/providers/base"
-	"github.com/missingstudio/studio/backend/pkg/utils"
+	"github.com/missingstudio/studio/backend/models"
 )
 
-var _ base.ProviderInterface = &deepinfraProvider{}
+//go:embed schema.json
+var schema []byte
+
+var _ base.IProvider = &deepinfraProvider{}
 
 type deepinfraProvider struct {
-	Name   string
-	Config base.ProviderConfig
-	DeepinfraHeaders
+	name   string
+	config base.ProviderConfig
+	conn   models.Connection
 }
 
-func NewDeepinfraProvider(headers DeepinfraHeaders) *deepinfraProvider {
-	config := getDeepinfraConfig("https://api.deepinfra.com/v1/openai")
-
-	return &deepinfraProvider{
-		Name:             "Deepinfra",
-		Config:           config,
-		DeepinfraHeaders: headers,
-	}
+func (deepinfra deepinfraProvider) Name() string {
+	return deepinfra.name
 }
 
-func (deepinfra deepinfraProvider) GetName() string {
-	return deepinfra.Name
-}
-
-func (deepinfra deepinfraProvider) Validate() error {
-	return utils.ValidateHeaders(deepinfra.DeepinfraHeaders)
+func (deepinfra deepinfraProvider) Schema() []byte {
+	return schema
 }
 
 func getDeepinfraConfig(baseURL string) base.ProviderConfig {
 	return base.ProviderConfig{
 		BaseURL:         baseURL,
 		ChatCompletions: "/chat/completions",
+	}
+}
+
+func init() {
+	models.ProviderRegistry["deepinfra"] = func(connection models.Connection) base.IProvider {
+		config := getDeepinfraConfig("https://api.deepinfra.com/v1/openai")
+		return &deepinfraProvider{
+			name:   "Deepinfra",
+			config: config,
+			conn:   connection,
+		}
 	}
 }

@@ -4,22 +4,21 @@ import (
 	"context"
 
 	"connectrpc.com/connect"
-	"github.com/missingstudio/studio/backend/internal/providers"
+	"github.com/missingstudio/studio/backend/models"
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
 )
 
 func (s *V1Handler) ListModels(ctx context.Context, req *connect.Request[llmv1.ModelRequest]) (*connect.Response[llmv1.ModelResponse], error) {
-	plist := providers.Providers
 	allProviderModels := map[string]*llmv1.ProviderModels{}
 
-	for _, p := range plist {
-		providerfactory, err := providers.NewProvider(p, req.Header())
+	for name := range models.ProviderRegistry {
+		provider, err := s.providerService.GetProvider(models.Connection{Name: name})
 		if err != nil {
 			continue
 		}
 
-		providerName := providerfactory.GetName()
-		providerModels := providerfactory.GetModels()
+		providerName := provider.Name()
+		providerModels := provider.Models()
 
 		var models []*llmv1.Model
 		for _, val := range providerModels {
@@ -29,7 +28,7 @@ func (s *V1Handler) ListModels(ctx context.Context, req *connect.Request[llmv1.M
 			})
 		}
 
-		allProviderModels[p] = &llmv1.ProviderModels{
+		allProviderModels[name] = &llmv1.ProviderModels{
 			Name:   providerName,
 			Models: models,
 		}

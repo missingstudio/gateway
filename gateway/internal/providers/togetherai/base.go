@@ -1,39 +1,45 @@
 package togetherai
 
 import (
+	_ "embed"
+
 	"github.com/missingstudio/studio/backend/internal/providers/base"
-	"github.com/missingstudio/studio/backend/pkg/utils"
+	"github.com/missingstudio/studio/backend/models"
 )
 
-var _ base.ProviderInterface = &togetherAIProvider{}
+//go:embed schema.json
+var schema []byte
+
+var _ base.IProvider = &togetherAIProvider{}
 
 type togetherAIProvider struct {
-	Name   string
-	Config base.ProviderConfig
-	TogetherAIHeaders
+	name   string
+	config base.ProviderConfig
+	conn   models.Connection
 }
 
-func NewTogetherAIProvider(headers TogetherAIHeaders) *togetherAIProvider {
-	config := getTogetherAIConfig("https://api.together.xyz")
-
-	return &togetherAIProvider{
-		Name:              "TogetherAI",
-		Config:            config,
-		TogetherAIHeaders: headers,
-	}
+func (togetherAI togetherAIProvider) Name() string {
+	return togetherAI.name
 }
 
-func (togetherAI togetherAIProvider) GetName() string {
-	return togetherAI.Name
-}
-
-func (togetherAI togetherAIProvider) Validate() error {
-	return utils.ValidateHeaders(togetherAI.TogetherAIHeaders)
+func (togetherAI togetherAIProvider) Schema() []byte {
+	return schema
 }
 
 func getTogetherAIConfig(baseURL string) base.ProviderConfig {
 	return base.ProviderConfig{
 		BaseURL:         baseURL,
 		ChatCompletions: "/v1/chat/completions",
+	}
+}
+
+func init() {
+	models.ProviderRegistry["togetherai"] = func(connection models.Connection) base.IProvider {
+		config := getTogetherAIConfig("https://api.together.xyz")
+		return &togetherAIProvider{
+			name:   "Together AI",
+			config: config,
+			conn:   connection,
+		}
 	}
 }

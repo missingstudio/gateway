@@ -11,5 +11,5 @@ var ErrNoHealthyProviders = errors.New("no healthy providers found")
 type Strategy string
 
 type ProviderIterator interface {
-	Next() (base.ProviderInterface, error)
+	Next() (base.IProvider, error)
 }

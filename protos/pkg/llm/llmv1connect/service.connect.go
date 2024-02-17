@@ -42,6 +42,9 @@ const (
 	LLMServiceGetStreamChatCompletionsProcedure = "/llm.v1.LLMService/GetStreamChatCompletions"
 	// LLMServiceListModelsProcedure is the fully-qualified name of the LLMService's ListModels RPC.
 	LLMServiceListModelsProcedure = "/llm.v1.LLMService/ListModels"
+	// LLMServiceListProvidersProcedure is the fully-qualified name of the LLMService's ListProviders
+	// RPC.
+	LLMServiceListProvidersProcedure = "/llm.v1.LLMService/ListProviders"
 	// LLMServiceListTrackingLogsProcedure is the fully-qualified name of the LLMService's
 	// ListTrackingLogs RPC.
 	LLMServiceListTrackingLogsProcedure = "/llm.v1.LLMService/ListTrackingLogs"
@@ -53,6 +56,7 @@ var (
 	lLMServiceGetChatCompletionsMethodDescriptor       = lLMServiceServiceDescriptor.Methods().ByName("GetChatCompletions")
 	lLMServiceGetStreamChatCompletionsMethodDescriptor = lLMServiceServiceDescriptor.Methods().ByName("GetStreamChatCompletions")
 	lLMServiceListModelsMethodDescriptor               = lLMServiceServiceDescriptor.Methods().ByName("ListModels")
+	lLMServiceListProvidersMethodDescriptor            = lLMServiceServiceDescriptor.Methods().ByName("ListProviders")
 	lLMServiceListTrackingLogsMethodDescriptor         = lLMServiceServiceDescriptor.Methods().ByName("ListTrackingLogs")
 )
 
@@ -61,6 +65,7 @@ type LLMServiceClient interface {
 	GetChatCompletions(context.Context, *connect.Request[llm.ChatCompletionRequest]) (*connect.Response[llm.ChatCompletionResponse], error)
 	GetStreamChatCompletions(context.Context, *connect.Request[llm.ChatCompletionRequest]) (*connect.ServerStreamForClient[llm.ChatCompletionResponse], error)
 	ListModels(context.Context, *connect.Request[llm.ModelRequest]) (*connect.Response[llm.ModelResponse], error)
+	ListProviders(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[llm.ProvidersResponse], error)
 	ListTrackingLogs(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[llm.LogResponse], error)
 }
 
@@ -92,6 +97,12 @@ func NewLLMServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(lLMServiceListModelsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		listProviders: connect.NewClient[emptypb.Empty, llm.ProvidersResponse](
+			httpClient,
+			baseURL+LLMServiceListProvidersProcedure,
+			connect.WithSchema(lLMServiceListProvidersMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 		listTrackingLogs: connect.NewClient[emptypb.Empty, llm.LogResponse](
 			httpClient,
 			baseURL+LLMServiceListTrackingLogsProcedure,
@@ -106,6 +117,7 @@ type lLMServiceClient struct {
 	getChatCompletions       *connect.Client[llm.ChatCompletionRequest, llm.ChatCompletionResponse]
 	getStreamChatCompletions *connect.Client[llm.ChatCompletionRequest, llm.ChatCompletionResponse]
 	listModels               *connect.Client[llm.ModelRequest, llm.ModelResponse]
+	listProviders            *connect.Client[emptypb.Empty, llm.ProvidersResponse]
 	listTrackingLogs         *connect.Client[emptypb.Empty, llm.LogResponse]
 }
 
@@ -124,6 +136,11 @@ func (c *lLMServiceClient) ListModels(ctx context.Context, req *connect.Request[
 	return c.listModels.CallUnary(ctx, req)
 }
 
+// ListProviders calls llm.v1.LLMService.ListProviders.
+func (c *lLMServiceClient) ListProviders(ctx context.Context, req *connect.Request[emptypb.Empty]) (*connect.Response[llm.ProvidersResponse], error) {
+	return c.listProviders.CallUnary(ctx, req)
+}
+
 // ListTrackingLogs calls llm.v1.LLMService.ListTrackingLogs.
 func (c *lLMServiceClient) ListTrackingLogs(ctx context.Context, req *connect.Request[emptypb.Empty]) (*connect.Response[llm.LogResponse], error) {
 	return c.listTrackingLogs.CallUnary(ctx, req)
@@ -134,6 +151,7 @@ type LLMServiceHandler interface {
 	GetChatCompletions(context.Context, *connect.Request[llm.ChatCompletionRequest]) (*connect.Response[llm.ChatCompletionResponse], error)
 	GetStreamChatCompletions(context.Context, *connect.Request[llm.ChatCompletionRequest], *connect.ServerStream[llm.ChatCompletionResponse]) error
 	ListModels(context.Context, *connect.Request[llm.ModelRequest]) (*connect.Response[llm.ModelResponse], error)
+	ListProviders(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[llm.ProvidersResponse], error)
 	ListTrackingLogs(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[llm.LogResponse], error)
 }
 
@@ -161,6 +179,12 @@ func NewLLMServiceHandler(svc LLMServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(lLMServiceListModelsMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	lLMServiceListProvidersHandler := connect.NewUnaryHandler(
+		LLMServiceListProvidersProcedure,
+		svc.ListProviders,
+		connect.WithSchema(lLMServiceListProvidersMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	lLMServiceListTrackingLogsHandler := connect.NewUnaryHandler(
 		LLMServiceListTrackingLogsProcedure,
 		svc.ListTrackingLogs,
@@ -175,6 +199,8 @@ func NewLLMServiceHandler(svc LLMServiceHandler, opts ...connect.HandlerOption) 
 			lLMServiceGetStreamChatCompletionsHandler.ServeHTTP(w, r)
 		case LLMServiceListModelsProcedure:
 			lLMServiceListModelsHandler.ServeHTTP(w, r)
+		case LLMServiceListProvidersProcedure:
+			lLMServiceListProvidersHandler.ServeHTTP(w, r)
 		case LLMServiceListTrackingLogsProcedure:
 			lLMServiceListTrackingLogsHandler.ServeHTTP(w, r)
 		default:
@@ -196,6 +222,10 @@ func (UnimplementedLLMServiceHandler) GetStreamChatCompletions(context.Context, 
 
 func (UnimplementedLLMServiceHandler) ListModels(context.Context, *connect.Request[llm.ModelRequest]) (*connect.Response[llm.ModelResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.ListModels is not implemented"))
+}
+
+func (UnimplementedLLMServiceHandler) ListProviders(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[llm.ProvidersResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.ListProviders is not implemented"))
 }
 
 func (UnimplementedLLMServiceHandler) ListTrackingLogs(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[llm.LogResponse], error) {

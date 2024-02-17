@@ -25,7 +25,7 @@ func TestPriorityRouter(t *testing.T) {
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			providers := make([]base.ProviderInterface, 0, len(tc.providers))
+			providers := make([]base.IProvider, 0, len(tc.providers))
 
 			for _, provider := range tc.providers {
 				providers = append(providers, mock.NewProviderMock(provider.Name))
@@ -37,7 +37,7 @@ func TestPriorityRouter(t *testing.T) {
 			for _, modelID := range tc.expectedModelIDs {
 				model, err := iterator.Next()
 				require.NoError(t, err)
-				require.Equal(t, modelID, model.GetName())
+				require.Equal(t, modelID, model.Name())
 			}
 		})
 	}

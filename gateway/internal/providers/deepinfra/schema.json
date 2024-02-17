@@ -1,0 +1,22 @@
+{
+  "description": "Deepinfra configuration schema",
+  "title": "Deepinfra",
+  "type": "object",
+  "properties": {
+    "headers": {
+      "type": "object",
+      "title": "Headers",
+      "description": "Authorization properties",
+
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "title": "API Key",
+          "description": "Deepinfra API key"
+        }
+      },
+      "required": ["Authorization"]
+    }
+  },
+  "required": ["headers"]
+}

@@ -6,21 +6,31 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/missingstudio/studio/backend/models"
 	"github.com/missingstudio/studio/backend/pkg/requester"
 )
 
 func (ta *togetherAIProvider) ChatCompletion(ctx context.Context, payload []byte) (*http.Response, error) {
 	client := requester.NewHTTPClient()
-	requestURL := fmt.Sprintf("%s%s", ta.Config.BaseURL, ta.Config.ChatCompletions)
+	requestURL := fmt.Sprintf("%s%s", ta.config.BaseURL, ta.config.ChatCompletions)
 	req, _ := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
 
+	connectionConfigMap := ta.conn.GetHeaders([]string{
+		models.AuthorizationHeader,
+	})
+
+	var authorizationHeader string
+	if val, ok := connectionConfigMap[models.AuthorizationHeader].(string); ok && val != "" {
+		authorizationHeader = val
+	}
+
 	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", ta.APIKey))
+	req.Header.Add("Authorization", authorizationHeader)
 
 	return client.SendRequestRaw(req)
 }
 
-func (*togetherAIProvider) GetModels() []string {
+func (*togetherAIProvider) Models() []string {
 	return []string{
 		"togethercomputer/CodeLlama-7b-Instruct",
 		"togethercomputer/CodeLlama-13b-Instruct",

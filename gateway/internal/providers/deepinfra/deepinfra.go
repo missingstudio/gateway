@@ -6,21 +6,31 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/missingstudio/studio/backend/models"
 	"github.com/missingstudio/studio/backend/pkg/requester"
 )
 
 func (deepinfra *deepinfraProvider) ChatCompletion(ctx context.Context, payload []byte) (*http.Response, error) {
 	client := requester.NewHTTPClient()
-	requestURL := fmt.Sprintf("%s%s", deepinfra.Config.BaseURL, deepinfra.Config.ChatCompletions)
+	requestURL := fmt.Sprintf("%s%s", deepinfra.config.BaseURL, deepinfra.config.ChatCompletions)
 	req, _ := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
 
+	connectionConfigMap := deepinfra.conn.GetHeaders([]string{
+		models.AuthorizationHeader,
+	})
+
+	var authorizationHeader string
+	if val, ok := connectionConfigMap[models.AuthorizationHeader].(string); ok && val != "" {
+		authorizationHeader = val
+	}
+
 	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", deepinfra.APIKey))
+	req.Header.Add("Authorization", authorizationHeader)
 
 	return client.SendRequestRaw(req)
 }
 
-func (deepinfra *deepinfraProvider) GetModels() []string {
+func (deepinfra *deepinfraProvider) Models() []string {
 	return []string{
 		"DeepInfra/pygmalion-13b-4bit-128g",
 		"codellama/CodeLlama-70b-Instruct-hf",
