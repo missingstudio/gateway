@@ -22,6 +22,11 @@ service LLMService {
     option (google.api.http).body = "*";
   }
 
+  rpc ListProviders(google.protobuf.Empty) returns (ProvidersResponse) {
+    option (google.api.http).get = "/v1/providers";
+    option (google.api.http).body = "*";
+  }
+
   rpc ListTrackingLogs(google.protobuf.Empty) returns (LogResponse) {
     option (google.api.http).get = "/v1/tracking/logs"; 
     option (google.api.http).body = "*";
@@ -139,4 +144,13 @@ message Model {
 
 message LogResponse {
   repeated google.protobuf.Struct logs = 1;
+}
+
+message Provider {
+  string name = 1;
+  string value = 2;
+}
+
+message ProvidersResponse {
+  repeated Provider providers = 1;
 }

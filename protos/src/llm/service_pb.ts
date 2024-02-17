@@ -728,3 +728,83 @@ export class LogResponse extends Message<LogResponse> {
   }
 }
 
+/**
+ * @generated from message llm.v1.Provider
+ */
+export class Provider extends Message<Provider> {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name = "";
+
+  /**
+   * @generated from field: string value = 2;
+   */
+  value = "";
+
+  constructor(data?: PartialMessage<Provider>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.Provider";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "value", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Provider {
+    return new Provider().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Provider {
+    return new Provider().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Provider {
+    return new Provider().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Provider | PlainMessage<Provider> | undefined, b: Provider | PlainMessage<Provider> | undefined): boolean {
+    return proto3.util.equals(Provider, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.ProvidersResponse
+ */
+export class ProvidersResponse extends Message<ProvidersResponse> {
+  /**
+   * @generated from field: repeated llm.v1.Provider providers = 1;
+   */
+  providers: Provider[] = [];
+
+  constructor(data?: PartialMessage<ProvidersResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.ProvidersResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "providers", kind: "message", T: Provider, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ProvidersResponse {
+    return new ProvidersResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ProvidersResponse {
+    return new ProvidersResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ProvidersResponse {
+    return new ProvidersResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ProvidersResponse | PlainMessage<ProvidersResponse> | undefined, b: ProvidersResponse | PlainMessage<ProvidersResponse> | undefined): boolean {
+    return proto3.util.equals(ProvidersResponse, a, b);
+  }
+}
+

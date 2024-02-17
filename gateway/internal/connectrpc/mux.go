@@ -13,7 +13,7 @@ import (
 	"github.com/missingstudio/studio/protos/pkg/llm/llmv1connect"
 )
 
-func NewConnectMux(d api.Deps) (*http.ServeMux, error) {
+func NewConnectMux(d *api.Deps) (*http.ServeMux, error) {
 	mux := http.NewServeMux()
 
 	compress1KB := connect.WithCompressMinBytes(1024)

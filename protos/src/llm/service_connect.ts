@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ChatCompletionRequest, ChatCompletionResponse, LogResponse, ModelRequest, ModelResponse } from "./service_pb";
+import { ChatCompletionRequest, ChatCompletionResponse, LogResponse, ModelRequest, ModelResponse, ProvidersResponse } from "./service_pb";
 import { Empty, MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -37,6 +37,15 @@ export const LLMService = {
       name: "ListModels",
       I: ModelRequest,
       O: ModelResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc llm.v1.LLMService.ListProviders
+     */
+    listProviders: {
+      name: "ListProviders",
+      I: Empty,
+      O: ProvidersResponse,
       kind: MethodKind.Unary,
     },
     /**

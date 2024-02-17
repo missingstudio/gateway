@@ -17,6 +17,7 @@ require (
 	github.com/MakeNowJust/heredoc v1.0.0
 	github.com/go-playground/validator/v10 v10.18.0
 	github.com/google/go-cmp v0.6.0
+	github.com/google/uuid v1.4.0
 	github.com/hashicorp/consul/api v1.25.1
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/missingstudio/studio/common v0.0.0-00010101000000-000000000000
@@ -29,15 +30,18 @@ require (
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.8.4
+	github.com/xeipuuv/gojsonschema v1.2.0
 	github.com/zeebo/assert v1.3.1
 	golang.org/x/net v0.21.0
 	golang.org/x/text v0.14.0
+	google.golang.org/protobuf v1.32.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.31.0-20230824200731-b9b8148056b9.1 // indirect
 	github.com/Azure/go-ansiterm v0.0.0-20170929234023-d6e3b3328b78 // indirect
+	github.com/Jeffail/gabs/v2 v2.7.0
 	github.com/Microsoft/go-winio v0.6.0 // indirect
 	github.com/Nvveen/Gotty v0.0.0-20120604004816-cd527374f1e5 // indirect
 	github.com/antlr/antlr4/runtime/Go/antlr/v4 v4.0.0-20230512164433-5d1fd1a340c9 // indirect
@@ -107,7 +111,6 @@ require (
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20180127040702-4e3ac2762d5f // indirect
 	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415 // indirect
-	github.com/xeipuuv/gojsonschema v1.2.0 // indirect
 	github.com/zeebo/xxh3 v1.0.2 // indirect
 	go.opentelemetry.io/otel v1.19.0 // indirect
 	go.opentelemetry.io/otel/metric v1.19.0 // indirect
@@ -124,7 +127,6 @@ require (
 	google.golang.org/genproto/googleapis/api v0.0.0-20240102182953-50ed04b92917 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20231212172506-995d672761c0 // indirect
 	google.golang.org/grpc v1.61.0 // indirect
-	google.golang.org/protobuf v1.32.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
