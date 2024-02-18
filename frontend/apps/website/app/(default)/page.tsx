@@ -1,14 +1,16 @@
 import CTA from "components/cta";
-import FeaturesAPIGateway from "components/features/gateway";
-import FeaturesUniversalAPI from "components/features/universal-api";
+import AIGateway from "components/features/ai-gateway";
+import AIRouter from "components/features/ai-router";
 import Hero from "components/hero";
+import { TiltedDashboard } from "components/tilt";
 
 export default function Page(): JSX.Element {
   return (
     <>
       <Hero />
-      <FeaturesUniversalAPI />
-      <FeaturesAPIGateway />
+      <TiltedDashboard />
+      <AIRouter />
+      <AIGateway />
       <CTA />
     </>
   );

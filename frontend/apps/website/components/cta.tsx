@@ -9,8 +9,7 @@ export default function CTA() {
             className="absolute flex items-center justify-center top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square"
             aria-hidden="true"
           >
-            <div className="absolute inset-0 translate-z-0 bg-violet-500 rounded-full blur-[120px] opacity-70" />
-            <div className="absolute w-1/4 h-1/4 translate-z-0 bg-violet-400 rounded-full blur-[40px]" />
+            <div className="absolute inset-0 translate-z-0 bg-neutral-500 rounded-full blur-[120px] opacity-10" />
           </div>
 
           <div className="max-w-3xl mx-auto text-center">
@@ -19,13 +18,13 @@ export default function CTA() {
                 playgrounds
               </span>
             </div>
-            <h2 className="text-3xl md:text-6xl font-bold bg-clip-text !leading-tight text-transparent bg-gradient-to-r from-slate-200/60 via-violet-200 to-slate-200/60 mb-4">
-              AI workflows
+            <h2 className="text-4xl md:text-6xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 bg-opacity-50 mb-4 !leading-tight">
+              LLM Playground
             </h2>
-            <Balance className="text-sm sm:text-xl text-slate-400 tracking-wide mb-8 antialiased leading-snug">
-              Use AI studio to create, experiment, deploy and scale LLM powered
-              workflows using the latest AI models like GPT-4-turbo, DALL·E 3
-              and Claude 2
+            <Balance className="text-base text-neutral-300 mb-8 tracking-wide">
+              If you are experimenting with LLMs, getting started with them can
+              be cumbersome. We provides playground studio to play with and to
+              make decision to use in a production-ready.
             </Balance>
             <div>
               <a
