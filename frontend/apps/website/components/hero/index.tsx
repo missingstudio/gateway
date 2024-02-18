@@ -1,3 +1,4 @@
+import Balance from "react-wrap-balancer";
 import { MilkeyWay } from "../milkway";
 
 export default function Hero() {
@@ -5,30 +6,32 @@ export default function Hero() {
     <section>
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
         <MilkeyWay />
+
         <div className="pt-32 pb-16 md:pt-52 md:pb-32">
           <div className="max-w-3xl mx-auto text-center">
             <div className="mb-4" data-aos="fade-down">
-              <span className="relative inline-flex items-center font-bold uppercase tracking-[0.12rem] text-violet-400">
-                AI Studio for developer
+              <span className="text-xs md:text-sm relative inline-flex items-center font-bold uppercase tracking-[0.12rem] text-violet-400">
+                For developer, By developer
               </span>
             </div>
             <h1
-              className="text-3xl md:text-6xl font-bold bg-clip-text !leading-tight text-transparent bg-gradient-to-r from-slate-200/60 via-violet-200 to-slate-200/60 mb-4"
+              className="text-4xl md:text-7xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 bg-opacity-50 mb-4"
               data-aos="fade-down"
             >
               Open-source
               <br />
               AI studio for AI Apps
             </h1>
-            <p
-              className="text-sm sm:text-xl text-slate-400 tracking-wide mb-8 antialiased leading-snug"
+
+            <Balance
+              className="text-lg sm:text-xl text-neutral-300  tracking-wide mb-8"
               data-aos="fade-down"
               data-aos-delay="200"
             >
               An open-source AI studio for rapid development and robust
-              deployment of generative AI applications that seamlessly
-              integrates with top providers like OpenAI, Anthropic etc
-            </p>
+              deployment of production-ready generative AI. Reliable,
+              High-performance & Easy to use.
+            </Balance>
             <div
               className="max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4"
               data-aos="fade-down"

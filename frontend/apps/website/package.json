@@ -12,13 +12,15 @@
     "@headlessui/react": "^1.7.18",
     "@missingstudio/ui": "*",
     "aos": "^2.3.4",
-    "framer-motion": "^10.18.0",
+    "framer-motion": "^11.0.5",
     "next": "^14.0.4",
     "next-themes": "^0.2.1",
     "prettier": "^3.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-fast-marquee": "^1.6.4"
+    "react-fast-marquee": "^1.6.4",
+    "react-wrap-balancer": "^1.1.0",
+    "tailwind-scrollbar": "^3.1.0"
   },
   "devDependencies": {
     "@missingstudio/eslint-config": "*",

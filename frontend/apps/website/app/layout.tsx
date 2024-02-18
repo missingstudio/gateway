@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${outfit.className} antialiased bg-slate-900 text-slate-100 tracking-tight`}
+        className={`${outfit.className} antialiased bg-[#101010] text-neutral-100 tracking-tight`}
       >
         <div className="flex flex-col min-h-screen overflow-hidden">
           <Providers>{children}</Providers>
