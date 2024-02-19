@@ -17,8 +17,9 @@ func (s *V1Handler) ListModels(ctx context.Context, req *connect.Request[llmv1.M
 			continue
 		}
 
-		providerName := provider.Name()
+		providerInfo := provider.Info()
 		providerModels := provider.Models()
+		providerName := providerInfo.Name
 
 		var models []*llmv1.Model
 		for _, val := range providerModels {

@@ -40,10 +40,10 @@ func (s *V1Handler) GetChatCompletions(
 	}
 
 	providerName := req.Header().Get(constants.XMSProvider)
-	connectionObj := models.Connection{}
-	connectionObj.Name = providerName
-	connectionObj.Headers = headerConfig
-
+	connectionObj := models.Connection{
+		Name:    providerName,
+		Headers: headerConfig,
+	}
 	provider, err := s.providerService.GetProvider(connectionObj)
 	if err != nil {
 		return nil, errors.New(err)
@@ -74,7 +74,9 @@ func (s *V1Handler) GetChatCompletions(
 	}
 
 	ingesterdata := make(map[string]interface{})
-	ingesterdata["provider"] = provider.Name()
+	providerInfo := provider.Info()
+
+	ingesterdata["provider"] = providerInfo.Name
 	ingesterdata["model"] = data.Model
 	ingesterdata["latency"] = latency
 	ingesterdata["total_tokens"] = *data.Usage.TotalTokens

@@ -13,17 +13,30 @@ var schema []byte
 var _ base.IProvider = &anyscaleProvider{}
 
 type anyscaleProvider struct {
-	name   string
+	info   base.ProviderInfo
 	config base.ProviderConfig
 	conn   models.Connection
 }
 
-func (anyscale anyscaleProvider) Name() string {
-	return anyscale.name
+func (anyscale anyscaleProvider) Info() base.ProviderInfo {
+	return anyscale.info
+}
+
+func (anyscale anyscaleProvider) Config() base.ProviderConfig {
+	return anyscale.config
 }
 
 func (anyscale anyscaleProvider) Schema() []byte {
 	return schema
+}
+
+func getAnyscaleInfo() base.ProviderInfo {
+	return base.ProviderInfo{
+		Title: "Anyscale",
+		Name:  "anyscale",
+		Description: `Anyscale Endpoints is a fast and scalable API to integrate OSS LLMs into your app.  
+		Use our growing list of high performance models or deploy your own.`,
+	}
 }
 
 func getAnyscaleConfig(baseURL string) base.ProviderConfig {
@@ -37,7 +50,7 @@ func init() {
 	models.ProviderRegistry["anyscale"] = func(connection models.Connection) base.IProvider {
 		config := getAnyscaleConfig("https://api.endpoints.anyscale.com")
 		return &anyscaleProvider{
-			name:   "Anyscale",
+			info:   getAnyscaleInfo(),
 			config: config,
 			conn:   connection,
 		}

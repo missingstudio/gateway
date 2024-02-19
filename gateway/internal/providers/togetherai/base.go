@@ -13,17 +13,29 @@ var schema []byte
 var _ base.IProvider = &togetherAIProvider{}
 
 type togetherAIProvider struct {
-	name   string
+	info   base.ProviderInfo
 	config base.ProviderConfig
 	conn   models.Connection
 }
 
-func (togetherAI togetherAIProvider) Name() string {
-	return togetherAI.name
+func (anyscale togetherAIProvider) Info() base.ProviderInfo {
+	return anyscale.info
+}
+
+func (togetherAI togetherAIProvider) Config() base.ProviderConfig {
+	return togetherAI.config
 }
 
 func (togetherAI togetherAIProvider) Schema() []byte {
 	return schema
+}
+
+func getTogetherAIInfo() base.ProviderInfo {
+	return base.ProviderInfo{
+		Title:       "Together AI",
+		Name:        "togetherai",
+		Description: `Build gen AI models with Together AI. Benefit from the fastest and most cost-efficient tools and infra.`,
+	}
 }
 
 func getTogetherAIConfig(baseURL string) base.ProviderConfig {
@@ -37,7 +49,7 @@ func init() {
 	models.ProviderRegistry["togetherai"] = func(connection models.Connection) base.IProvider {
 		config := getTogetherAIConfig("https://api.together.xyz")
 		return &togetherAIProvider{
-			name:   "Together AI",
+			info:   getTogetherAIInfo(),
 			config: config,
 			conn:   connection,
 		}

@@ -5,17 +5,22 @@ import "github.com/missingstudio/studio/backend/internal/providers/base"
 var _ base.IProvider = &providerMock{}
 
 type providerMock struct {
-	name string
+	info   base.ProviderInfo
+	config base.ProviderConfig
 }
 
 func NewProviderMock(name string) base.IProvider {
 	return &providerMock{
-		name: name,
+		info: base.ProviderInfo{Name: name},
 	}
 }
 
-func (p providerMock) Name() string {
-	return p.name
+func (p providerMock) Info() base.ProviderInfo {
+	return p.info
+}
+
+func (p providerMock) Config() base.ProviderConfig {
+	return p.config
 }
 
 func (p providerMock) Schema() []byte {

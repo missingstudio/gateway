@@ -13,17 +13,29 @@ var schema []byte
 var _ base.IProvider = &openAIProvider{}
 
 type openAIProvider struct {
-	name   string
+	info   base.ProviderInfo
 	config base.ProviderConfig
 	conn   models.Connection
 }
 
-func (oai openAIProvider) Name() string {
-	return oai.name
+func (anyscale openAIProvider) Info() base.ProviderInfo {
+	return anyscale.info
+}
+
+func (oai openAIProvider) Config() base.ProviderConfig {
+	return oai.config
 }
 
 func (oai openAIProvider) Schema() []byte {
 	return schema
+}
+
+func getOpenAIInfo() base.ProviderInfo {
+	return base.ProviderInfo{
+		Title:       "OpenAI",
+		Name:        "openai",
+		Description: `OpenAI API platform offers latest models and guides for safety best practices.`,
+	}
 }
 
 func getOpenAIConfig(baseURL string) base.ProviderConfig {
@@ -37,7 +49,7 @@ func init() {
 	models.ProviderRegistry["openai"] = func(connection models.Connection) base.IProvider {
 		config := getOpenAIConfig("https://api.openai.com")
 		return &openAIProvider{
-			name:   "OpenAI",
+			info:   getOpenAIInfo(),
 			config: config,
 			conn:   connection,
 		}

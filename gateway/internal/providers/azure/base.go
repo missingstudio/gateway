@@ -13,17 +13,29 @@ var schema []byte
 var _ base.IProvider = &azureProvider{}
 
 type azureProvider struct {
-	name   string
+	info   base.ProviderInfo
 	config base.ProviderConfig
 	conn   models.Connection
 }
 
-func (az azureProvider) Name() string {
-	return az.name
+func (anyscale azureProvider) Info() base.ProviderInfo {
+	return anyscale.info
+}
+
+func (az azureProvider) Config() base.ProviderConfig {
+	return az.config
 }
 
 func (az azureProvider) Schema() []byte {
 	return schema
+}
+
+func getAzureInfo() base.ProviderInfo {
+	return base.ProviderInfo{
+		Title:       "Azure",
+		Name:        "azure",
+		Description: "Azure OpenAI Service offers industry-leading coding and language AI models that you can fine-tune to your specific needs for a variety of use cases.",
+	}
 }
 
 func getAzureConfig() base.ProviderConfig {
@@ -33,13 +45,4 @@ func getAzureConfig() base.ProviderConfig {
 	}
 }
 
-func init() {
-	models.ProviderRegistry["azure"] = func(connection models.Connection) base.IProvider {
-		config := getAzureConfig()
-		return &azureProvider{
-			name:   "Azure",
-			config: config,
-			conn:   connection,
-		}
-	}
-}
+func init() {}

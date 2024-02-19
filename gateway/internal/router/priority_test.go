@@ -11,16 +11,20 @@ import (
 
 func TestPriorityRouter(t *testing.T) {
 	type Provider struct {
-		Name string
+		info base.ProviderInfo
 	}
 
 	type TestCase struct {
-		providers        []Provider
-		expectedModelIDs []string
+		providers           []Provider
+		expectedProviderIDs []string
 	}
 
 	tests := map[string]TestCase{
-		"openai": {[]Provider{{"openai"}, {"anyscale"}, {"azure"}}, []string{"openai", "anyscale", "azure"}},
+		"openai": {[]Provider{
+			{info: base.ProviderInfo{Name: "openai"}},
+			{info: base.ProviderInfo{Name: "anyscale"}},
+			{info: base.ProviderInfo{Name: "azure"}},
+		}, []string{"openai", "anyscale", "azure"}},
 	}
 
 	for name, tc := range tests {
@@ -28,16 +32,17 @@ func TestPriorityRouter(t *testing.T) {
 			providers := make([]base.IProvider, 0, len(tc.providers))
 
 			for _, provider := range tc.providers {
-				providers = append(providers, mock.NewProviderMock(provider.Name))
+				providers = append(providers, mock.NewProviderMock(provider.info.Name))
 			}
 
 			routing := router.NewPriorityRouter(providers)
 			iterator := routing.Iterator()
 
-			for _, modelID := range tc.expectedModelIDs {
-				model, err := iterator.Next()
+			for _, providerID := range tc.expectedProviderIDs {
+				provider, err := iterator.Next()
+				config := provider.Info()
 				require.NoError(t, err)
-				require.Equal(t, modelID, model.Name())
+				require.Equal(t, providerID, config.Name)
 			}
 		})
 	}

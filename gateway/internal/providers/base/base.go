@@ -9,9 +9,15 @@ type ProviderConfig struct {
 	BaseURL         string
 	ChatCompletions string
 }
+type ProviderInfo struct {
+	Title       string
+	Name        string
+	Description string
+}
 
 type IProvider interface {
-	Name() string
+	Info() ProviderInfo
+	Config() ProviderConfig
 	Models() []string
 	Schema() []byte
 }

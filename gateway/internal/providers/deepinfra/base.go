@@ -13,17 +13,30 @@ var schema []byte
 var _ base.IProvider = &deepinfraProvider{}
 
 type deepinfraProvider struct {
-	name   string
+	info   base.ProviderInfo
 	config base.ProviderConfig
 	conn   models.Connection
 }
 
-func (deepinfra deepinfraProvider) Name() string {
-	return deepinfra.name
+func (anyscale deepinfraProvider) Info() base.ProviderInfo {
+	return anyscale.info
+}
+
+func (deepinfra deepinfraProvider) Config() base.ProviderConfig {
+	return deepinfra.config
 }
 
 func (deepinfra deepinfraProvider) Schema() []byte {
 	return schema
+}
+
+func getDeepinfraInfo() base.ProviderInfo {
+	return base.ProviderInfo{
+		Title: "Deepinfra",
+		Name:  "deepinfra",
+		Description: `Deep Infra offers 100+ machine learning models from Text-to-Image, Object-Detection, 
+		Automatic-Speech-Recognition, Text-to-Text Generation, and more!`,
+	}
 }
 
 func getDeepinfraConfig(baseURL string) base.ProviderConfig {
@@ -37,7 +50,7 @@ func init() {
 	models.ProviderRegistry["deepinfra"] = func(connection models.Connection) base.IProvider {
 		config := getDeepinfraConfig("https://api.deepinfra.com/v1/openai")
 		return &deepinfraProvider{
-			name:   "Deepinfra",
+			info:   getDeepinfraInfo(),
 			config: config,
 			conn:   connection,
 		}

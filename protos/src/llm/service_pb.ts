@@ -733,14 +733,24 @@ export class LogResponse extends Message<LogResponse> {
  */
 export class Provider extends Message<Provider> {
   /**
-   * @generated from field: string name = 1;
+   * @generated from field: string title = 1;
+   */
+  title = "";
+
+  /**
+   * @generated from field: string name = 2;
    */
   name = "";
 
   /**
-   * @generated from field: string value = 2;
+   * @generated from field: string description = 3;
    */
-  value = "";
+  description = "";
+
+  /**
+   * @generated from field: google.protobuf.Struct config = 4;
+   */
+  config?: Struct;
 
   constructor(data?: PartialMessage<Provider>) {
     super();
@@ -750,8 +760,10 @@ export class Provider extends Message<Provider> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "llm.v1.Provider";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "value", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "title", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "config", kind: "message", T: Struct },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Provider {
@@ -805,6 +817,154 @@ export class ProvidersResponse extends Message<ProvidersResponse> {
 
   static equals(a: ProvidersResponse | PlainMessage<ProvidersResponse> | undefined, b: ProvidersResponse | PlainMessage<ProvidersResponse> | undefined): boolean {
     return proto3.util.equals(ProvidersResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.GetProviderRequest
+ */
+export class GetProviderRequest extends Message<GetProviderRequest> {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id = "";
+
+  constructor(data?: PartialMessage<GetProviderRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.GetProviderRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetProviderRequest {
+    return new GetProviderRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetProviderRequest {
+    return new GetProviderRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetProviderRequest {
+    return new GetProviderRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetProviderRequest | PlainMessage<GetProviderRequest> | undefined, b: GetProviderRequest | PlainMessage<GetProviderRequest> | undefined): boolean {
+    return proto3.util.equals(GetProviderRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.GetProviderResponse
+ */
+export class GetProviderResponse extends Message<GetProviderResponse> {
+  /**
+   * @generated from field: llm.v1.Provider provider = 1;
+   */
+  provider?: Provider;
+
+  constructor(data?: PartialMessage<GetProviderResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.GetProviderResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "provider", kind: "message", T: Provider },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetProviderResponse {
+    return new GetProviderResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetProviderResponse {
+    return new GetProviderResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetProviderResponse {
+    return new GetProviderResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetProviderResponse | PlainMessage<GetProviderResponse> | undefined, b: GetProviderResponse | PlainMessage<GetProviderResponse> | undefined): boolean {
+    return proto3.util.equals(GetProviderResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.GetProviderConfigRequest
+ */
+export class GetProviderConfigRequest extends Message<GetProviderConfigRequest> {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id = "";
+
+  constructor(data?: PartialMessage<GetProviderConfigRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.GetProviderConfigRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetProviderConfigRequest {
+    return new GetProviderConfigRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetProviderConfigRequest {
+    return new GetProviderConfigRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetProviderConfigRequest {
+    return new GetProviderConfigRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetProviderConfigRequest | PlainMessage<GetProviderConfigRequest> | undefined, b: GetProviderConfigRequest | PlainMessage<GetProviderConfigRequest> | undefined): boolean {
+    return proto3.util.equals(GetProviderConfigRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.GetProviderConfigResponse
+ */
+export class GetProviderConfigResponse extends Message<GetProviderConfigResponse> {
+  /**
+   * @generated from field: google.protobuf.Struct config = 1;
+   */
+  config?: Struct;
+
+  constructor(data?: PartialMessage<GetProviderConfigResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.GetProviderConfigResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "config", kind: "message", T: Struct },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetProviderConfigResponse {
+    return new GetProviderConfigResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetProviderConfigResponse {
+    return new GetProviderConfigResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetProviderConfigResponse {
+    return new GetProviderConfigResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetProviderConfigResponse | PlainMessage<GetProviderConfigResponse> | undefined, b: GetProviderConfigResponse | PlainMessage<GetProviderConfigResponse> | undefined): boolean {
+    return proto3.util.equals(GetProviderConfigResponse, a, b);
   }
 }
 

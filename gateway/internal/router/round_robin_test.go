@@ -11,7 +11,7 @@ import (
 
 func TestRoundRobinRouter(t *testing.T) {
 	type Provider struct {
-		Name string
+		info base.ProviderInfo
 	}
 
 	type TestCase struct {
@@ -20,7 +20,11 @@ func TestRoundRobinRouter(t *testing.T) {
 	}
 
 	tests := map[string]TestCase{
-		"public llms": {[]Provider{{"openai"}, {"anyscale"}, {"azure"}}, []string{"openai", "anyscale", "azure"}},
+		"public llms": {[]Provider{
+			{info: base.ProviderInfo{Name: "openai"}},
+			{info: base.ProviderInfo{Name: "anyscale"}},
+			{info: base.ProviderInfo{Name: "azure"}},
+		}, []string{"openai", "anyscale", "azure"}},
 	}
 
 	for name, tc := range tests {
@@ -28,7 +32,7 @@ func TestRoundRobinRouter(t *testing.T) {
 			providers := make([]base.IProvider, 0, len(tc.providers))
 
 			for _, provider := range tc.providers {
-				providers = append(providers, mock.NewProviderMock(provider.Name))
+				providers = append(providers, mock.NewProviderMock(provider.info.Name))
 			}
 
 			routing := router.NewRoundRobinRouter(providers)
@@ -37,8 +41,9 @@ func TestRoundRobinRouter(t *testing.T) {
 			// loop three times over the whole pool to check if we return back to the begging of the list
 			for _, providerName := range tc.expectedModelIDs {
 				provider, err := iterator.Next()
+				config := provider.Info()
 				require.NoError(t, err)
-				require.Equal(t, providerName, provider.Name())
+				require.Equal(t, providerName, config.Name)
 			}
 		})
 	}
