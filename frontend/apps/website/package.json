@@ -11,6 +11,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.18",
     "@missingstudio/ui": "*",
+    "@next/third-parties": "^14.1.0",
     "aos": "^2.3.4",
     "framer-motion": "^11.0.5",
     "next": "^14.0.4",

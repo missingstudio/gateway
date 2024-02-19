@@ -1,14 +1,11 @@
+import { GoogleAnalytics } from "@next/third-parties/google";
+import defaultMetadata from "config/metadata";
 import type { Metadata } from "next";
 import { outfit } from "styles/fonts";
 import "styles/globals.css";
 import { Providers } from "./providers";
 
-export const metadata: Metadata = {
-  title: "Missing studio",
-  description:
-    "Missing studio is a robust open source platform to build a developer-first way to create AI application",
-};
-
+export const metadata: Metadata = defaultMetadata;
 export default function RootLayout({
   children,
 }: {
@@ -23,6 +20,7 @@ export default function RootLayout({
           <Providers>{children}</Providers>
         </div>
       </body>
+      <GoogleAnalytics gaId="G-Y922M67ET7" />
     </html>
   );
 }
