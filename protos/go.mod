@@ -11,6 +11,6 @@ require (
 
 require (
 	github.com/google/go-cmp v0.6.0 // indirect
-	golang.org/x/net v0.20.0 // indirect
+	golang.org/x/net v0.21.0 // indirect
 	google.golang.org/genproto v0.0.0-20231212172506-995d672761c0 // indirect
 )

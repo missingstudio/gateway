@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ChatCompletionRequest, ChatCompletionResponse, GetProviderConfigRequest, GetProviderConfigResponse, GetProviderRequest, GetProviderResponse, LogResponse, ModelRequest, ModelResponse, ProvidersResponse } from "./service_pb";
+import { ChatCompletionRequest, ChatCompletionResponse, GetProviderConfigRequest, GetProviderConfigResponse, GetProviderRequest, GetProviderResponse, LogResponse, ModelRequest, ModelResponse, ProvidersResponse, UpdateProviderRequest, UpdateProviderResponse } from "./service_pb";
 import { Empty, MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -49,12 +49,21 @@ export const LLMService = {
       kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc llm.v1.LLMService.GetProviderById
+     * @generated from rpc llm.v1.LLMService.GetProvider
      */
-    getProviderById: {
-      name: "GetProviderById",
+    getProvider: {
+      name: "GetProvider",
       I: GetProviderRequest,
       O: GetProviderResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc llm.v1.LLMService.UpdateProvider
+     */
+    updateProvider: {
+      name: "UpdateProvider",
+      I: UpdateProviderRequest,
+      O: UpdateProviderResponse,
       kind: MethodKind.Unary,
     },
     /**

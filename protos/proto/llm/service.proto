@@ -27,12 +27,17 @@ service LLMService {
     option (google.api.http).body = "*";
   }
 
-  rpc GetProviderById(GetProviderRequest) returns (GetProviderResponse) {
+  rpc GetProvider(GetProviderRequest) returns (GetProviderResponse) {
     option (google.api.http) = {get: "/v1/providers/{id}"};
   }
 
+  rpc UpdateProvider(UpdateProviderRequest) returns (UpdateProviderResponse) {
+    option (google.api.http).put = "/v1/providers/{id}";
+    option (google.api.http).body = "*";
+  }
+  
   rpc GetProviderConfig(GetProviderConfigRequest) returns (GetProviderConfigResponse) {
-    option (google.api.http) = {get: "/v1/providers/{id}/configs"};
+    option (google.api.http) = {get: "/v1/providers/{id}/config"};
   }
 
   rpc ListTrackingLogs(google.protobuf.Empty) returns (LogResponse) {
@@ -155,10 +160,11 @@ message LogResponse {
 }
 
 message Provider {
-  string title = 1;
-  string name = 2;
-  string description = 3;
-  google.protobuf.Struct config = 4;
+  string id = 1;
+  string title = 2;
+  string name = 3;
+  string description = 4;
+  google.protobuf.Struct config = 5;
 }
 
 message ProvidersResponse {
@@ -171,6 +177,16 @@ message GetProviderRequest {
 
 message GetProviderResponse {
   Provider provider = 1;
+}
+
+message UpdateProviderRequest {
+  string id = 1;
+  google.protobuf.Struct config = 2;
+}
+
+message UpdateProviderResponse {
+  string name = 1;
+  google.protobuf.Struct config = 2;
 }
 
 message GetProviderConfigRequest {

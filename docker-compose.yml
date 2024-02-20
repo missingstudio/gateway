@@ -12,6 +12,22 @@ services:
     ports:
       - 8080:8080
 
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=mstudio
+      - POSTGRES_USER=mstudio
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U mstudio" ]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
   redis:
     image: redis:7.2-alpine
     restart: always
@@ -23,4 +39,6 @@ services:
 
 volumes:
   redis:
+    driver: local
+  postgres:
     driver: local

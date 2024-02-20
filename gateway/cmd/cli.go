@@ -31,6 +31,7 @@ func New(cliConfig *Config) *cobra.Command {
 
 	cmd.AddCommand(ServerCommand())
 	cmd.AddCommand(ConfigCommand())
+	cmd.AddCommand(GenEncryptionKeyCommand())
 	SetHelp(cmd)
 	return cmd
 }

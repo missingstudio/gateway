@@ -8,6 +8,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/missingstudio/studio/backend/config"
 	"github.com/missingstudio/studio/backend/internal/api"
 	"github.com/missingstudio/studio/backend/internal/connections"
@@ -15,6 +16,8 @@ import (
 	"github.com/missingstudio/studio/backend/internal/providers"
 	"github.com/missingstudio/studio/backend/internal/ratelimiter"
 	"github.com/missingstudio/studio/backend/internal/server"
+	"github.com/missingstudio/studio/backend/internal/storage/postgres"
+	"github.com/missingstudio/studio/backend/pkg/database"
 	"github.com/missingstudio/studio/common/logger"
 	"github.com/redis/go-redis/v9"
 )
@@ -39,8 +42,28 @@ func Serve(cfg *config.Config) error {
 	rl := ratelimiter.NewRateLimiter(cfg.Ratelimiter, logger, cfg.Ratelimiter.Type, rdb)
 	ingester := ingester.GetIngesterWithDefault(ctx, cfg.Ingester, logger)
 
+	// prefer use pgx instead of lib/pq for postgres to catch pg error
+	if cfg.Postgres.Driver == "postgres" {
+		cfg.Postgres.Driver = "pgx"
+	}
+
+	dbc, err := database.New(cfg.Postgres)
+	if err != nil {
+		err = fmt.Errorf("failed to setup db: %w", err)
+		return err
+	}
+
+	defer func() {
+		logger.Debug("cleaning up db")
+		if err := dbc.Close(); err != nil {
+			logger.Warn("db cleanup failed", "err", err)
+		}
+	}()
+
+	connectionRepository := postgres.NewConnectionRepository(dbc)
 	providerService := providers.NewService()
-	connectionService := connections.NewService()
+
+	connectionService := connections.NewService(connectionRepository)
 
 	deps := api.NewDeps(logger, ingester, rl, providerService, connectionService)
 

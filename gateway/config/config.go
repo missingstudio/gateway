@@ -8,17 +8,21 @@ import (
 	"github.com/missingstudio/studio/backend/internal/ingester"
 	"github.com/missingstudio/studio/backend/internal/ratelimiter"
 	"github.com/missingstudio/studio/backend/internal/server"
+	"github.com/missingstudio/studio/backend/pkg/database"
 
 	"github.com/missingstudio/studio/common/config"
 	"github.com/missingstudio/studio/common/logger"
 )
 
 type Config struct {
-	App         server.Config      `yaml:"app,omitempty"`
-	Log         logger.Config      `yaml:"log,omitempty"`
-	Ingester    ingester.Config    `yaml:"ingester,omitempty"`
-	Redis       RedisConfig        `yaml:"redis,omitempty"`
-	Ratelimiter ratelimiter.Config `yaml:"ratelimiter,omitempty"`
+	Version       int                `yaml:"version"`
+	App           server.Config      `yaml:"app,omitempty"`
+	Log           logger.Config      `yaml:"log,omitempty"`
+	Ingester      ingester.Config    `yaml:"ingester,omitempty"`
+	Redis         RedisConfig        `yaml:"redis,omitempty"`
+	Postgres      database.Config    `yaml:"postgres,omitempty"`
+	Ratelimiter   ratelimiter.Config `yaml:"ratelimiter,omitempty"`
+	EncryptionKey string             `yaml:"encryption_key" json:"encryption_key,omitempty" mapstructure:"encryption_key" default:""`
 }
 
 type RedisConfig struct {
