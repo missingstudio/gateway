@@ -1,56 +1,10 @@
-import Image from "next/image";
+"use client";
 import Link from "next/link";
-import ProvidersImg from "~/public/logo.svg";
-import Star from "~/public/star.svg";
+import { usePathname } from "next/navigation";
+import { Provider, useProvidersFetch } from "./hooks/useProvidersFetch";
 
 export default function ProvidersList() {
-  const items = [
-    {
-      img: ProvidersImg,
-      name: "Openai",
-      description:
-        "Stellar makes it easy to build extensions by providing an authentication provider that handles the OAuth flow.",
-      link: "/providers/openai",
-      featured: false,
-      category: "LLM",
-    },
-    {
-      img: ProvidersImg,
-      name: "Azure",
-      description:
-        "Stellar makes it easy to build extensions by providing an authentication provider that handles the OAuth flow.",
-      link: "/providers/azure",
-      featured: false,
-      category: "LLM",
-    },
-    {
-      img: ProvidersImg,
-      name: "Anyscale",
-      description:
-        "Stellar makes it easy to build extensions by providing an authentication provider that handles the OAuth flow.",
-      link: "/providers/anyscale",
-      featured: false,
-      category: "LLM",
-    },
-    {
-      img: ProvidersImg,
-      name: "Deepinfra",
-      description:
-        "Stellar makes it easy to build extensions by providing an authentication provider that handles the OAuth flow.",
-      link: "/providers/deepinfra",
-      featured: false,
-      category: "LLM",
-    },
-    {
-      img: ProvidersImg,
-      name: "Togetherai",
-      description:
-        "Stellar makes it easy to build extensions by providing an authentication provider that handles the OAuth flow.",
-      link: "/providers/togetherai",
-      featured: false,
-      category: "LLM",
-    },
-  ];
+  const { providers } = useProvidersFetch();
 
   return (
     <section>
@@ -68,12 +22,13 @@ export default function ProvidersList() {
               </h3>
 
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {items.map(
-                  (item, index) =>
-                    item.category === "LLM" && (
-                      <ProviderCard item={item} index={index} />
-                    )
-                )}
+                {providers.map((provider, index) => (
+                  <ProviderCard
+                    key={provider.name}
+                    provider={provider}
+                    index={index}
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -84,18 +39,13 @@ export default function ProvidersList() {
 }
 
 type CardProps = {
-  item: {
-    category: string;
-    img: string;
-    name: string;
-    featured: boolean;
-    link: string;
-    description: string;
-  };
+  provider: Provider;
   index: number;
 };
 
-export function ProviderCard({ item, index }: CardProps) {
+export function ProviderCard({ provider, index }: CardProps) {
+  const pathname = usePathname();
+
   return (
     <div
       key={index}
@@ -103,29 +53,16 @@ export function ProviderCard({ item, index }: CardProps) {
     >
       <div className="flex flex-col p-5 h-full">
         <div className="flex items-center space-x-3 mb-3">
-          <div className="relative">
-            <Image src={item.img} width="40" height="40" alt={item.name} />
-            {item.featured && (
-              <Image
-                className="absolute top-0 -right-1"
-                src={Star}
-                width={16}
-                height={16}
-                alt="Star"
-                aria-hidden="true"
-              />
-            )}
-          </div>
           <Link
             className="font-semibold bg-clip-text text-transparent bg-gradient-to-r from-slate-800/60 via-slate-800 to-slate-800/60 dark:from-slate-200/60 dark:via-slate-200 dark:to-slate-200/60 group-hover:before:absolute group-hover:before:inset-0"
-            href={item.link}
+            href={`${pathname}/${provider.name}`}
           >
-            {item.name}
+            {provider.title}
           </Link>
         </div>
         <div className="grow">
           <div className="text-sm text-slate-400 dark:text-slate-600">
-            {item.description}
+            {provider.description}
           </div>
         </div>
       </div>

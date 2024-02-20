@@ -1,3 +1,5 @@
-import { Space_Grotesk } from "next/font/google";
+import localFont from "next/font/local";
 
-export const spaceGrotesk = Space_Grotesk({ subsets: ["latin"] });
+export const spaceGrotesk = localFont({
+  src: "../assets/fonts/SpaceGrotesk-Regular.ttf",
+});

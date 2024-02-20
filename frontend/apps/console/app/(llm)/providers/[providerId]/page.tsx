@@ -1,10 +1,96 @@
+"use client";
+
+import { Button } from "@missingstudio/ui/button";
+import { Input } from "@missingstudio/ui/input";
+import { Loader } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import mergeDeepRight from "ramda/es/mergeDeepRight";
+import pathOr from "ramda/es/pathOr";
+
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
+
+import { Label } from "@missingstudio/ui/label";
+import { useEffect } from "react";
 import ProvidersIcon from "~/public/providers-icon.svg";
 import ProvidersImg from "~/public/providers-image.png";
 import Star from "~/public/star.svg";
+import { useProviderFetch } from "../hooks/useProviderFetch";
+
+const initialValues = {
+  config: {
+    headers: {
+      Authorization: "",
+    },
+  },
+};
+const formSchema = z.object({
+  config: z.object({
+    headers: z.object({
+      Authorization: z.string({ required_error: "Authorization is required" }),
+    }),
+  }),
+});
+type FormValues = z.infer<typeof formSchema>;
 
 export default function SingleProvider() {
+  const params = useParams<{ providerId: string }>();
+  const { config, provider } = useProviderFetch(params.providerId);
+
+  const defaultValue = mergeDeepRight(initialValues, provider ?? {});
+
+  const {
+    control,
+    getValues,
+    handleSubmit,
+    formState: { errors, isValid, isLoading },
+    reset,
+  } = useForm({
+    defaultValues: defaultValue,
+    mode: "all",
+  });
+
+  useEffect(() => {
+    reset(defaultValue);
+  }, [provider]);
+
+  const onSubmit: SubmitHandler<FormValues> = async () => {
+    try {
+      const data = getValues();
+      const response = await fetch(
+        `http://localhost:3000/v1/providers/${params.providerId}`,
+        {
+          method: "put",
+          body: JSON.stringify(data),
+          headers: {
+            "x-ms-provider": "openai",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      await response.json();
+      toast.info("Updated", {
+        description: "Configuration has been updated",
+      });
+    } catch (error) {
+      toast.error("Something went wrong", {
+        description: "Not able to update configurations",
+      });
+    }
+  };
+
+  const headersProperties = pathOr({}, ["properties", "headers", "properties"])(
+    config
+  ) as Record<string, any>;
+
+  const requiredHeadersProperties = pathOr(
+    [],
+    ["properties", "headers", "required"]
+  )(config) as String[];
+
   return (
     <section className="relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -55,60 +141,8 @@ export default function SingleProvider() {
                           merged - there is no need to update the issue in
                           Stellar at all.
                         </p>
-                        <p>
-                          Move even faster by using a keyboard shortcut that
-                          creates the issue's git branch name, assigns the issue
-                          and moves the issue to In Progress in one step. This
-                          provider supports <a href="#0">GitHub Enterprise</a>.
-                        </p>
-                        <h2 className=" text-black">How it works</h2>
-                        <p>
-                          Configure the GitHub provider{" "}
-                          <strong className="text-slate-900 dark:text-slate-50 font-medium">
-                            in a couple of minutes
-                          </strong>{" "}
-                          by authenticating and selecting which repos to connect
-                          to Stellar. Once you do, anyone in the workspace can
-                          start linking PRs.
-                        </p>
-                        <p>
-                          Link PRs to issues in a few ways. Use the issue ID in
-                          the branch name or PR title before creating the PR. To
-                          link multiple PRs, or link issues after creating the
-                          PR, use magic words along with the issue ID in the PR
-                          description.
-                        </p>
                       </div>
                     </article>
-
-                    <aside className="pl-6 border-l-2 border-purple-500">
-                      <p className="inline-flex font-medium italic text-lg bg-clip-text text-transparent bg-gradient-to-r from-slate-800/60 via-slate-800 to-slate-800/60 dark:from-slate-200/60 dark:via-slate-200 dark:to-slate-200/60 pb-4">
-                        “ This provider is so perfect it tickles my brain. It
-                        ensures that your work is in sync across your entire
-                        team. ”
-                      </p>
-                      <footer className="flex items-center space-x-4">
-                        <Image
-                          className="shrink-0 rounded-full"
-                          src={ProvidersImg}
-                          width={32}
-                          height={32}
-                          alt="Author"
-                        />
-                        <div className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                          Mike Hunt{" "}
-                          <span className="text-slate-300 dark:text-slate-700">
-                            -
-                          </span>{" "}
-                          <a
-                            className="text-purple-500 hover:underline"
-                            href="#0"
-                          >
-                            Thunderbolt
-                          </a>
-                        </div>
-                      </footer>
-                    </aside>
                   </div>
                 </div>
               </div>
@@ -139,51 +173,51 @@ export default function SingleProvider() {
                           </div>
                         </div>
                       </div>
-                      <ul className="text-sm">
-                        <li className="flex items-center justify-between space-x-2 py-3 border-t [border-image:linear-gradient(to_right,theme(colors.slate.700/.3),theme(colors.slate.700),theme(colors.slate.700/.3))1]">
-                          <span className="text-slate-600 dark:text-slate-400">
-                            Company
-                          </span>
-                          <span className="text-slate-700 dark:text-slate-300 font-medium">
-                            Github
-                          </span>
-                        </li>
-                        <li className="flex items-center justify-between space-x-2 py-3 border-t [border-image:linear-gradient(to_right,theme(colors.slate.700/.3),theme(colors.slate.700),theme(colors.slate.700/.3))1]">
-                          <span className="text-slate-600 dark:text-slate-400">
-                            Website
-                          </span>
-                          <a
-                            className="text-purple-500 font-medium flex items-center space-x-1"
-                            href="#0"
-                          >
-                            <span>github.com</span>
-                            <svg
-                              className="fill-current"
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="9"
-                              height="9"
-                            >
-                              <path d="m1.285 8.514-.909-.915 5.513-5.523H1.663l.01-1.258h6.389v6.394H6.794l.01-4.226z" />
-                            </svg>
-                          </a>
-                        </li>
-                        <li className="flex items-center justify-between space-x-2 py-3 border-t [border-image:linear-gradient(to_right,theme(colors.slate.700/.3),theme(colors.slate.700),theme(colors.slate.700/.3))1]">
-                          <span className="text-slate-600 dark:text-slate-400">
-                            Industry
-                          </span>
-                          <span className="text-slate-700 dark:text-slate-300 font-medium">
-                            Technology
-                          </span>
-                        </li>
-                        <li className="flex items-center justify-between space-x-2 py-3 border-t [border-image:linear-gradient(to_right,theme(colors.slate.700/.3),theme(colors.slate.700),theme(colors.slate.700/.3))1]">
-                          <span className="text-slate-600 dark:text-slate-400">
-                            Installs
-                          </span>
-                          <span className="text-slate-700 dark:text-slate-300 font-medium">
-                            100K+
-                          </span>
-                        </li>
-                      </ul>
+                      <div className="flex items-center justify-between space-x-2 py-3 border-t [border-image:linear-gradient(to_right,theme(colors.slate.700/.3),theme(colors.slate.700),theme(colors.slate.700/.3))1]" />
+                      <form
+                        onSubmit={handleSubmit(onSubmit)}
+                        className="flex flex-col gap-2"
+                      >
+                        {Object.keys(headersProperties).map((hp: string) => {
+                          const { title, description } = headersProperties[hp];
+                          return (
+                            <div key="hp">
+                              <Label>{title}</Label>
+                              <Controller
+                                key={hp}
+                                render={({ field: { value, onChange } }) => (
+                                  <Input
+                                    className="col-span-2"
+                                    // @ts-ignore
+                                    value={value}
+                                    onChange={onChange}
+                                    placeholder={description}
+                                  />
+                                )}
+                                // @ts-ignore
+                                name={`config.headers.${hp}`}
+                                control={control}
+                                rules={{
+                                  required:
+                                    requiredHeadersProperties.includes(hp),
+                                }}
+                              />
+                            </div>
+                          );
+                        })}
+
+                        <Button
+                          type="submit"
+                          className="@lg:w-auto float-right w-full dark:bg-gray-100 dark:text-white dark:active:bg-gray-100"
+                          disabled={!isValid}
+                        >
+                          {isLoading ? (
+                            <Loader color="primary" />
+                          ) : (
+                            "update API key"
+                          )}
+                        </Button>
+                      </form>
                     </div>
                   </div>
                 </div>
