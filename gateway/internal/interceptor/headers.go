@@ -6,9 +6,10 @@ import (
 	"connectrpc.com/connect"
 	"github.com/missingstudio/studio/backend/internal/constants"
 	"github.com/missingstudio/studio/backend/internal/errors"
+	"github.com/missingstudio/studio/backend/internal/providers"
 )
 
-func ProviderInterceptor() connect.UnaryInterceptorFunc {
+func ProviderInterceptor(ps *providers.Service) connect.UnaryInterceptorFunc {
 	interceptor := func(next connect.UnaryFunc) connect.UnaryFunc {
 		return connect.UnaryFunc(func(
 			ctx context.Context,

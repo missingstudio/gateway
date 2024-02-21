@@ -49,7 +49,6 @@ func Register(d *api.Deps) (http.Handler, error) {
 		otelconnectInterceptor,
 		interceptor.NewLoggingInterceptor(d.Logger),
 		interceptor.RateLimiterInterceptor(d.RateLimiter),
-		interceptor.ProviderInterceptor(),
 		interceptor.RetryInterceptor(),
 	}
 

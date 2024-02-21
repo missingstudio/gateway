@@ -101,7 +101,6 @@ func (c *ConnectionRepository) Upsert(ctx context.Context, conn models.Connectio
 
 	query, params, err := dialect.Insert(TABLE_CONNECTIONS).Rows(
 		goqu.Record{
-			"id":     conn.ID,
 			"name":   conn.Name,
 			"config": marshaledConfig,
 		}).OnConflict(

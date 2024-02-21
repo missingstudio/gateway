@@ -24,7 +24,7 @@ func TestGatewayServer(t *testing.T) {
 	mux := http.NewServeMux()
 	mux.Handle(llmv1connect.NewLLMServiceHandler(
 		&v1.V1Handler{},
-		connect.WithInterceptors(interceptor.ProviderInterceptor()),
+		connect.WithInterceptors(interceptor.ProviderInterceptor(nil)),
 	))
 
 	server := httptest.NewUnstartedServer(mux)
@@ -52,7 +52,7 @@ func TestGatewayServer(t *testing.T) {
 		for _, client := range clients {
 
 			req := connect.NewRequest(&llmv1.ChatCompletionRequest{})
-			_, err := client.GetChatCompletions(context.Background(), req)
+			_, err := client.ChatCompletions(context.Background(), req)
 
 			require.NotNil(t, err)
 			assert.True(t, strings.Contains(err.Error(), errors.ErrRequiredHeaderNotExit.Error()))

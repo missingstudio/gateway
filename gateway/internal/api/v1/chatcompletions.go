@@ -3,6 +3,7 @@ package v1
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"time"
 
 	"connectrpc.com/connect"
@@ -18,20 +19,27 @@ import (
 var (
 	ErrChatCompletionStreamNotSupported = errors.NewBadRequest("streaming is not supported with this method, please use StreamChatCompletions")
 	ErrChatCompletionNotSupported       = errors.NewInternalError("provider don't have chat Completion capabilities")
+	ErrRequiredHeaderNotExit            = errors.NewBadRequest(fmt.Sprintf("either %s or %s header is required", constants.XMSProvider, constants.XMSConfig))
 )
 
-func (s *V1Handler) GetChatCompletions(
+func (s *V1Handler) ChatCompletions(
 	ctx context.Context,
 	req *connect.Request[llmv1.ChatCompletionRequest],
 ) (*connect.Response[llmv1.ChatCompletionResponse], error) {
-	startTime := time.Now()
+	// Check if required headers are available
+	providerName := req.Header().Get(constants.XMSProvider)
+	config := req.Header().Get(constants.XMSConfig)
+	if providerName == "" && config == "" {
+		return nil, ErrRequiredHeaderNotExit
+	}
 
+	startTime := time.Now()
 	payload, err := json.Marshal(req.Msg)
 	if err != nil {
 		return nil, errors.New(err)
 	}
 
-	// Convert headers into map[string]any
+	// Convert headers into map[string]any + merge config
 	headerConfig := make(map[string]any)
 	for key, values := range req.Header() {
 		if len(values) > 0 {
@@ -39,11 +47,11 @@ func (s *V1Handler) GetChatCompletions(
 		}
 	}
 
-	providerName := req.Header().Get(constants.XMSProvider)
 	connectionObj := models.Connection{
 		Name:    providerName,
 		Headers: headerConfig,
 	}
+
 	provider, err := s.providerService.GetProvider(connectionObj)
 	if err != nil {
 		return nil, errors.New(err)

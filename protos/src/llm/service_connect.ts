@@ -13,19 +13,19 @@ export const LLMService = {
   typeName: "llm.v1.LLMService",
   methods: {
     /**
-     * @generated from rpc llm.v1.LLMService.GetChatCompletions
+     * @generated from rpc llm.v1.LLMService.ChatCompletions
      */
-    getChatCompletions: {
-      name: "GetChatCompletions",
+    chatCompletions: {
+      name: "ChatCompletions",
       I: ChatCompletionRequest,
       O: ChatCompletionResponse,
       kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc llm.v1.LLMService.GetStreamChatCompletions
+     * @generated from rpc llm.v1.LLMService.StreamChatCompletions
      */
-    getStreamChatCompletions: {
-      name: "GetStreamChatCompletions",
+    streamChatCompletions: {
+      name: "StreamChatCompletions",
       I: ChatCompletionRequest,
       O: ChatCompletionResponse,
       kind: MethodKind.ServerStreaming,
