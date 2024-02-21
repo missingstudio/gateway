@@ -15,12 +15,12 @@ export default function Hero() {
               </span>
             </div>
             <h1
-              className="text-4xl md:text-7xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 bg-opacity-50 mb-4"
+              className="text-5xl md:text-7xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 bg-opacity-50 mb-4 md:leading-[1.2] md:tracking-normal"
               data-aos="fade-down"
             >
               Building reliable
               <br />
-              Infra stack for LLM Apps
+              Infra stack for LLM apps
             </h1>
 
             <Balance
