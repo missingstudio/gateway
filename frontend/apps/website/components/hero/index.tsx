@@ -8,7 +8,7 @@ export default function Hero() {
         <MilkeyWay />
 
         <div className="pt-32 pb-16 md:pt-52 md:pb-32">
-          <div className="max-w-3xl mx-auto text-center">
+          <div className="max-w-[60rem] mx-auto text-center">
             <div className="mb-4" data-aos="fade-down">
               <span className="text-xs md:text-sm relative inline-flex items-center font-bold uppercase tracking-[0.12rem] text-violet-400">
                 For developer, By developer
@@ -18,9 +18,9 @@ export default function Hero() {
               className="text-4xl md:text-7xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 bg-opacity-50 mb-4"
               data-aos="fade-down"
             >
-              Open-source
+              Building reliable
               <br />
-              AI studio for AI Apps
+              Infra stack for LLM Apps
             </h1>
 
             <Balance
