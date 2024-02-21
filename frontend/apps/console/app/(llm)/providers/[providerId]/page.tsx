@@ -1,5 +1,7 @@
 "use client";
 
+import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons";
+
 import { Button } from "@missingstudio/ui/button";
 import { Input } from "@missingstudio/ui/input";
 import { Loader } from "lucide-react";
@@ -14,7 +16,7 @@ import { toast } from "sonner";
 import * as z from "zod";
 
 import { Label } from "@missingstudio/ui/label";
-import { useEffect } from "react";
+import { HTMLInputTypeAttribute, useEffect, useState } from "react";
 import ProvidersIcon from "~/public/providers-icon.svg";
 import ProvidersImg from "~/public/providers-image.png";
 import Star from "~/public/star.svg";
@@ -37,6 +39,8 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function SingleProvider() {
+  const [authInputType, setAuthInputType] =
+    useState<HTMLInputTypeAttribute>("password");
   const params = useParams<{ providerId: string }>();
   const { config, provider } = useProviderFetch(params.providerId);
 
@@ -181,18 +185,34 @@ export default function SingleProvider() {
                         {Object.keys(headersProperties).map((hp: string) => {
                           const { title, description } = headersProperties[hp];
                           return (
-                            <div key="hp">
+                            <div key="hp" className="relative">
                               <Label>{title}</Label>
                               <Controller
                                 key={hp}
                                 render={({ field: { value, onChange } }) => (
-                                  <Input
-                                    className="col-span-2"
-                                    // @ts-ignore
-                                    value={value}
-                                    onChange={onChange}
-                                    placeholder={description}
-                                  />
+                                  <>
+                                    <Input
+                                      className="col-span-2"
+                                      type={authInputType}
+                                      // @ts-ignore
+                                      value={value}
+                                      onChange={onChange}
+                                      placeholder={description}
+                                    />
+                                    {authInputType == "password" ? (
+                                      <EyeOpenIcon
+                                        className="absolute bottom-3 right-2 bg-white p-[2px] w-4 cursor-pointer"
+                                        onClick={() => setAuthInputType("text")}
+                                      />
+                                    ) : (
+                                      <EyeClosedIcon
+                                        className="absolute bottom-3 right-2 bg-white p-[2px] w-4 cursor-pointer"
+                                        onClick={() =>
+                                          setAuthInputType("password")
+                                        }
+                                      />
+                                    )}
+                                  </>
                                 )}
                                 // @ts-ignore
                                 name={`config.headers.${hp}`}
