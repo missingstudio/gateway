@@ -11,17 +11,14 @@ interface Model {
   value: string;
 }
 
+const BASE_URL = process.env.NEXT_PUBLIC_GATEWAY_URL ?? "http://localhost:3000";
 export function useModelFetch() {
   const [providers, setProviders] = useState<ModelType[]>([]);
 
   useEffect(() => {
     async function fetchModels() {
       try {
-        const response = await fetch("http://localhost:3000/v1/models", {
-          headers: {
-            "x-ms-provider": "openai",
-          },
-        });
+        const response = await fetch(`${BASE_URL}/v1/models`);
         const { models } = await response.json();
         const fetchedProviders: ModelType[] = Object.keys(models).map(
           (key) => ({

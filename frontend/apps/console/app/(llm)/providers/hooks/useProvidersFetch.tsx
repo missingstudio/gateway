@@ -7,17 +7,14 @@ export interface Provider {
   description: string;
 }
 
+const BASE_URL = process.env.NEXT_PUBLIC_GATEWAY_URL ?? "http://localhost:3000";
 export function useProvidersFetch() {
   const [providers, setProviders] = useState<Provider[]>([]);
 
   useEffect(() => {
     async function fetchModels() {
       try {
-        const response = await fetch("http://localhost:3000/v1/providers", {
-          headers: {
-            "x-ms-provider": "openai",
-          },
-        });
+        const response = await fetch(`${BASE_URL}/v1/providers`);
         const { providers } = await response.json();
 
         setProviders(providers);

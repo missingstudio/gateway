@@ -38,6 +38,7 @@ const formSchema = z.object({
 });
 type FormValues = z.infer<typeof formSchema>;
 
+const BASE_URL = process.env.NEXT_PUBLIC_GATEWAY_URL ?? "http://localhost:3000";
 export default function SingleProvider() {
   const [authInputType, setAuthInputType] =
     useState<HTMLInputTypeAttribute>("password");
@@ -65,12 +66,11 @@ export default function SingleProvider() {
     try {
       const data = getValues();
       const response = await fetch(
-        `http://localhost:3000/v1/providers/${params.providerId}`,
+        `${BASE_URL}/v1/providers/${params.providerId}`,
         {
           method: "put",
           body: JSON.stringify(data),
           headers: {
-            "x-ms-provider": "openai",
             "Content-Type": "application/json",
           },
         }

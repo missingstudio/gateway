@@ -7,21 +7,15 @@ export interface Provider {
   description: string;
 }
 
+const BASE_URL = process.env.NEXT_PUBLIC_GATEWAY_URL ?? "http://localhost:3000";
 export function useProviderFetch(pname: string) {
-  const [provider, setProvider] = useState<Provider>();
+  const [provider, setProvider] = useState<Provider | undefined>();
   const [config, setConfig] = useState();
 
   useEffect(() => {
     async function fetchProvider() {
       try {
-        const response = await fetch(
-          `http://localhost:3000/v1/providers/${pname}`,
-          {
-            headers: {
-              "x-ms-provider": "openai",
-            },
-          }
-        );
+        const response = await fetch(`${BASE_URL}/v1/providers/${pname}`);
         const { provider } = await response.json();
 
         setProvider(provider);
@@ -36,12 +30,7 @@ export function useProviderFetch(pname: string) {
     async function fetchProviderConfig() {
       try {
         const response = await fetch(
-          `http://localhost:3000/v1/providers/${pname}/config`,
-          {
-            headers: {
-              "x-ms-provider": "openai",
-            },
-          }
+          `${BASE_URL}/v1/providers/${pname}/config`
         );
         const { config } = await response.json();
 

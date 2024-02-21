@@ -2,17 +2,14 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import { useStore } from "~/app/(llm)/playground/store";
 
+const BASE_URL = process.env.NEXT_PUBLIC_GATEWAY_URL ?? "http://localhost:3000";
 export function useLogsFetch() {
   const { status, setLogs } = useStore();
 
   useEffect(() => {
     async function fetchLogs() {
       try {
-        const response = await fetch("http://localhost:3000/v1/tracking/logs", {
-          headers: {
-            "x-ms-provider": "openai",
-          },
-        });
+        const response = await fetch(`${BASE_URL}/v1/tracking/logs`);
         const { logs = [] } = await response.json();
         setLogs(logs);
       } catch (e) {
