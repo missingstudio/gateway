@@ -228,7 +228,7 @@ export default function SingleProvider() {
 
                         <Button
                           type="submit"
-                          className="@lg:w-auto float-right w-full dark:bg-gray-100 dark:text-white dark:active:bg-gray-100"
+                          className="@lg:w-auto float-right w-full dark:bg-gray-100 dark:text-black dark:active:bg-gray-100"
                           disabled={!isValid}
                         >
                           {isLoading ? (
