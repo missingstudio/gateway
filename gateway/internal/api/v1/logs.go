@@ -18,7 +18,7 @@ func (s *V1Handler) ListTrackingLogs(ctx context.Context, req *connect.Request[e
 
 	logs := []*structpb.Struct{}
 	for _, log := range response {
-		point := map[string]interface{}{
+		point := map[string]any{
 			"latency":           log["latency"],
 			"model":             log["model"],
 			"provider":          log["provider"],

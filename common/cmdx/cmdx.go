@@ -46,11 +46,11 @@ func (c *Config) File() string {
 	return c.filename
 }
 
-func (c *Config) Defaults(cfg interface{}) {
+func (c *Config) Defaults(cfg any) {
 	defaults.SetDefaults(cfg)
 }
 
-func (c *Config) Init(cfg interface{}) error {
+func (c *Config) Init(cfg any) error {
 	defaults.SetDefaults(cfg)
 
 	if fileExist(c.filename) {
@@ -65,7 +65,7 @@ func (c *Config) Read() (string, error) {
 	return string(cfg), err
 }
 
-func (c *Config) Write(cfg interface{}) error {
+func (c *Config) Write(cfg any) error {
 	data, err := yaml.Marshal(cfg)
 	if err != nil {
 		return err
@@ -81,7 +81,7 @@ func (c *Config) Write(cfg interface{}) error {
 	return nil
 }
 
-func (c *Config) Load(cfg interface{}, opts ...ConfigLoaderOpt) error {
+func (c *Config) Load(cfg any, opts ...ConfigLoaderOpt) error {
 	for _, opt := range opts {
 		opt(c)
 	}

@@ -40,7 +40,7 @@ func (c *Connection) MergeConfig(kv map[string]any) (err error) {
 			return err
 		}
 	}
-	if err := container.MergeFn(gabs.Wrap(c.Config), func(destination, source interface{}) interface{} {
+	if err := container.MergeFn(gabs.Wrap(c.Config), func(destination, source any) any {
 		return destination
 	}); err != nil {
 		return err

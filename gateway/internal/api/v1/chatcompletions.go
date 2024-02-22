@@ -81,7 +81,7 @@ func (s *V1Handler) ChatCompletions(
 		return nil, errors.New(err)
 	}
 
-	ingesterdata := make(map[string]interface{})
+	ingesterdata := make(map[string]any)
 	providerInfo := provider.Info()
 
 	ingesterdata["provider"] = providerInfo.Name

@@ -85,7 +85,7 @@ func WithType(in string) LoaderOption {
 //	type Config struct {
 //		Host string `yaml:"host" cmdx:"host"`
 //	}
-func WithBindPFlags(pfs *pflag.FlagSet, cfg interface{}) LoaderOption {
+func WithBindPFlags(pfs *pflag.FlagSet, cfg any) LoaderOption {
 	return func(l *Loader) {
 		reflectedCfg := reflect.TypeOf(cfg).Elem()
 
@@ -131,15 +131,15 @@ func WithDecoderConfigOption(opts ...viper.DecoderConfigOption) LoaderOption {
 	}
 }
 
-// StringToJsonFunc is a mapstructure.DecodeHookFunc that converts a string to an interface{}
+// StringToJsonFunc is a mapstructure.DecodeHookFunc that converts a string to an any
 // if the string is valid json. This is useful for unmarshalling json strings into a map.
 // For example, if you have a struct with a field of type map[string]string like labels or annotations,
 func StringToJsonFunc() mapstructure.DecodeHookFunc {
-	return func(f, t reflect.Type, data interface{}) (interface{}, error) {
+	return func(f, t reflect.Type, data any) (any, error) {
 		// if type is string and can be parsed as json, parse it
 		if f.Kind() == reflect.String && t.Kind() == reflect.Map {
 			if f.Kind() == reflect.String && t.Kind() == reflect.Map {
-				var m map[string]interface{}
+				var m map[string]any
 				if err := json.Unmarshal([]byte(data.(string)), &m); err == nil {
 					return m, nil
 				}
@@ -172,7 +172,7 @@ func NewLoader(options ...LoaderOption) *Loader {
 
 // Load loads configuration into the given mapstructure (https://github.com/mitchellh/mapstructure)
 // from a config.yaml file and overrides with any values set in env variables
-func (l *Loader) Load(config interface{}) error {
+func (l *Loader) Load(config any) error {
 	if err := verifyParamIsPtrToStructElsePanic(config); err != nil {
 		return err
 	}
@@ -216,7 +216,7 @@ func (l *Loader) Load(config interface{}) error {
 	return nil
 }
 
-func verifyParamIsPtrToStructElsePanic(param interface{}) error {
+func verifyParamIsPtrToStructElsePanic(param any) error {
 	value := reflect.ValueOf(param)
 	if value.Kind() != reflect.Ptr {
 		return fmt.Errorf("require ptr to a struct for Load. Got %v", value.Kind())
@@ -237,8 +237,8 @@ func getViperWithDefaults() *viper.Viper {
 	return v
 }
 
-func getFlattenedStructKeys(config interface{}) ([]string, error) {
-	var structMap map[string]interface{}
+func getFlattenedStructKeys(config any) ([]string, error) {
+	var structMap map[string]any
 	if err := mapstructure.Decode(config, &structMap); err != nil {
 		return nil, err
 	}

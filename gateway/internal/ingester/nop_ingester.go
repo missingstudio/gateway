@@ -8,10 +8,10 @@ func NewNopIngester() *nopIngester {
 	return &nopIngester{}
 }
 
-func (n *nopIngester) Get(key string) ([]map[string]interface{}, error) {
+func (n *nopIngester) Get(key string) ([]map[string]any, error) {
 	return nil, nil
 }
-func (n *nopIngester) Ingest(data map[string]interface{}, key string) {}
+func (n *nopIngester) Ingest(data map[string]any, key string) {}
 
 func (n *nopIngester) Close() error {
 	return nil

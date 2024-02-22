@@ -125,7 +125,6 @@ func (l *connectRequestLogger) ConnectRequestf(ctx context.Context) {
 			Latency:       durationpb.New(time.Since(requestTime)),
 		}),
 		slog.Time("time", requestTime),
-		slog.Any("rawHttpHeader", req.Header()),
 	)
 	l.Logger.LogAttrs(ctx, slog.LevelInfo, msg, attrs...)
 }

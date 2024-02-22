@@ -69,8 +69,8 @@ func (c *redisTokenBucketCache) Validate(keyname string, bucket_size int) (count
 	}
 
 	var ok bool
-	var arr []interface{}
-	if arr, ok = n.([]interface{}); !ok {
+	var arr []any
+	if arr, ok = n.([]any); !ok {
 		c.logger.Error("failed to parse redis result")
 		return
 	}

@@ -32,7 +32,7 @@ func NewInfluxIngester(opts ...Option) *InfluxDBIngester {
 	}
 }
 
-func (in *InfluxDBIngester) Ingest(data map[string]interface{}, measurement string) {
+func (in *InfluxDBIngester) Ingest(data map[string]any, measurement string) {
 	point := influxdb3.NewPoint(measurement, nil, data, time.Now())
 	err := in.client.WritePoints(context.Background(), point)
 	if err != nil {
@@ -40,13 +40,13 @@ func (in *InfluxDBIngester) Ingest(data map[string]interface{}, measurement stri
 	}
 }
 
-func (in *InfluxDBIngester) Get(query string) ([]map[string]interface{}, error) {
+func (in *InfluxDBIngester) Get(query string) ([]map[string]any, error) {
 	result, err := in.client.Query(context.Background(), query)
 	if err != nil {
 		return nil, err
 	}
 
-	data := []map[string]interface{}{}
+	data := []map[string]any{}
 	for result.Next() {
 		data = append(data, result.Value())
 	}

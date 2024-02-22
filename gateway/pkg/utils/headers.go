@@ -16,11 +16,11 @@ import (
 
 var ErrGatewayConfigHeaderNotValid = errors.New(fmt.Errorf("x-ms-config header is not valid"))
 
-func isJSON(s string, v interface{}) bool {
+func isJSON(s string, v any) bool {
 	return json.Unmarshal([]byte(s), v) == nil
 }
 
-func UnmarshalConfigHeaders(header http.Header, v interface{}) error {
+func UnmarshalConfigHeaders(header http.Header, v any) error {
 	msconfig := header.Get(constants.XMSProvider)
 	if msconfig == "" && isJSON(msconfig, v) {
 		return ErrGatewayConfigHeaderNotValid
@@ -29,7 +29,7 @@ func UnmarshalConfigHeaders(header http.Header, v interface{}) error {
 }
 
 // UnmarshalHeader unmarshals an http.Header into a struct
-func UnmarshalHeader(header http.Header, v interface{}) error {
+func UnmarshalHeader(header http.Header, v any) error {
 	fields := reflect.ValueOf(v).Elem()
 
 	for i := 0; i < fields.NumField(); i++ {
@@ -70,7 +70,7 @@ func setFieldValue(field reflect.Value, value string) {
 }
 
 // ValidateHeaders is a generic function to validate any structure with the `validate` struct tag.
-func ValidateHeaders(data interface{}) error {
+func ValidateHeaders(data any) error {
 	validate := validator.New()
 	if err := validate.Struct(data); err != nil {
 		errorMessages := []string{}

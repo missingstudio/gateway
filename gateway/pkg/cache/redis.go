@@ -69,7 +69,7 @@ func (rc *RedisClient) Get(ctx context.Context, key string) ([]byte, error) {
 	return []byte(val), nil
 }
 
-func (rc *RedisClient) MGet(ctx context.Context, keys ...string) ([]interface{}, error) {
+func (rc *RedisClient) MGet(ctx context.Context, keys ...string) ([]any, error) {
 	return rc.client.MGet(ctx, keys...).Result()
 }
 
