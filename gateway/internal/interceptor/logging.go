@@ -35,7 +35,6 @@ func (l *loggingInterceptor) WrapUnary(next connect.UnaryFunc) connect.UnaryFunc
 				case connect.CodeUnknown:
 					resultStatus = http.StatusInternalServerError
 				default:
-					// error code の分類分け
 					resultStatus = http.StatusBadRequest
 				}
 			}

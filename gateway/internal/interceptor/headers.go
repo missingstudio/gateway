@@ -7,7 +7,8 @@ import (
 	"connectrpc.com/connect"
 	"github.com/missingstudio/studio/backend/internal/constants"
 	"github.com/missingstudio/studio/backend/internal/errors"
-	"github.com/missingstudio/studio/backend/pkg/httputil"
+	"github.com/missingstudio/studio/backend/internal/httputil"
+	"github.com/missingstudio/studio/backend/internal/schema"
 )
 
 func HeadersInterceptor() connect.UnaryInterceptorFunc {
@@ -23,12 +24,12 @@ func HeadersInterceptor() connect.UnaryInterceptorFunc {
 				}
 			}
 
-			var gc httputil.GatewayConfig
+			gc := schema.DefaultGatewayConfig()
 			config := req.Header().Get(constants.XMSConfig)
 			provider := req.Header().Get(constants.XMSProvider)
 
 			if config != "" {
-				err := json.Unmarshal([]byte(config), &gc)
+				err := json.Unmarshal([]byte(config), gc)
 				if err != nil {
 					return nil, errors.ErrGatewayConfigNotValid
 				}
@@ -36,7 +37,7 @@ func HeadersInterceptor() connect.UnaryInterceptorFunc {
 
 			ctx = httputil.SetContextWithProviderConfig(ctx, provider)
 			ctx = httputil.SetContextWithHeaderConfig(ctx, headerConfig)
-			ctx = httputil.SetContextWithGatewayConfig(ctx, &gc)
+			ctx = httputil.SetContextWithGatewayConfig(ctx, gc)
 			return next(ctx, req)
 		})
 	}

@@ -1,11 +1,7 @@
 package logger
 
 import (
-	"bytes"
 	"context"
-	"encoding/binary"
-	"encoding/gob"
-	"fmt"
 	"log/slog"
 	"os"
 	"time"
@@ -74,15 +70,6 @@ func NewConnectRequestLogger(l *slog.Logger, status int, req connect.AnyRequest,
 	}
 }
 
-func binarySize(v any) int {
-	var buf bytes.Buffer
-	enc := gob.NewEncoder(&buf)
-	if err := enc.Encode(v); err != nil {
-		return 0
-	}
-	return binary.Size(buf.Bytes())
-}
-
 func defaultLogAttrs(severity slog.Level, traceID, spanID string) []slog.Attr {
 	return []slog.Attr{
 		slog.String("severity", severity.String()),
@@ -93,7 +80,6 @@ func defaultLogAttrs(severity slog.Level, traceID, spanID string) []slog.Attr {
 
 func (l *connectRequestLogger) ConnectRequestf(ctx context.Context) {
 	req := l.Req
-	resp := l.Resp
 
 	spanID, ok := ctx.Value(SpanIDKey{}).(string)
 	if !ok {
@@ -116,12 +102,10 @@ func (l *connectRequestLogger) ConnectRequestf(ctx context.Context) {
 			RequestMethod: req.HTTPMethod(),
 			Status:        l.Status,
 			RequestUrl:    "https://" + req.Header().Get("Host") + req.Spec().Procedure,
-			RequestSize:   fmt.Sprint(binarySize(req)),
 			UserAgent:     req.Header().Get("User-Agent"),
 			Protocol:      req.Header().Get("Protocol"),
 			RemoteIp:      req.Header().Get("X-Forwarded-For"),
 			ServerIp:      req.Peer().Addr,
-			ResponseSize:  fmt.Sprint(binarySize(resp)),
 			Latency:       durationpb.New(time.Since(requestTime)),
 		}),
 		slog.Time("time", requestTime),

@@ -4,6 +4,15 @@ import (
 	"time"
 )
 
+type RetryConfig struct {
+	// Number is the number of times to retry the request when a retryable
+	Numbers int32 `json:"numbers" default:"1"`
+
+	// RetryOnStatusCodes is a flat list of http response status codes that are
+	// eligible for retry. This again should be feasible in any reasonable proxy.
+	OnStatusCodes []uint32 `json:"on_status_codes" default:"[]"`
+}
+
 type CacheConfig struct {
 	// Mode specifies the type of cache with two possible modes: simple and semantic.
 	Mode string `json:"mode" default:"simple"`
@@ -11,25 +20,20 @@ type CacheConfig struct {
 	TTL time.Duration `json:"ttl"`
 }
 
-type RetryConfig struct {
-	Times int32 `json:"times" default:"1"`
-	// Status codes for retry
-	OnStatusCodes []string `json:"on_status_codes"`
-}
-
 type StrategyConfig struct {
-	Mode string `json:"mode" default:"fallback"`
-	// Status codes for retry
-	OnStatusCodes []string `json:"on_status_codes"`
+	Mode string `json:"mode"`
 }
 
-type GatewayConfigHeaders struct {
-	// Virtual key is temporary key with configurations for the gateway
-	Provider   string `json:"provider"`
-	VirtualKey string `json:"virtual_key"`
-	// Cache represents the cache configuration for the gateway.
-	Cache     CacheConfig    `json:"cache"`
-	Retry     RetryConfig    `json:"retry"`
-	Strategy  StrategyConfig `json:"strategy"`
-	Providers []any          `json:"providers"`
+type GatewayConfig struct {
+	Name        string          `json:"name"`
+	ApiKey      string          `json:"api_key"`
+	VirtualKey  string          `json:"virtual_key"`
+	RetryConfig RetryConfig     `json:"retry"`
+	CacheConfig CacheConfig     `json:"cache"`
+	Targets     []GatewayConfig `json:"targets"`
+	Metadata    map[string]any  `josn:"metadata"`
+}
+
+func DefaultGatewayConfig() *GatewayConfig {
+	return &GatewayConfig{}
 }

@@ -14,9 +14,9 @@ type Config struct {
 	WaitBase time.Duration
 	// Backoff enables exponential backoff on the retry (also disables jitter).
 	DisableBackoff bool
-	// Times is the number of times that will be retried in case of error
+	// Numbers is the number of times that will be retried in case of error
 	// before returning the error itself.
-	Times int
+	Numbers int
 }
 
 func (c *Config) defaults() {
@@ -24,8 +24,8 @@ func (c *Config) defaults() {
 		c.WaitBase = 20 * time.Millisecond
 	}
 
-	if c.Times <= 0 {
-		c.Times = 3
+	if c.Numbers <= 0 {
+		c.Numbers = 1
 	}
 }
 
@@ -49,7 +49,7 @@ func NewMiddleware(cfg Config) resilience.RunnerMiddleware {
 			var err error
 
 			// Start the attemps. (it's 1 + the number of retries.)
-			for i := 0; i <= cfg.Times; i++ {
+			for i := 0; i <= cfg.Numbers; i++ {
 
 				err = next.Run(ctx, f)
 				if err == nil {

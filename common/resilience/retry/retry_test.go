@@ -40,7 +40,7 @@ func TestRetryResult(t *testing.T) {
 			cfg: retry.Config{
 				WaitBase:       1 * time.Nanosecond,
 				DisableBackoff: true,
-				Times:          3,
+				Numbers:        3,
 			},
 			getF: func() resilience.Func {
 				c := &retryFailer{notFailOnAttemp: 4}
@@ -53,7 +53,7 @@ func TestRetryResult(t *testing.T) {
 			cfg: retry.Config{
 				WaitBase:       1 * time.Nanosecond,
 				DisableBackoff: true,
-				Times:          3,
+				Numbers:        3,
 			},
 			getF: func() resilience.Func {
 				c := &retryFailer{notFailOnAttemp: 5}

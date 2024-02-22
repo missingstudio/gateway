@@ -8,10 +8,10 @@ import (
 
 	"connectrpc.com/connect"
 	"github.com/missingstudio/studio/backend/internal/constants"
+	"github.com/missingstudio/studio/backend/internal/httputil"
 	"github.com/missingstudio/studio/backend/internal/providers"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
 	"github.com/missingstudio/studio/backend/models"
-	"github.com/missingstudio/studio/backend/pkg/httputil"
 	"github.com/missingstudio/studio/backend/pkg/utils"
 	"github.com/missingstudio/studio/common/errors"
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
