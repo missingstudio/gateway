@@ -12,7 +12,6 @@ import (
 	"github.com/missingstudio/studio/backend/internal/providers"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
 	"github.com/missingstudio/studio/backend/models"
-	"github.com/missingstudio/studio/backend/pkg/utils"
 	"github.com/missingstudio/studio/common/errors"
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
 )
@@ -88,5 +87,5 @@ func (s *V1Handler) ChatCompletions(
 	go s.ingester.Ingest(ingesterdata, "analytics")
 
 	response := connect.NewResponse(data)
-	return utils.CopyHeaders[llmv1.ChatCompletionResponse](resp, response), nil
+	return response, nil
 }

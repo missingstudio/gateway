@@ -21,7 +21,7 @@ func NewRoundRobinRouter(providers []base.IProvider) *RoundRobinRouter {
 	}
 }
 
-func (r *RoundRobinRouter) Iterator() ProviderIterator {
+func (r *RoundRobinRouter) Iterator() RouterIterator {
 	return r
 }
 

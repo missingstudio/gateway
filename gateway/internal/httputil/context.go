@@ -2,35 +2,19 @@ package httputil
 
 import (
 	"context"
-
-	"github.com/missingstudio/studio/backend/internal/schema"
 )
 
 type (
-	GatewayConfigContextKey struct{}
-	HeaderConfigContextKey  struct{}
+	HeaderConfigContextKey struct{}
+	headerConfigContext    map[string]any
 )
 
-type headerConfig map[string]any
-
-func SetContextWithHeaderConfig(ctx context.Context, config headerConfig) context.Context {
+func SetContextWithHeaderConfig(ctx context.Context, config headerConfigContext) context.Context {
 	return context.WithValue(ctx, HeaderConfigContextKey{}, config)
 }
 
-func GetContextWithHeaderConfig(ctx context.Context) headerConfig {
-	c, ok := ctx.Value(HeaderConfigContextKey{}).(headerConfig)
-	if !ok {
-		return nil
-	}
-	return c
-}
-
-func SetContextWithGatewayConfig(ctx context.Context, config *schema.GatewayConfig) context.Context {
-	return context.WithValue(ctx, GatewayConfigContextKey{}, config)
-}
-
-func GetContextWithGatewayConfig(ctx context.Context) *schema.GatewayConfig {
-	c, ok := ctx.Value(GatewayConfigContextKey{}).(*schema.GatewayConfig)
+func GetContextWithHeaderConfig(ctx context.Context) headerConfigContext {
+	c, ok := ctx.Value(HeaderConfigContextKey{}).(headerConfigContext)
 	if !ok {
 		return nil
 	}

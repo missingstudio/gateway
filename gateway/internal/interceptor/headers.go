@@ -2,13 +2,12 @@ package interceptor
 
 import (
 	"context"
-	"encoding/json"
 
 	"connectrpc.com/connect"
 	"github.com/missingstudio/studio/backend/internal/constants"
 	"github.com/missingstudio/studio/backend/internal/errors"
 	"github.com/missingstudio/studio/backend/internal/httputil"
-	"github.com/missingstudio/studio/backend/internal/schema"
+	"github.com/missingstudio/studio/backend/internal/router"
 )
 
 func HeadersInterceptor() connect.UnaryInterceptorFunc {
@@ -24,20 +23,16 @@ func HeadersInterceptor() connect.UnaryInterceptorFunc {
 				}
 			}
 
-			gc := schema.DefaultGatewayConfig()
 			config := req.Header().Get(constants.XMSConfig)
-			provider := req.Header().Get(constants.XMSProvider)
-
-			if config != "" {
-				err := json.Unmarshal([]byte(config), gc)
-				if err != nil {
-					return nil, errors.ErrGatewayConfigNotValid
-				}
+			rc, err := router.NewRouterConfig(config)
+			if err != nil {
+				return nil, errors.ErrRouterConfigNotValid
 			}
 
+			provider := req.Header().Get(constants.XMSProvider)
 			ctx = httputil.SetContextWithProviderConfig(ctx, provider)
 			ctx = httputil.SetContextWithHeaderConfig(ctx, headerConfig)
-			ctx = httputil.SetContextWithGatewayConfig(ctx, gc)
+			ctx = router.SetContextWithRouterConfig(ctx, rc)
 			return next(ctx, req)
 		})
 	}

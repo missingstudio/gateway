@@ -22,7 +22,7 @@ func NewPriorityRouter(providers []base.IProvider) *PriorityRouter {
 	}
 }
 
-func (r *PriorityRouter) Iterator() ProviderIterator {
+func (r *PriorityRouter) Iterator() RouterIterator {
 	return r
 }
 

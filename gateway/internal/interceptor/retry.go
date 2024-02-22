@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"connectrpc.com/connect"
-	"github.com/missingstudio/studio/backend/internal/httputil"
+	"github.com/missingstudio/studio/backend/internal/router"
 	"github.com/missingstudio/studio/common/resilience/retry"
 )
 
@@ -16,7 +16,7 @@ func RetryInterceptor() connect.UnaryInterceptorFunc {
 		) (connect.AnyResponse, error) {
 			var err error
 			var response connect.AnyResponse
-			config := httputil.GetContextWithGatewayConfig(ctx)
+			config := router.GetContextWithRouterConfig(ctx)
 			runner := retry.New(retry.Config{
 				Numbers: int(config.RetryConfig.Numbers),
 			})
