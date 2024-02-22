@@ -20,7 +20,7 @@ export default function Hero() {
             >
               Building reliable
               <br />
-              Infra stack for LLM apps
+              Infra stack for LLM Apps
             </h1>
 
             <Balance
