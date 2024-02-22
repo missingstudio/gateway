@@ -11,6 +11,7 @@ import (
 	"github.com/missingstudio/studio/backend/internal/providers"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
 	"github.com/missingstudio/studio/backend/models"
+	"github.com/missingstudio/studio/backend/pkg/httputil"
 	"github.com/missingstudio/studio/backend/pkg/utils"
 	"github.com/missingstudio/studio/common/errors"
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
@@ -39,14 +40,7 @@ func (s *V1Handler) ChatCompletions(
 		return nil, errors.New(err)
 	}
 
-	// Convert headers into map[string]any + merge config
-	headerConfig := make(map[string]any)
-	for key, values := range req.Header() {
-		if len(values) > 0 {
-			headerConfig[key] = values[0]
-		}
-	}
-
+	headerConfig := httputil.GetContextWithHeaderConfig(ctx)
 	connectionObj := models.Connection{
 		Name:    providerName,
 		Headers: headerConfig,

@@ -24,7 +24,7 @@ func TestGatewayServer(t *testing.T) {
 	mux := http.NewServeMux()
 	mux.Handle(llmv1connect.NewLLMServiceHandler(
 		&v1.V1Handler{},
-		connect.WithInterceptors(interceptor.ProviderInterceptor(nil)),
+		connect.WithInterceptors(interceptor.HeadersInterceptor()),
 	))
 
 	server := httptest.NewUnstartedServer(mux)

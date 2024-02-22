@@ -13,4 +13,5 @@ var (
 	ErrRateLimitExceeded     = errors.NewForbidden("rate limit exceeded")
 	ErrUnauthenticated       = errors.NewUnauthorized("unauthenticated")
 	ErrProviderNotFound      = errors.NewNotFound("provider is not found")
+	ErrGatewayConfigNotValid = errors.NewNotFound("gateway config is not valid")
 )

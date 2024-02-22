@@ -47,9 +47,10 @@ func Register(d *api.Deps) (http.Handler, error) {
 	stdInterceptors := []connect.Interceptor{
 		validateInterceptor,
 		otelconnectInterceptor,
-		interceptor.NewLoggingInterceptor(d.Logger),
+		interceptor.HeadersInterceptor(),
 		interceptor.RateLimiterInterceptor(d.RateLimiter),
 		interceptor.RetryInterceptor(),
+		interceptor.NewLoggingInterceptor(d.Logger),
 	}
 
 	services := []*vanguard.Service{
