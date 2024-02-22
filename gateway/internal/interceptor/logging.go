@@ -3,8 +3,10 @@ package interceptor
 import (
 	"context"
 	"log/slog"
+	"net/http"
 
 	"connectrpc.com/connect"
+	"github.com/missingstudio/studio/common/logger"
 )
 
 var _ connect.Interceptor = &loggingInterceptor{}
@@ -25,12 +27,24 @@ func (l *loggingInterceptor) WrapUnary(next connect.UnaryFunc) connect.UnaryFunc
 		req connect.AnyRequest,
 	) (connect.AnyResponse, error) {
 		res, err := next(ctx, req)
+
+		resultStatus := http.StatusOK
 		if err != nil {
-			l.logger.Error("response with error",
-				"err", err.Error(),
-				"endpoint", req.Spec().Procedure,
-				"addr", req.Peer().Addr)
+			if err, ok := err.(*connect.Error); ok {
+				switch err.Code() {
+				case connect.CodeUnknown:
+					resultStatus = http.StatusInternalServerError
+				default:
+					// error code の分類分け
+					resultStatus = http.StatusBadRequest
+				}
+			}
 		}
+
+		defer func() {
+			l := logger.NewConnectRequestLogger(l.logger, resultStatus, req, res)
+			l.ConnectRequestf(ctx)
+		}()
 		return res, err
 	})
 }

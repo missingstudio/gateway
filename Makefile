@@ -22,7 +22,7 @@ clean: clean-gateway ## Clean missing studio
 .PHONY: clean
 
 clean-gateway:
-	@echo "🧹 Cleaning gateway.."
+	@echo "Cleaning gateway.."
 	sh -c "cd ./gateway && make clean"
 .PHONY: clean-gateway
 
