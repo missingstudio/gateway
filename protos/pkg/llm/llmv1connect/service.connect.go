@@ -47,9 +47,12 @@ const (
 	LLMServiceListProvidersProcedure = "/llm.v1.LLMService/ListProviders"
 	// LLMServiceGetProviderProcedure is the fully-qualified name of the LLMService's GetProvider RPC.
 	LLMServiceGetProviderProcedure = "/llm.v1.LLMService/GetProvider"
-	// LLMServiceUpdateProviderProcedure is the fully-qualified name of the LLMService's UpdateProvider
+	// LLMServiceCreateProviderProcedure is the fully-qualified name of the LLMService's CreateProvider
 	// RPC.
-	LLMServiceUpdateProviderProcedure = "/llm.v1.LLMService/UpdateProvider"
+	LLMServiceCreateProviderProcedure = "/llm.v1.LLMService/CreateProvider"
+	// LLMServiceUpsertProviderProcedure is the fully-qualified name of the LLMService's UpsertProvider
+	// RPC.
+	LLMServiceUpsertProviderProcedure = "/llm.v1.LLMService/UpsertProvider"
 	// LLMServiceGetProviderConfigProcedure is the fully-qualified name of the LLMService's
 	// GetProviderConfig RPC.
 	LLMServiceGetProviderConfigProcedure = "/llm.v1.LLMService/GetProviderConfig"
@@ -66,7 +69,8 @@ var (
 	lLMServiceListModelsMethodDescriptor            = lLMServiceServiceDescriptor.Methods().ByName("ListModels")
 	lLMServiceListProvidersMethodDescriptor         = lLMServiceServiceDescriptor.Methods().ByName("ListProviders")
 	lLMServiceGetProviderMethodDescriptor           = lLMServiceServiceDescriptor.Methods().ByName("GetProvider")
-	lLMServiceUpdateProviderMethodDescriptor        = lLMServiceServiceDescriptor.Methods().ByName("UpdateProvider")
+	lLMServiceCreateProviderMethodDescriptor        = lLMServiceServiceDescriptor.Methods().ByName("CreateProvider")
+	lLMServiceUpsertProviderMethodDescriptor        = lLMServiceServiceDescriptor.Methods().ByName("UpsertProvider")
 	lLMServiceGetProviderConfigMethodDescriptor     = lLMServiceServiceDescriptor.Methods().ByName("GetProviderConfig")
 	lLMServiceListTrackingLogsMethodDescriptor      = lLMServiceServiceDescriptor.Methods().ByName("ListTrackingLogs")
 )
@@ -78,7 +82,8 @@ type LLMServiceClient interface {
 	ListModels(context.Context, *connect.Request[llm.ModelRequest]) (*connect.Response[llm.ModelResponse], error)
 	ListProviders(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[llm.ProvidersResponse], error)
 	GetProvider(context.Context, *connect.Request[llm.GetProviderRequest]) (*connect.Response[llm.GetProviderResponse], error)
-	UpdateProvider(context.Context, *connect.Request[llm.UpdateProviderRequest]) (*connect.Response[llm.UpdateProviderResponse], error)
+	CreateProvider(context.Context, *connect.Request[llm.CreateProviderRequest]) (*connect.Response[llm.CreateProviderResponse], error)
+	UpsertProvider(context.Context, *connect.Request[llm.UpdateProviderRequest]) (*connect.Response[llm.UpdateProviderResponse], error)
 	GetProviderConfig(context.Context, *connect.Request[llm.GetProviderConfigRequest]) (*connect.Response[llm.GetProviderConfigResponse], error)
 	ListTrackingLogs(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[llm.LogResponse], error)
 }
@@ -123,10 +128,16 @@ func NewLLMServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(lLMServiceGetProviderMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		updateProvider: connect.NewClient[llm.UpdateProviderRequest, llm.UpdateProviderResponse](
+		createProvider: connect.NewClient[llm.CreateProviderRequest, llm.CreateProviderResponse](
 			httpClient,
-			baseURL+LLMServiceUpdateProviderProcedure,
-			connect.WithSchema(lLMServiceUpdateProviderMethodDescriptor),
+			baseURL+LLMServiceCreateProviderProcedure,
+			connect.WithSchema(lLMServiceCreateProviderMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		upsertProvider: connect.NewClient[llm.UpdateProviderRequest, llm.UpdateProviderResponse](
+			httpClient,
+			baseURL+LLMServiceUpsertProviderProcedure,
+			connect.WithSchema(lLMServiceUpsertProviderMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		getProviderConfig: connect.NewClient[llm.GetProviderConfigRequest, llm.GetProviderConfigResponse](
@@ -151,7 +162,8 @@ type lLMServiceClient struct {
 	listModels            *connect.Client[llm.ModelRequest, llm.ModelResponse]
 	listProviders         *connect.Client[emptypb.Empty, llm.ProvidersResponse]
 	getProvider           *connect.Client[llm.GetProviderRequest, llm.GetProviderResponse]
-	updateProvider        *connect.Client[llm.UpdateProviderRequest, llm.UpdateProviderResponse]
+	createProvider        *connect.Client[llm.CreateProviderRequest, llm.CreateProviderResponse]
+	upsertProvider        *connect.Client[llm.UpdateProviderRequest, llm.UpdateProviderResponse]
 	getProviderConfig     *connect.Client[llm.GetProviderConfigRequest, llm.GetProviderConfigResponse]
 	listTrackingLogs      *connect.Client[emptypb.Empty, llm.LogResponse]
 }
@@ -181,9 +193,14 @@ func (c *lLMServiceClient) GetProvider(ctx context.Context, req *connect.Request
 	return c.getProvider.CallUnary(ctx, req)
 }
 
-// UpdateProvider calls llm.v1.LLMService.UpdateProvider.
-func (c *lLMServiceClient) UpdateProvider(ctx context.Context, req *connect.Request[llm.UpdateProviderRequest]) (*connect.Response[llm.UpdateProviderResponse], error) {
-	return c.updateProvider.CallUnary(ctx, req)
+// CreateProvider calls llm.v1.LLMService.CreateProvider.
+func (c *lLMServiceClient) CreateProvider(ctx context.Context, req *connect.Request[llm.CreateProviderRequest]) (*connect.Response[llm.CreateProviderResponse], error) {
+	return c.createProvider.CallUnary(ctx, req)
+}
+
+// UpsertProvider calls llm.v1.LLMService.UpsertProvider.
+func (c *lLMServiceClient) UpsertProvider(ctx context.Context, req *connect.Request[llm.UpdateProviderRequest]) (*connect.Response[llm.UpdateProviderResponse], error) {
+	return c.upsertProvider.CallUnary(ctx, req)
 }
 
 // GetProviderConfig calls llm.v1.LLMService.GetProviderConfig.
@@ -203,7 +220,8 @@ type LLMServiceHandler interface {
 	ListModels(context.Context, *connect.Request[llm.ModelRequest]) (*connect.Response[llm.ModelResponse], error)
 	ListProviders(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[llm.ProvidersResponse], error)
 	GetProvider(context.Context, *connect.Request[llm.GetProviderRequest]) (*connect.Response[llm.GetProviderResponse], error)
-	UpdateProvider(context.Context, *connect.Request[llm.UpdateProviderRequest]) (*connect.Response[llm.UpdateProviderResponse], error)
+	CreateProvider(context.Context, *connect.Request[llm.CreateProviderRequest]) (*connect.Response[llm.CreateProviderResponse], error)
+	UpsertProvider(context.Context, *connect.Request[llm.UpdateProviderRequest]) (*connect.Response[llm.UpdateProviderResponse], error)
 	GetProviderConfig(context.Context, *connect.Request[llm.GetProviderConfigRequest]) (*connect.Response[llm.GetProviderConfigResponse], error)
 	ListTrackingLogs(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[llm.LogResponse], error)
 }
@@ -244,10 +262,16 @@ func NewLLMServiceHandler(svc LLMServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(lLMServiceGetProviderMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	lLMServiceUpdateProviderHandler := connect.NewUnaryHandler(
-		LLMServiceUpdateProviderProcedure,
-		svc.UpdateProvider,
-		connect.WithSchema(lLMServiceUpdateProviderMethodDescriptor),
+	lLMServiceCreateProviderHandler := connect.NewUnaryHandler(
+		LLMServiceCreateProviderProcedure,
+		svc.CreateProvider,
+		connect.WithSchema(lLMServiceCreateProviderMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	lLMServiceUpsertProviderHandler := connect.NewUnaryHandler(
+		LLMServiceUpsertProviderProcedure,
+		svc.UpsertProvider,
+		connect.WithSchema(lLMServiceUpsertProviderMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	lLMServiceGetProviderConfigHandler := connect.NewUnaryHandler(
@@ -274,8 +298,10 @@ func NewLLMServiceHandler(svc LLMServiceHandler, opts ...connect.HandlerOption) 
 			lLMServiceListProvidersHandler.ServeHTTP(w, r)
 		case LLMServiceGetProviderProcedure:
 			lLMServiceGetProviderHandler.ServeHTTP(w, r)
-		case LLMServiceUpdateProviderProcedure:
-			lLMServiceUpdateProviderHandler.ServeHTTP(w, r)
+		case LLMServiceCreateProviderProcedure:
+			lLMServiceCreateProviderHandler.ServeHTTP(w, r)
+		case LLMServiceUpsertProviderProcedure:
+			lLMServiceUpsertProviderHandler.ServeHTTP(w, r)
 		case LLMServiceGetProviderConfigProcedure:
 			lLMServiceGetProviderConfigHandler.ServeHTTP(w, r)
 		case LLMServiceListTrackingLogsProcedure:
@@ -309,8 +335,12 @@ func (UnimplementedLLMServiceHandler) GetProvider(context.Context, *connect.Requ
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.GetProvider is not implemented"))
 }
 
-func (UnimplementedLLMServiceHandler) UpdateProvider(context.Context, *connect.Request[llm.UpdateProviderRequest]) (*connect.Response[llm.UpdateProviderResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.UpdateProvider is not implemented"))
+func (UnimplementedLLMServiceHandler) CreateProvider(context.Context, *connect.Request[llm.CreateProviderRequest]) (*connect.Response[llm.CreateProviderResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.CreateProvider is not implemented"))
+}
+
+func (UnimplementedLLMServiceHandler) UpsertProvider(context.Context, *connect.Request[llm.UpdateProviderRequest]) (*connect.Response[llm.UpdateProviderResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.UpsertProvider is not implemented"))
 }
 
 func (UnimplementedLLMServiceHandler) GetProviderConfig(context.Context, *connect.Request[llm.GetProviderConfigRequest]) (*connect.Response[llm.GetProviderConfigResponse], error) {

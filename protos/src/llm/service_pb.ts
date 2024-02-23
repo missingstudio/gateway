@@ -831,9 +831,9 @@ export class ProvidersResponse extends Message<ProvidersResponse> {
  */
 export class GetProviderRequest extends Message<GetProviderRequest> {
   /**
-   * @generated from field: string id = 1;
+   * @generated from field: string name = 1;
    */
-  id = "";
+  name = "";
 
   constructor(data?: PartialMessage<GetProviderRequest>) {
     super();
@@ -843,7 +843,7 @@ export class GetProviderRequest extends Message<GetProviderRequest> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "llm.v1.GetProviderRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetProviderRequest {
@@ -901,13 +901,99 @@ export class GetProviderResponse extends Message<GetProviderResponse> {
 }
 
 /**
+ * @generated from message llm.v1.CreateProviderRequest
+ */
+export class CreateProviderRequest extends Message<CreateProviderRequest> {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name = "";
+
+  /**
+   * @generated from field: google.protobuf.Struct config = 2;
+   */
+  config?: Struct;
+
+  constructor(data?: PartialMessage<CreateProviderRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.CreateProviderRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "config", kind: "message", T: Struct },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CreateProviderRequest {
+    return new CreateProviderRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): CreateProviderRequest {
+    return new CreateProviderRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): CreateProviderRequest {
+    return new CreateProviderRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: CreateProviderRequest | PlainMessage<CreateProviderRequest> | undefined, b: CreateProviderRequest | PlainMessage<CreateProviderRequest> | undefined): boolean {
+    return proto3.util.equals(CreateProviderRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.CreateProviderResponse
+ */
+export class CreateProviderResponse extends Message<CreateProviderResponse> {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name = "";
+
+  /**
+   * @generated from field: google.protobuf.Struct config = 2;
+   */
+  config?: Struct;
+
+  constructor(data?: PartialMessage<CreateProviderResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.CreateProviderResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "config", kind: "message", T: Struct },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CreateProviderResponse {
+    return new CreateProviderResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): CreateProviderResponse {
+    return new CreateProviderResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): CreateProviderResponse {
+    return new CreateProviderResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: CreateProviderResponse | PlainMessage<CreateProviderResponse> | undefined, b: CreateProviderResponse | PlainMessage<CreateProviderResponse> | undefined): boolean {
+    return proto3.util.equals(CreateProviderResponse, a, b);
+  }
+}
+
+/**
  * @generated from message llm.v1.UpdateProviderRequest
  */
 export class UpdateProviderRequest extends Message<UpdateProviderRequest> {
   /**
-   * @generated from field: string id = 1;
+   * @generated from field: string name = 1;
    */
-  id = "";
+  name = "";
 
   /**
    * @generated from field: google.protobuf.Struct config = 2;
@@ -922,7 +1008,7 @@ export class UpdateProviderRequest extends Message<UpdateProviderRequest> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "llm.v1.UpdateProviderRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "config", kind: "message", T: Struct },
   ]);
 
@@ -991,9 +1077,9 @@ export class UpdateProviderResponse extends Message<UpdateProviderResponse> {
  */
 export class GetProviderConfigRequest extends Message<GetProviderConfigRequest> {
   /**
-   * @generated from field: string id = 1;
+   * @generated from field: string name = 1;
    */
-  id = "";
+  name = "";
 
   constructor(data?: PartialMessage<GetProviderConfigRequest>) {
     super();
@@ -1003,7 +1089,7 @@ export class GetProviderConfigRequest extends Message<GetProviderConfigRequest> 
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "llm.v1.GetProviderConfigRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetProviderConfigRequest {

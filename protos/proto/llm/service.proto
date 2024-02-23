@@ -28,16 +28,21 @@ service LLMService {
   }
 
   rpc GetProvider(GetProviderRequest) returns (GetProviderResponse) {
-    option (google.api.http) = {get: "/v1/providers/{id}"};
+    option (google.api.http) = {get: "/v1/providers/{name}"};
   }
 
-  rpc UpdateProvider(UpdateProviderRequest) returns (UpdateProviderResponse) {
-    option (google.api.http).put = "/v1/providers/{id}";
+  rpc CreateProvider(CreateProviderRequest) returns (CreateProviderResponse) {
+    option (google.api.http).put = "/v1/providers";
+    option (google.api.http).body = "*";
+  }
+
+  rpc UpsertProvider(UpdateProviderRequest) returns (UpdateProviderResponse) {
+    option (google.api.http).put = "/v1/providers/{name}";
     option (google.api.http).body = "*";
   }
   
   rpc GetProviderConfig(GetProviderConfigRequest) returns (GetProviderConfigResponse) {
-    option (google.api.http) = {get: "/v1/providers/{id}/config"};
+    option (google.api.http) = {get: "/v1/providers/{name}/config"};
   }
 
   rpc ListTrackingLogs(google.protobuf.Empty) returns (LogResponse) {
@@ -172,15 +177,25 @@ message ProvidersResponse {
 }
 
 message GetProviderRequest {
-  string id = 1;
+  string name = 1;
 }
 
 message GetProviderResponse {
   Provider provider = 1;
 }
 
+message CreateProviderRequest {
+  string name = 1;
+  google.protobuf.Struct config = 2;
+}
+
+message CreateProviderResponse {
+  string name = 1;
+  google.protobuf.Struct config = 2;
+}
+
 message UpdateProviderRequest {
-  string id = 1;
+  string name = 1;
   google.protobuf.Struct config = 2;
 }
 
@@ -190,7 +205,7 @@ message UpdateProviderResponse {
 }
 
 message GetProviderConfigRequest {
-  string id = 1;
+  string name = 1;
 }
 
 message GetProviderConfigResponse {

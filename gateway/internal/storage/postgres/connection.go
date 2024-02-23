@@ -17,15 +17,15 @@ type ConnectionDB struct {
 	CreatedAt time.Time `db:"created_at"`
 }
 
-func (c ConnectionDB) ToConnection() (*models.Connection, error) {
+func (c ConnectionDB) ToConnection() (models.Connection, error) {
 	var unmarshalledConfig map[string]any
 	if len(c.Config) > 0 {
 		if err := json.Unmarshal(c.Config, &unmarshalledConfig); err != nil {
-			return nil, fmt.Errorf("failed to unmarshal connection config(%s): %w", c.ID.String(), err)
+			return models.Connection{}, fmt.Errorf("failed to unmarshal connection config(%s): %w", c.ID.String(), err)
 		}
 	}
 
-	return &models.Connection{
+	return models.Connection{
 		ID:     c.ID,
 		Name:   c.Name,
 		Config: unmarshalledConfig,

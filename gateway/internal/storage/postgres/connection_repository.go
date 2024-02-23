@@ -57,22 +57,22 @@ func (c *ConnectionRepository) GetAll(ctx context.Context) ([]models.Connection,
 			return []models.Connection{}, fmt.Errorf("%w: %s", parseErr, err)
 		}
 
-		connections = append(connections, *connection)
+		connections = append(connections, connection)
 	}
 
 	return connections, nil
 }
 
 // GetByID implements connection.Repository.
-func (*ConnectionRepository) GetByID(ctx context.Context, connID uuid.UUID) (*models.Connection, error) {
+func (*ConnectionRepository) GetByID(ctx context.Context, connID uuid.UUID) (models.Connection, error) {
 	panic("unimplemented")
 }
 
 // GetByID implements connection.Repository.
-func (c *ConnectionRepository) GetByName(ctx context.Context, name string) (*models.Connection, error) {
+func (c *ConnectionRepository) GetByName(ctx context.Context, name string) (models.Connection, error) {
 	query, params, err := dialect.From(TABLE_CONNECTIONS).Where(goqu.Ex{"name": name}).ToSQL()
 	if err != nil {
-		return nil, err
+		return models.Connection{}, err
 	}
 
 	// Execute the SQL query and retrieve the result
@@ -83,9 +83,9 @@ func (c *ConnectionRepository) GetByName(ctx context.Context, name string) (*mod
 		err = checkPostgresError(err)
 		switch {
 		case errors.Is(err, ErrDuplicateKey):
-			return nil, ErrConflict
+			return models.Connection{}, ErrConflict
 		default:
-			return nil, err
+			return models.Connection{}, err
 		}
 	}
 
@@ -93,10 +93,10 @@ func (c *ConnectionRepository) GetByName(ctx context.Context, name string) (*mod
 }
 
 // Upsert implements connection.Repository.
-func (c *ConnectionRepository) Upsert(ctx context.Context, conn models.Connection) (*models.Connection, error) {
+func (c *ConnectionRepository) Upsert(ctx context.Context, conn models.Connection) (models.Connection, error) {
 	marshaledConfig, err := json.Marshal(conn.Config)
 	if err != nil {
-		return nil, fmt.Errorf("namespace metadata: %w: %s", parseErr, err)
+		return models.Connection{}, fmt.Errorf("namespace metadata: %w: %s", parseErr, err)
 	}
 
 	query, params, err := dialect.Insert(TABLE_CONNECTIONS).Rows(
@@ -109,7 +109,7 @@ func (c *ConnectionRepository) Upsert(ctx context.Context, conn models.Connectio
 			"updated_at": goqu.L("now()"),
 		})).Returning(&ConnectionDB{}).ToSQL()
 	if err != nil {
-		return nil, fmt.Errorf("%w: %s", queryErr, err)
+		return models.Connection{}, fmt.Errorf("%w: %s", queryErr, err)
 	}
 
 	var connection ConnectionDB
@@ -119,9 +119,9 @@ func (c *ConnectionRepository) Upsert(ctx context.Context, conn models.Connectio
 		err = checkPostgresError(err)
 		switch {
 		case errors.Is(err, ErrDuplicateKey):
-			return nil, ErrConflict
+			return models.Connection{}, ErrConflict
 		default:
-			return nil, err
+			return models.Connection{}, err
 		}
 	}
 

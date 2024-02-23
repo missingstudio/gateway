@@ -35,30 +35,30 @@ func (s *Service) GetAll(ctx context.Context) ([]models.Connection, error) {
 }
 
 // GetByID implements connection.Repository.
-func (s *Service) GetByID(ctx context.Context, connID uuid.UUID) (*models.Connection, error) {
+func (s *Service) GetByID(ctx context.Context, connID uuid.UUID) (models.Connection, error) {
 	conn, err := s.connectionRepo.GetByID(ctx, connID)
 	if err != nil {
-		return nil, err
+		return models.Connection{}, err
 	}
 
 	return conn, err
 }
 
 // GetByName implements connection.Repository.
-func (s *Service) GetByName(ctx context.Context, name string) (*models.Connection, error) {
+func (s *Service) GetByName(ctx context.Context, name string) (models.Connection, error) {
 	conn, err := s.connectionRepo.GetByName(ctx, name)
 	if err != nil {
-		return nil, err
+		return models.Connection{}, err
 	}
 
 	return conn, err
 }
 
 // Upsert implements connection.Repository.
-func (s *Service) Upsert(ctx context.Context, c models.Connection) (*models.Connection, error) {
+func (s *Service) Upsert(ctx context.Context, c models.Connection) (models.Connection, error) {
 	id, err := s.connectionRepo.Upsert(ctx, c)
 	if err != nil {
-		return nil, fmt.Errorf("failed to save connection: %w", err)
+		return models.Connection{}, fmt.Errorf("failed to save connection: %w", err)
 	}
 
 	return id, err
