@@ -6,17 +6,21 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-type RateLimiter struct {
-	Limiter RateLimiterProvider
+type IRateLimiter interface {
+	Validate(key string) bool
 }
 
-func NewRateLimiter(cfg Config, logger *slog.Logger, rltype string, rdb *redis.Client) *RateLimiter {
+type RateLimiter struct {
+	Limiter IRateLimiter
+}
+
+func NewRateLimiter(rdb *redis.Client, logger *slog.Logger, rate *Rate, rltype string) *RateLimiter {
 	r := &RateLimiter{}
 	switch rltype {
 	case "sliding_window":
-		r.Limiter = NewSlidingWindowRateLimiter(cfg, logger, rdb)
+		r.Limiter = NewSlidingWindowRateLimiter(rdb, logger, rate)
 	default:
-		r.Limiter = NewSlidingWindowRateLimiter(cfg, logger, rdb)
+		r.Limiter = NewSlidingWindowRateLimiter(rdb, logger, rate)
 	}
 
 	return r

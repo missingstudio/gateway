@@ -39,7 +39,8 @@ func Serve(cfg *config.Config) error {
 		os.Exit(1)
 	}
 
-	rl := ratelimiter.NewRateLimiter(cfg.Ratelimiter, logger, cfg.Ratelimiter.Type, rdb)
+	rate := ratelimiter.NewRate(cfg.Ratelimiter.DurationInSecond, cfg.Ratelimiter.NumberOfRequests)
+	rl := ratelimiter.NewRateLimiter(rdb, logger, rate, cfg.Ratelimiter.Type)
 	ingester := ingester.GetIngesterWithDefault(ctx, cfg.Ingester, logger)
 
 	// prefer use pgx instead of lib/pq for postgres to catch pg error
@@ -61,10 +62,9 @@ func Serve(cfg *config.Config) error {
 	}()
 
 	connectionRepository := postgres.NewConnectionRepository(dbc)
-	providerService := providers.NewService()
-
 	connectionService := connections.NewService(connectionRepository)
 
+	providerService := providers.NewService()
 	deps := api.NewDeps(logger, ingester, rl, providerService, connectionService)
 
 	if err := server.Serve(ctx, logger, cfg.App, deps); err != nil {

@@ -8,23 +8,23 @@ import (
 )
 
 type SlidingWindowRateLimiter struct {
-	logger           *slog.Logger
-	cache            SlidingWindowCache
-	bucketSize       int
-	durationInSecond int
+	logger *slog.Logger
+	cache  SlidingWindowCache
+	limit  int
+	period time.Duration
 }
 
-func NewSlidingWindowRateLimiter(cfg Config, logger *slog.Logger, rdb *redis.Client) RateLimiterProvider {
+func NewSlidingWindowRateLimiter(rdb *redis.Client, logger *slog.Logger, rate *Rate) IRateLimiter {
 	return &SlidingWindowRateLimiter{
-		logger:           logger,
-		cache:            NewRedisLogCache(logger, rdb),
-		bucketSize:       cfg.NumberOfRequests,
-		durationInSecond: cfg.DurationInSecond,
+		logger: logger,
+		cache:  NewRedisLogCache(logger, rdb),
+		limit:  rate.Limit,
+		period: rate.Period,
 	}
 }
 
 func (t *SlidingWindowRateLimiter) Validate(key string) bool {
 	now := time.Now()
-	window_start := now.Add(-time.Duration(t.durationInSecond) * time.Second)
-	return t.cache.Validate(key, now.UnixNano(), window_start.UnixNano(), t.bucketSize)
+	window_start := now.Add(-t.period * time.Second)
+	return t.cache.Validate(key, now.UnixNano(), window_start.UnixNano(), t.limit)
 }
