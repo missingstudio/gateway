@@ -15,11 +15,12 @@ type RateLimiter struct {
 }
 
 func NewRateLimiter(rdb *redis.Client, logger *slog.Logger, rate *Rate, rltype string) *RateLimiter {
-	r := &RateLimiter{}
+	r := &RateLimiter{
+		Limiter: NewSlidingWindowRateLimiter(rdb, logger, rate),
+	}
+
 	switch rltype {
 	case "sliding_window":
-		r.Limiter = NewSlidingWindowRateLimiter(rdb, logger, rate)
-	default:
 		r.Limiter = NewSlidingWindowRateLimiter(rdb, logger, rate)
 	}
 
