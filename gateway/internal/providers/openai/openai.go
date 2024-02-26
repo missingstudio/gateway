@@ -31,7 +31,7 @@ func (oai *openAIProvider) ChatCompletion(ctx context.Context, payload []byte) (
 	requestURL := fmt.Sprintf("%s%s", oai.config.BaseURL, oai.config.ChatCompletions)
 	req, _ := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
 
-	connectionConfigMap := oai.conn.GetHeaders([]string{
+	connectionConfigMap := oai.conn.GetConfig([]string{
 		models.AuthorizationHeader,
 	})
 

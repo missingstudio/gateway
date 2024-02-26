@@ -3,46 +3,38 @@ package router_test
 import (
 	"testing"
 
-	"github.com/missingstudio/studio/backend/internal/mock"
-	"github.com/missingstudio/studio/backend/internal/providers/base"
 	"github.com/missingstudio/studio/backend/internal/router"
 	"github.com/stretchr/testify/require"
 )
 
 func TestPriorityRouter(t *testing.T) {
-	type Provider struct {
-		info base.ProviderInfo
-	}
-
 	type TestCase struct {
-		providers           []Provider
+		providers           []router.RouterConfig
 		expectedProviderIDs []string
 	}
 
 	tests := map[string]TestCase{
-		"openai": {[]Provider{
-			{info: base.ProviderInfo{Name: "openai"}},
-			{info: base.ProviderInfo{Name: "anyscale"}},
-			{info: base.ProviderInfo{Name: "azure"}},
+		"openai": {[]router.RouterConfig{
+			{Name: "openai"},
+			{Name: "anyscale"},
+			{Name: "azure"},
 		}, []string{"openai", "anyscale", "azure"}},
 	}
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			providers := make([]base.IProvider, 0, len(tc.providers))
+			providers := make([]router.RouterConfig, 0, len(tc.providers))
 
 			for _, provider := range tc.providers {
-				providers = append(providers, mock.NewProviderMock(provider.info.Name))
+				providers = append(providers, router.RouterConfig{Name: provider.Name})
 			}
 
-			routing := router.NewPriorityRouter(providers)
-			iterator := routing.Iterator()
+			iterator := router.NewPriorityRouter(providers)
 
 			for _, providerID := range tc.expectedProviderIDs {
 				provider, err := iterator.Next()
-				config := provider.Info()
 				require.NoError(t, err)
-				require.Equal(t, providerID, config.Name)
+				require.Equal(t, providerID, provider.Name)
 			}
 		})
 	}

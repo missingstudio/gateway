@@ -2,8 +2,6 @@ package router
 
 import (
 	"sync/atomic"
-
-	"github.com/missingstudio/studio/backend/internal/providers/base"
 )
 
 const (
@@ -12,25 +10,21 @@ const (
 
 type PriorityRouter struct {
 	idx       *atomic.Uint64
-	providers []base.IProvider
+	providers []RouterConfig
 }
 
-func NewPriorityRouter(providers []base.IProvider) *PriorityRouter {
+func NewPriorityRouter(providers []RouterConfig) *PriorityRouter {
 	return &PriorityRouter{
 		idx:       &atomic.Uint64{},
 		providers: providers,
 	}
 }
 
-func (r *PriorityRouter) Iterator() RouterIterator {
-	return r
-}
-
-func (r *PriorityRouter) Next() (base.IProvider, error) {
+func (r *PriorityRouter) Next() (*RouterConfig, error) {
 	idx := int(r.idx.Load())
 
 	// Todo: make a check for healthy provider
-	model := r.providers[idx]
+	model := &r.providers[idx]
 	r.idx.Add(1)
 
 	return model, nil

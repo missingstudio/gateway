@@ -15,7 +15,7 @@ func (deepinfra *deepinfraProvider) ChatCompletion(ctx context.Context, payload 
 	requestURL := fmt.Sprintf("%s%s", deepinfra.config.BaseURL, deepinfra.config.ChatCompletions)
 	req, _ := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
 
-	connectionConfigMap := deepinfra.conn.GetHeaders([]string{
+	connectionConfigMap := deepinfra.conn.GetConfig([]string{
 		models.AuthorizationHeader,
 	})
 

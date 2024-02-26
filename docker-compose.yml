@@ -6,9 +6,17 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile.gateway.dev
     command: server start  
+    depends_on:
+      - redis
+      - postgres
     environment:
-      - GATEWAY_HOST=0.0.0.0
-      - GATEWAY_PORT=8080
+      - GATEWAY_APP_HOST=0.0.0.0
+      - GATEWAY_APP_PORT=8080
+      - GATEWAY_REDIS_HOST=redis
+      - GATEWAY_REDIS_PORT=6379
+      - GATEWAY_POSTGRES_DRIVER
+      - GATEWAY_POSTGRES_postgres=postgres
+      - GATEWAY_POSTGRES_URL=postgres://mstudio@postgres:5432/mstudio?sslmode=disable
     ports:
       - 8080:8080
 
@@ -33,9 +41,14 @@ services:
     restart: always
     ports:
       - 6379:6379
-    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    command: redis-server --save 20 1 --loglevel warning
     volumes: 
       - redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
 
 volumes:
   redis:

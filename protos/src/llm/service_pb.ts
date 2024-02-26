@@ -1146,3 +1146,40 @@ export class GetProviderConfigResponse extends Message<GetProviderConfigResponse
   }
 }
 
+/**
+ * @generated from message llm.v1.DeleteProviderRequest
+ */
+export class DeleteProviderRequest extends Message<DeleteProviderRequest> {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name = "";
+
+  constructor(data?: PartialMessage<DeleteProviderRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.DeleteProviderRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DeleteProviderRequest {
+    return new DeleteProviderRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DeleteProviderRequest {
+    return new DeleteProviderRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DeleteProviderRequest {
+    return new DeleteProviderRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DeleteProviderRequest | PlainMessage<DeleteProviderRequest> | undefined, b: DeleteProviderRequest | PlainMessage<DeleteProviderRequest> | undefined): boolean {
+    return proto3.util.equals(DeleteProviderRequest, a, b);
+  }
+}
+

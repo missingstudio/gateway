@@ -15,7 +15,7 @@ func (anyscale *anyscaleProvider) ChatCompletion(ctx context.Context, payload []
 	requestURL := fmt.Sprintf("%s%s", anyscale.config.BaseURL, anyscale.config.ChatCompletions)
 	req, _ := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
 
-	connectionConfigMap := anyscale.conn.GetHeaders([]string{
+	connectionConfigMap := anyscale.conn.GetConfig([]string{
 		models.AuthorizationHeader,
 	})
 

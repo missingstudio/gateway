@@ -27,18 +27,22 @@ service LLMService {
     option (google.api.http).body = "*";
   }
 
-  rpc GetProvider(GetProviderRequest) returns (GetProviderResponse) {
-    option (google.api.http) = {get: "/v1/providers/{name}"};
+  rpc CreateProvider(CreateProviderRequest) returns (CreateProviderResponse) {
+    option (google.api.http).post = "/v1/providers";
+    option (google.api.http).body = "*";
   }
 
-  rpc CreateProvider(CreateProviderRequest) returns (CreateProviderResponse) {
-    option (google.api.http).put = "/v1/providers";
-    option (google.api.http).body = "*";
+  rpc GetProvider(GetProviderRequest) returns (GetProviderResponse) {
+    option (google.api.http) = {get: "/v1/providers/{name}"};
   }
 
   rpc UpsertProvider(UpdateProviderRequest) returns (UpdateProviderResponse) {
     option (google.api.http).put = "/v1/providers/{name}";
     option (google.api.http).body = "*";
+  }
+
+  rpc DeleteProvider(DeleteProviderRequest) returns (google.protobuf.Empty) {
+    option (google.api.http).delete = "/v1/providers/{name}";
   }
   
   rpc GetProviderConfig(GetProviderConfigRequest) returns (GetProviderConfigResponse) {
@@ -210,4 +214,8 @@ message GetProviderConfigRequest {
 
 message GetProviderConfigResponse {
   google.protobuf.Struct config = 1;
+}
+
+message DeleteProviderRequest {
+  string name = 1;
 }

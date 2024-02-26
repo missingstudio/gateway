@@ -17,13 +17,17 @@
 ## Run locally
 Missing studio can be deployed in a variety of ways. It is deployable on bare metal, or in dockerized environments.
 
+### Prerequisites
+
+- [Buf CLI](https://buf.build/docs/installation) is required for building proto.
+
 To start missing studio server, simply run the following command:
 ```sh
 make compose-dev
 ```
 > Your AI Gateway is now running on http://localhost:8080 💥
 
-### Send a request
+### Send a request using curl
 ```sh
 curl \
 --header "Content-Type: application/json" \
@@ -33,6 +37,15 @@ curl \
 http://localhost:8080/v1/chat/completions
 ```
 
+### Send a request using grpcurl
+
+```sh
+grpcurl \
+-d '{"model":"gpt-3.5-turbo","messages":[{"role":"user","content":"hi"}]}' \
+-H 'x-ms-provider: openai' \
+-H 'Authorization: Bearer {{OPENAI_API_KEY}}' \
+-plaintext  localhost:8080  llm.v1.LLMService.ChatCompletions
+```
 
 ## 🚀 Features
 - 🌐 *Universal API* - Call every LLM API like it's OpenAI

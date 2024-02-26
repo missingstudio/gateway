@@ -18,7 +18,7 @@ func RetryInterceptor() connect.UnaryInterceptorFunc {
 			var response connect.AnyResponse
 			config := router.GetContextWithRouterConfig(ctx)
 			runner := retry.New(retry.Config{
-				Numbers: int(config.RetryConfig.Numbers),
+				Numbers: int(config.Retry.Numbers),
 			})
 
 			err = runner.Run(ctx, func(ctx context.Context) error {

@@ -8,9 +8,9 @@ import (
 
 	"connectrpc.com/connect"
 	"github.com/missingstudio/studio/backend/internal/constants"
-	"github.com/missingstudio/studio/backend/internal/httputil"
 	"github.com/missingstudio/studio/backend/internal/providers"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
+	"github.com/missingstudio/studio/backend/internal/router"
 	"github.com/missingstudio/studio/backend/models"
 	"github.com/missingstudio/studio/common/errors"
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
@@ -19,7 +19,8 @@ import (
 var (
 	ErrChatCompletionStreamNotSupported = errors.NewBadRequest("streaming is not supported with this method, please use StreamChatCompletions")
 	ErrChatCompletionNotSupported       = errors.NewInternalError("provider don't have chat Completion capabilities")
-	ErrRequiredHeaderNotExit            = errors.NewBadRequest(fmt.Sprintf("either %s or %s header is required", constants.XMSProvider, constants.XMSConfig))
+	ErrNoProviderAbleToServe            = errors.NewInternalError("none of the provider able to serve you")
+	ErrRequiredHeaderNotExit            = errors.NewBadRequest(fmt.Sprintf("%s header is required", constants.XMSConfig))
 )
 
 func (s *V1Handler) ChatCompletions(
@@ -27,9 +28,8 @@ func (s *V1Handler) ChatCompletions(
 	req *connect.Request[llmv1.ChatCompletionRequest],
 ) (*connect.Response[llmv1.ChatCompletionResponse], error) {
 	// Check if required headers are available
-	providerName := req.Header().Get(constants.XMSProvider)
-	config := req.Header().Get(constants.XMSConfig)
-	if providerName == "" && config == "" {
+	routerConfig := router.GetContextWithRouterConfig(ctx)
+	if routerConfig == nil {
 		return nil, ErrRequiredHeaderNotExit
 	}
 
@@ -39,26 +39,32 @@ func (s *V1Handler) ChatCompletions(
 		return nil, errors.New(err)
 	}
 
-	headerConfig := httputil.GetContextWithHeaderConfig(ctx)
-	connectionObj := models.Connection{
-		Name:    providerName,
-		Headers: headerConfig,
+	rsvc := router.NewRouterService(routerConfig)
+
+	data := &llmv1.ChatCompletionResponse{}
+	providerConfig := rsvc.Next()
+	if providerConfig == nil {
+		return nil, ErrNoProviderAbleToServe
 	}
 
-	provider, err := s.providerService.GetProvider(connectionObj)
+	authConfig := map[string]any{"auth": providerConfig.Auth}
+	connectionObj := models.Connection{
+		Name:   providerConfig.Name,
+		Config: authConfig,
+	}
+
+	p, err := s.providerService.GetProvider(connectionObj)
 	if err != nil {
 		return nil, errors.New(err)
 	}
 
 	// Validate provider configs
-	err = providers.Validate(provider, map[string]any{
-		"headers": headerConfig,
-	})
+	err = providers.Validate(p, authConfig)
 	if err != nil {
 		return nil, errors.NewBadRequest(err.Error())
 	}
 
-	chatCompletionProvider, ok := provider.(base.ChatCompletionInterface)
+	chatCompletionProvider, ok := p.(base.ChatCompletionInterface)
 	if !ok {
 		return nil, ErrChatCompletionNotSupported
 	}
@@ -69,13 +75,12 @@ func (s *V1Handler) ChatCompletions(
 	}
 
 	latency := time.Since(startTime)
-	data := &llmv1.ChatCompletionResponse{}
 	if err := json.NewDecoder(resp.Body).Decode(data); err != nil {
 		return nil, errors.New(err)
 	}
 
 	ingesterdata := make(map[string]any)
-	providerInfo := provider.Info()
+	providerInfo := p.Info()
 
 	ingesterdata["provider"] = providerInfo.Name
 	ingesterdata["model"] = data.Model
@@ -86,6 +91,9 @@ func (s *V1Handler) ChatCompletions(
 
 	go s.ingester.Ingest(ingesterdata, "analytics")
 
-	response := connect.NewResponse(data)
-	return response, nil
+	if err != nil {
+		return nil, err
+	}
+
+	return connect.NewResponse(data), nil
 }

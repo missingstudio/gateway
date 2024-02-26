@@ -2,8 +2,6 @@ package router
 
 import (
 	"sync/atomic"
-
-	"github.com/missingstudio/studio/backend/internal/providers/base"
 )
 
 const (
@@ -12,10 +10,10 @@ const (
 
 type RoundRobinRouter struct {
 	idx       atomic.Uint64
-	providers []base.IProvider
+	providers []RouterConfig
 }
 
-func NewRoundRobinRouter(providers []base.IProvider) *RoundRobinRouter {
+func NewRoundRobinRouter(providers []RouterConfig) RouterIterator {
 	return &RoundRobinRouter{
 		providers: providers,
 	}
@@ -25,12 +23,12 @@ func (r *RoundRobinRouter) Iterator() RouterIterator {
 	return r
 }
 
-func (r *RoundRobinRouter) Next() (base.IProvider, error) {
+func (r *RoundRobinRouter) Next() *RouterConfig {
 	providerLen := len(r.providers)
 
 	// Todo: make a check for healthy provider
 	idx := r.idx.Add(1) - 1
-	model := r.providers[idx%uint64(providerLen)]
+	model := &r.providers[idx%uint64(providerLen)]
 
-	return model, nil
+	return model
 }

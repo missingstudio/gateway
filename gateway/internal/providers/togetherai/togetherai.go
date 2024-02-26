@@ -15,7 +15,7 @@ func (ta *togetherAIProvider) ChatCompletion(ctx context.Context, payload []byte
 	requestURL := fmt.Sprintf("%s%s", ta.config.BaseURL, ta.config.ChatCompletions)
 	req, _ := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
 
-	connectionConfigMap := ta.conn.GetHeaders([]string{
+	connectionConfigMap := ta.conn.GetConfig([]string{
 		models.AuthorizationHeader,
 	})
 

@@ -3,20 +3,20 @@
   "title": "Anyscale",
   "type": "object",
   "properties": {
-    "headers": {
+    "auth": {
       "type": "object",
-      "title": "Headers",
-      "description": "Authorization properties",
+      "title": "Auth",
+      "description": "Provider authorization properties",
 
       "properties": {
-        "Authorization": {
+        "api_key": {
           "type": "string",
           "title": "API Key",
           "description": "Anyscale API key"
         }
       },
-      "required": ["Authorization"]
+      "required": ["api_key"]
     }
   },
-  "required": ["headers"]
+  "required": ["auth"]
 }

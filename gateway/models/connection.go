@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	AuthorizationHeader string = "Authorization"
+	AuthorizationHeader string = "auth.api_key"
 )
 
 type ConnectionState string
@@ -27,9 +27,8 @@ type Connection struct {
 	Name string    `json:"name"`
 
 	// Config stores user input configurations
-	Headers map[string]any  `json:"headers"`
-	Config  map[string]any  `json:"config"`
-	State   ConnectionState `json:"state"`
+	State  ConnectionState `json:"state"`
+	Config map[string]any  `json:"config"`
 }
 
 func (c *Connection) MergeConfig(kv map[string]any) (err error) {
@@ -52,15 +51,6 @@ func (c *Connection) MergeConfig(kv map[string]any) (err error) {
 		return err
 	}
 	return json.Unmarshal(containerBytes, &c.Config)
-}
-
-func (c *Connection) GetHeaders(keys []string) map[string]any {
-	fetched := map[string]any{}
-	container := gabs.Wrap(c.Headers)
-	for _, key := range keys {
-		fetched[key] = container.Path(key).Data()
-	}
-	return fetched
 }
 
 func (c *Connection) GetConfig(keys []string) map[string]any {
