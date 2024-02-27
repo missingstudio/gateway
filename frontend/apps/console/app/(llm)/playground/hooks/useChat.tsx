@@ -18,12 +18,9 @@ export const useChat = (): (() => Promise<void>) => {
           `${BASE_URL}/v1/providers/${provider}`
         );
         const providerData = await providerResponse.json();
-        const apikey = pathOr("", [
-          "provider",
-          "config",
-          "headers",
-          "Authorization",
-        ])(providerData);
+        const apikey = pathOr("", ["provider", "config", "auth", "api_key"])(
+          providerData
+        );
 
         if (!apikey)
           return toast.error(`Provide API key for provider - ${provider}`);

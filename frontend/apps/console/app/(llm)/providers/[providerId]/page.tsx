@@ -24,15 +24,15 @@ import { useProviderFetch } from "../hooks/useProviderFetch";
 
 const initialValues = {
   config: {
-    headers: {
-      Authorization: "",
+    auth: {
+      api_key: "",
     },
   },
 };
 const formSchema = z.object({
   config: z.object({
-    headers: z.object({
-      Authorization: z.string({ required_error: "Authorization is required" }),
+    auth: z.object({
+      api_key: z.string({ required_error: "Authorization is required" }),
     }),
   }),
 });
@@ -86,13 +86,13 @@ export default function SingleProvider() {
     }
   };
 
-  const headersProperties = pathOr({}, ["properties", "headers", "properties"])(
+  const authProperties = pathOr({}, ["properties", "auth", "properties"])(
     config
   ) as Record<string, any>;
 
-  const requiredHeadersProperties = pathOr(
+  const requiredAuthProperties = pathOr(
     [],
-    ["properties", "headers", "required"]
+    ["properties", "auth", "required"]
   )(config) as String[];
 
   return (
@@ -182,8 +182,8 @@ export default function SingleProvider() {
                         onSubmit={handleSubmit(onSubmit)}
                         className="flex flex-col gap-2"
                       >
-                        {Object.keys(headersProperties).map((hp: string) => {
-                          const { title, description } = headersProperties[hp];
+                        {Object.keys(authProperties).map((hp: string) => {
+                          const { title, description } = authProperties[hp];
                           return (
                             <div key="hp" className="relative">
                               <Label>{title}</Label>
@@ -201,12 +201,12 @@ export default function SingleProvider() {
                                     />
                                     {authInputType == "password" ? (
                                       <EyeOpenIcon
-                                        className="absolute bottom-3 right-2 bg-white p-[2px] w-4 cursor-pointer"
+                                        className="absolute bottom-3 right-2 bg-white dark:bg-black p-[2px] w-4 cursor-pointer"
                                         onClick={() => setAuthInputType("text")}
                                       />
                                     ) : (
                                       <EyeClosedIcon
-                                        className="absolute bottom-3 right-2 bg-white p-[2px] w-4 cursor-pointer"
+                                        className="absolute bottom-3 right-2 bg-white dark:bg-black p-[2px] w-4 cursor-pointer"
                                         onClick={() =>
                                           setAuthInputType("password")
                                         }
@@ -215,11 +215,10 @@ export default function SingleProvider() {
                                   </>
                                 )}
                                 // @ts-ignore
-                                name={`config.headers.${hp}`}
+                                name={`config.auth.${hp}`}
                                 control={control}
                                 rules={{
-                                  required:
-                                    requiredHeadersProperties.includes(hp),
+                                  required: requiredAuthProperties.includes(hp),
                                 }}
                               />
                             </div>
