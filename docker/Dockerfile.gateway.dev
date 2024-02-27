@@ -1,4 +1,7 @@
 FROM golang:1.21-alpine3.18 as builder
+RUN apk add make
+RUN GO111MODULE=on GOBIN=/usr/local/bin go install \
+github.com/bufbuild/buf/cmd/buf@v1.29.0
 RUN mkdir /workspace
 
 WORKDIR /workspace
@@ -11,7 +14,7 @@ COPY ./go.work .
 RUN go work sync
 
 WORKDIR /workspace/gateway
-RUN cgo_enabled=0 goos=linux go build -o bin/gateway
+RUN make build
 
 
 FROM alpine:3.18
@@ -24,4 +27,4 @@ RUN apk add ca-certificates
 # don't work well with musl libc that alpine uses
 RUN apk add libc6-compat
 
-ENTRYPOINT ["gateway"]
+ENTRYPOINT ["gateway", "server"]
