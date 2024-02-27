@@ -4,7 +4,6 @@ import (
 	_ "embed"
 
 	"github.com/missingstudio/studio/backend/internal/providers/base"
-	"github.com/missingstudio/studio/backend/models"
 )
 
 //go:embed schema.json
@@ -15,7 +14,6 @@ var _ base.IProvider = &azureProvider{}
 type azureProvider struct {
 	info   base.ProviderInfo
 	config base.ProviderConfig
-	conn   models.Connection
 }
 
 func (anyscale azureProvider) Info() base.ProviderInfo {
@@ -30,7 +28,7 @@ func (az azureProvider) Schema() []byte {
 	return schema
 }
 
-func getAzureInfo() base.ProviderInfo {
+func GetAzureInfo() base.ProviderInfo {
 	return base.ProviderInfo{
 		Title:       "Azure",
 		Name:        "azure",
@@ -38,7 +36,7 @@ func getAzureInfo() base.ProviderInfo {
 	}
 }
 
-func getAzureConfig() base.ProviderConfig {
+func GetAzureConfig() base.ProviderConfig {
 	return base.ProviderConfig{
 		BaseURL:         "",
 		ChatCompletions: "/chat/completions",

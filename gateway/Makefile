@@ -7,7 +7,13 @@ vet:
 	@echo "🧹 Vetting go.mod.."
 	$(GO) vet ./...
 
-build: gen vet ## build AI Gateway server
+lint: ## Run linters
+	golangci-lint run
+
+lint-fix:
+	golangci-lint run --fix
+
+build: gen vet ## Build AI Gateway server
 	scripts/build.sh
 .PHONY: build
 

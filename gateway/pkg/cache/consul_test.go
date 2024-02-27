@@ -80,7 +80,7 @@ func TestGetSuccess(t *testing.T) {
 
 		resBytes, err := json.Marshal(response)
 		assert.Nil(t, err)
-		res.Write(resBytes)
+		_, _ = res.Write(resBytes)
 	})
 
 	ts := httptest.NewServer(mux)
