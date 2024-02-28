@@ -13,8 +13,16 @@ import (
 func (anyscale *anyscaleProvider) ChatCompletion(ctx context.Context, payload []byte) (*http.Response, error) {
 	client := requester.NewHTTPClient()
 	requestURL := fmt.Sprintf("%s%s", anyscale.config.BaseURL, anyscale.config.ChatCompletions)
-	req, _ := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
+	req, err := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
+	if err != nil {
+		return nil, err
+	}
 
+	req = anyscale.AddDefaultHeaders(req, models.AuthorizationHeader)
+	return client.SendRequestRaw(req)
+}
+
+func (anyscale *anyscaleProvider) AddDefaultHeaders(req *http.Request, key string) *http.Request {
 	connectionConfigMap := anyscale.conn.GetConfig([]string{
 		models.AuthorizationHeader,
 	})
@@ -26,8 +34,7 @@ func (anyscale *anyscaleProvider) ChatCompletion(ctx context.Context, payload []
 
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", authorizationHeader)
-
-	return client.SendRequestRaw(req)
+	return req
 }
 
 func (anyscale *anyscaleProvider) Models() []string {

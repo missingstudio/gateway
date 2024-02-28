@@ -13,11 +13,17 @@ import (
 func (ta *togetherAIProvider) ChatCompletion(ctx context.Context, payload []byte) (*http.Response, error) {
 	client := requester.NewHTTPClient()
 	requestURL := fmt.Sprintf("%s%s", ta.config.BaseURL, ta.config.ChatCompletions)
-	req, _ := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
+	req, err := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
+	if err != nil {
+		return nil, err
+	}
 
-	connectionConfigMap := ta.conn.GetConfig([]string{
-		models.AuthorizationHeader,
-	})
+	req = ta.AddDefaultHeaders(req, models.AuthorizationHeader)
+	return client.SendRequestRaw(req)
+}
+
+func (ta *togetherAIProvider) AddDefaultHeaders(req *http.Request, key string) *http.Request {
+	connectionConfigMap := ta.conn.GetConfig([]string{key})
 
 	var authorizationHeader string
 	if val, ok := connectionConfigMap[models.AuthorizationHeader].(string); ok && val != "" {
@@ -26,8 +32,7 @@ func (ta *togetherAIProvider) ChatCompletion(ctx context.Context, payload []byte
 
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", authorizationHeader)
-
-	return client.SendRequestRaw(req)
+	return req
 }
 
 func (*togetherAIProvider) Models() []string {

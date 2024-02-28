@@ -13,11 +13,17 @@ import (
 func (deepinfra *deepinfraProvider) ChatCompletion(ctx context.Context, payload []byte) (*http.Response, error) {
 	client := requester.NewHTTPClient()
 	requestURL := fmt.Sprintf("%s%s", deepinfra.config.BaseURL, deepinfra.config.ChatCompletions)
-	req, _ := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
+	req, err := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
+	if err != nil {
+		return nil, err
+	}
 
-	connectionConfigMap := deepinfra.conn.GetConfig([]string{
-		models.AuthorizationHeader,
-	})
+	req = deepinfra.AddDefaultHeaders(req, models.AuthorizationHeader)
+	return client.SendRequestRaw(req)
+}
+
+func (deepinfra *deepinfraProvider) AddDefaultHeaders(req *http.Request, key string) *http.Request {
+	connectionConfigMap := deepinfra.conn.GetConfig([]string{key})
 
 	var authorizationHeader string
 	if val, ok := connectionConfigMap[models.AuthorizationHeader].(string); ok && val != "" {
@@ -26,8 +32,7 @@ func (deepinfra *deepinfraProvider) ChatCompletion(ctx context.Context, payload 
 
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", authorizationHeader)
-
-	return client.SendRequestRaw(req)
+	return req
 }
 
 func (deepinfra *deepinfraProvider) Models() []string {

@@ -28,12 +28,23 @@ var OpenAIModels = []string{
 
 func (oai *openAIProvider) ChatCompletion(ctx context.Context, payload []byte) (*http.Response, error) {
 	client := requester.NewHTTPClient()
-	requestURL := fmt.Sprintf("%s%s", oai.config.BaseURL, oai.config.ChatCompletions)
-	req, _ := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
 
-	connectionConfigMap := oai.conn.GetConfig([]string{
-		models.AuthorizationHeader,
-	})
+	requestURL := fmt.Sprintf("%s%s", oai.config.BaseURL, oai.config.ChatCompletions)
+	req, err := http.NewRequestWithContext(ctx, "POST", requestURL, bytes.NewReader(payload))
+	if err != nil {
+		return nil, err
+	}
+
+	req = oai.AddDefaultHeaders(req, models.AuthorizationHeader)
+	return client.SendRequestRaw(req)
+}
+
+func (*openAIProvider) Models() []string {
+	return OpenAIModels
+}
+
+func (oai *openAIProvider) AddDefaultHeaders(req *http.Request, key string) *http.Request {
+	connectionConfigMap := oai.conn.GetConfig([]string{key})
 
 	var authorizationHeader string
 	if val, ok := connectionConfigMap[models.AuthorizationHeader].(string); ok && val != "" {
@@ -42,10 +53,5 @@ func (oai *openAIProvider) ChatCompletion(ctx context.Context, payload []byte) (
 
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", authorizationHeader)
-
-	return client.SendRequestRaw(req)
-}
-
-func (*openAIProvider) Models() []string {
-	return OpenAIModels
+	return req
 }
