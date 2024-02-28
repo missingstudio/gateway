@@ -2,16 +2,19 @@ package ingester
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 
 	"github.com/InfluxCommunity/influxdb3-go/influxdb3"
+	"github.com/missingstudio/studio/backend/internal/ingester/clickhouse"
 	"github.com/missingstudio/studio/backend/internal/ingester/influx3"
 	"github.com/sagikazarmark/slog-shim"
 )
 
 const (
-	Influx3 = "influx3"
-	Nop     = "nop"
+	Influx3    = "influx3"
+	ClickHouse = "clickhouse"
+	Nop        = "nop"
 )
 
 // NewIngester initializes the ingester instance based on Config
@@ -37,7 +40,18 @@ func NewIngester(ctx context.Context, cfg Config, logger *slog.Logger) (Ingester
 			influx3.WithOrganization(cfg.Influx3.Organization),
 			influx3.WithMeasurement(cfg.Influx3.Measurement),
 		), err
+	case ClickHouse:
+		db, err := sql.Open("clickhouse", cfg.Clickhouse.URL)
+		if err != nil {
+			return nil, err
+		}
 
+		err = db.Ping()
+		if err != nil {
+			return nil, err
+		}
+
+		return clickhouse.NewClickHouseIngester(db, cfg.Clickhouse.Table)
 	default:
 		return nil, fmt.Errorf("Unknown ingester Driver: %s", cfg.Provider)
 	}

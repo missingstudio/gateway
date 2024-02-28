@@ -22,6 +22,7 @@ services:
 
   postgres:
     image: postgres:13
+    container_name: postgres
     environment:
       - POSTGRES_DB=mstudio
       - POSTGRES_USER=mstudio
@@ -38,6 +39,7 @@ services:
 
   redis:
     image: redis:7.2-alpine
+    container_name: redis
     restart: always
     ports:
       - 6379:6379
@@ -50,7 +52,17 @@ services:
       timeout: 3s
       retries: 30
 
+  clickhouse:
+    image: clickhouse/clickhouse-server:24.1.5
+    container_name: clickhouse
+    volumes:
+      - clickhouse:/var/lib/clickhouse
+    ports:
+      - 9000:9000
+      - 8123:8123
+    restart: always
 
 volumes:
   redis: {}
   postgres: {}
+  clickhouse: {}
