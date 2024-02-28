@@ -5,36 +5,37 @@ import (
 	"fmt"
 
 	"github.com/InfluxCommunity/influxdb3-go/influxdb3"
-	"github.com/missingstudio/studio/backend/internal/ingester/influx"
+	"github.com/missingstudio/studio/backend/internal/ingester/influx3"
 	"github.com/sagikazarmark/slog-shim"
 )
 
 const (
-	Influx = "influx"
-	Nop    = "nop"
+	Influx3 = "influx3"
+	Nop     = "nop"
 )
 
 // NewIngester initializes the ingester instance based on Config
 func NewIngester(ctx context.Context, cfg Config, logger *slog.Logger) (Ingester, error) {
 	switch cfg.Provider {
-	case Influx:
+	case Influx3:
 		// Create a new client using an InfluxDB server base URL and an authentication token
 		client, err := influxdb3.New(influxdb3.ClientConfig{
-			Host:         cfg.Influx.Host,
-			Token:        cfg.Influx.Token,
-			Organization: cfg.Influx.Organization,
-			Database:     cfg.Influx.Database,
+			Host:         cfg.Influx3.Host,
+			Token:        cfg.Influx3.Token,
+			Organization: cfg.Influx3.Organization,
+			Database:     cfg.Influx3.Database,
 		})
 		if err != nil {
 			logger.Error("error starting influx server", "error", err)
 			return nil, err
 		}
 
-		return influx.NewInfluxIngester(
-			influx.WithClient(client),
-			influx.WithLogger(logger),
-			influx.WithDatabase(cfg.Influx.Database),
-			influx.WithOrganization(cfg.Influx.Organization),
+		return influx3.NewInfluxIngester(
+			influx3.WithClient(client),
+			influx3.WithLogger(logger),
+			influx3.WithDatabase(cfg.Influx3.Database),
+			influx3.WithOrganization(cfg.Influx3.Organization),
+			influx3.WithMeasurement(cfg.Influx3.Measurement),
 		), err
 
 	default:

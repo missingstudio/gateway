@@ -11,7 +11,7 @@ import (
 )
 
 func (s *V1Handler) ListTrackingLogs(ctx context.Context, req *connect.Request[emptypb.Empty]) (*connect.Response[llmv1.LogResponse], error) {
-	response, err := s.ingester.Get("select * from analytics ORDER BY time DESC")
+	response, err := s.ingester.Get()
 	if err != nil {
 		return nil, errors.New(err)
 	}

@@ -123,5 +123,5 @@ func (s *V1Handler) sendMetrics(provider string, latency time.Duration, response
 	ingesterdata["total_tokens"] = response.Usage.TotalTokens
 	ingesterdata["prompt_tokens"] = response.Usage.PromptTokens
 	ingesterdata["completion_tokens"] = response.Usage.CompletionTokens
-	go s.ingester.Ingest(ingesterdata, "analytics")
+	go s.ingester.Ingest(ingesterdata)
 }

@@ -50,8 +50,7 @@ services:
       timeout: 3s
       retries: 30
 
+
 volumes:
-  redis:
-    driver: local
-  postgres:
-    driver: local
+  redis: {}
+  postgres: {}

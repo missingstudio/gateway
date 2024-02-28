@@ -1,4 +1,4 @@
-package influx
+package influx3
 
 import (
 	"log/slog"
@@ -10,6 +10,7 @@ type Options struct {
 	client       *influxdb3.Client
 	database     string
 	organization string
+	measurement  string
 	logger       *slog.Logger
 }
 
@@ -33,6 +34,13 @@ func WithDatabase(database string) Option {
 func WithOrganization(organization string) Option {
 	return func(o *Options) {
 		o.organization = organization
+	}
+}
+
+// WithMeasurement sets the measurement in Options
+func WithMeasurement(measurement string) Option {
+	return func(o *Options) {
+		o.measurement = measurement
 	}
 }
 

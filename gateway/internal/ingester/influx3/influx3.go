@@ -1,7 +1,8 @@
-package influx
+package influx3
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"log/slog"
 	"time"
@@ -13,6 +14,7 @@ type InfluxDBIngester struct {
 	client       *influxdb3.Client
 	database     string
 	organization string
+	measurement  string
 	logger       *slog.Logger
 }
 
@@ -28,20 +30,21 @@ func NewInfluxIngester(opts ...Option) *InfluxDBIngester {
 		client:       options.client,
 		database:     options.database,
 		organization: options.organization,
+		measurement:  options.measurement,
 		logger:       options.logger,
 	}
 }
 
-func (in *InfluxDBIngester) Ingest(data map[string]any, measurement string) {
-	point := influxdb3.NewPoint(measurement, nil, data, time.Now())
+func (in *InfluxDBIngester) Ingest(data map[string]any) {
+	point := influxdb3.NewPoint(in.measurement, nil, data, time.Now())
 	err := in.client.WritePoints(context.Background(), point)
 	if err != nil {
 		in.logger.Error("Not able to ingest into db", err)
 	}
 }
 
-func (in *InfluxDBIngester) Get(query string) ([]map[string]any, error) {
-	result, err := in.client.Query(context.Background(), query)
+func (in *InfluxDBIngester) Get() ([]map[string]any, error) {
+	result, err := in.client.Query(context.Background(), fmt.Sprintf("select * from %s ORDER BY time DESC", in.measurement))
 	if err != nil {
 		return nil, err
 	}
