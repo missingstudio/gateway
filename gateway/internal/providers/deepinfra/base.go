@@ -10,7 +10,7 @@ import (
 //go:embed schema.json
 var schema []byte
 
-var _ base.IProvider = &deepinfraProvider{}
+var _ base.ChatCompletionInterface = &deepinfraProvider{}
 
 type deepinfraProvider struct {
 	info   base.ProviderInfo
@@ -47,7 +47,7 @@ func getDeepinfraConfig(baseURL string) base.ProviderConfig {
 }
 
 func init() {
-	models.ProviderRegistry["deepinfra"] = func(connection models.Connection) base.IProvider {
+	base.ProviderRegistry["deepinfra"] = func(connection models.Connection) base.IProvider {
 		config := getDeepinfraConfig("https://api.deepinfra.com/v1/openai")
 		return &deepinfraProvider{
 			info:   getDeepinfraInfo(),

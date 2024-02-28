@@ -133,6 +133,98 @@ export class ResponseFormat extends Message<ResponseFormat> {
 }
 
 /**
+ * @generated from message llm.v1.Function
+ */
+export class Function extends Message<Function> {
+  /**
+   * @generated from field: string Name = 1;
+   */
+  Name = "";
+
+  /**
+   * @generated from field: string Arguments = 2;
+   */
+  Arguments = "";
+
+  constructor(data?: PartialMessage<Function>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.Function";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "Name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "Arguments", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Function {
+    return new Function().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Function {
+    return new Function().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Function {
+    return new Function().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Function | PlainMessage<Function> | undefined, b: Function | PlainMessage<Function> | undefined): boolean {
+    return proto3.util.equals(Function, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.ToolCallMessage
+ */
+export class ToolCallMessage extends Message<ToolCallMessage> {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id = "";
+
+  /**
+   * @generated from field: string type = 2;
+   */
+  type = "";
+
+  /**
+   * @generated from field: llm.v1.Function function = 3;
+   */
+  function?: Function;
+
+  constructor(data?: PartialMessage<ToolCallMessage>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.ToolCallMessage";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "function", kind: "message", T: Function },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ToolCallMessage {
+    return new ToolCallMessage().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ToolCallMessage {
+    return new ToolCallMessage().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ToolCallMessage {
+    return new ToolCallMessage().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ToolCallMessage | PlainMessage<ToolCallMessage> | undefined, b: ToolCallMessage | PlainMessage<ToolCallMessage> | undefined): boolean {
+    return proto3.util.equals(ToolCallMessage, a, b);
+  }
+}
+
+/**
  * @generated from message llm.v1.ChatCompletionMessage
  */
 export class ChatCompletionMessage extends Message<ChatCompletionMessage> {
@@ -155,6 +247,11 @@ export class ChatCompletionMessage extends Message<ChatCompletionMessage> {
    */
   logprobs?: Struct;
 
+  /**
+   * @generated from field: repeated llm.v1.ToolCallMessage tool_calls = 4;
+   */
+  toolCalls: ToolCallMessage[] = [];
+
   constructor(data?: PartialMessage<ChatCompletionMessage>) {
     super();
     proto3.util.initPartial(data, this);
@@ -166,6 +263,7 @@ export class ChatCompletionMessage extends Message<ChatCompletionMessage> {
     { no: 1, name: "role", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "content", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "logprobs", kind: "message", T: Struct },
+    { no: 4, name: "tool_calls", kind: "message", T: ToolCallMessage, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ChatCompletionMessage {
@@ -209,16 +307,16 @@ export class ChatCompletionRequest extends Message<ChatCompletionRequest> {
   temperature?: number;
 
   /**
-   * @generated from field: optional uint32 seed = 4;
+   * @generated from field: optional uint64 seed = 4;
    */
-  seed?: number;
+  seed?: bigint;
 
   /**
    * number of chat completion choices to generate for each input message. default = 1
    *
-   * @generated from field: optional uint32 n = 5;
+   * @generated from field: optional uint64 n = 5;
    */
-  n?: number;
+  n?: bigint;
 
   /**
    * @generated from field: optional float presence_penalty = 6;
@@ -238,7 +336,7 @@ export class ChatCompletionRequest extends Message<ChatCompletionRequest> {
   stream?: boolean;
 
   /**
-   * @generated from field: optional uint32 top_k = 9;
+   * @generated from field: optional float top_k = 9;
    */
   topK?: number;
 
@@ -263,9 +361,9 @@ export class ChatCompletionRequest extends Message<ChatCompletionRequest> {
   logprobs?: boolean;
 
   /**
-   * @generated from field: optional uint32 top_logprobs = 14;
+   * @generated from field: optional uint64 top_logprobs = 14;
    */
-  topLogprobs?: number;
+  topLogprobs?: bigint;
 
   /**
    * @generated from field: optional google.protobuf.Struct logit_bias = 15;
@@ -287,6 +385,21 @@ export class ChatCompletionRequest extends Message<ChatCompletionRequest> {
    */
   toolChoice?: Struct;
 
+  /**
+   * @generated from field: optional string suffix = 19;
+   */
+  suffix?: string;
+
+  /**
+   * @generated from field: optional bool echo = 20;
+   */
+  echo?: boolean;
+
+  /**
+   * @generated from field: optional uint64 best_of = 21;
+   */
+  bestOf?: bigint;
+
   constructor(data?: PartialMessage<ChatCompletionRequest>) {
     super();
     proto3.util.initPartial(data, this);
@@ -298,21 +411,24 @@ export class ChatCompletionRequest extends Message<ChatCompletionRequest> {
     { no: 1, name: "model", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "messages", kind: "message", T: ChatCompletionMessage, repeated: true },
     { no: 3, name: "temperature", kind: "scalar", T: 2 /* ScalarType.FLOAT */, opt: true },
-    { no: 4, name: "seed", kind: "scalar", T: 13 /* ScalarType.UINT32 */, opt: true },
-    { no: 5, name: "n", kind: "scalar", T: 13 /* ScalarType.UINT32 */, opt: true },
+    { no: 4, name: "seed", kind: "scalar", T: 4 /* ScalarType.UINT64 */, opt: true },
+    { no: 5, name: "n", kind: "scalar", T: 4 /* ScalarType.UINT64 */, opt: true },
     { no: 6, name: "presence_penalty", kind: "scalar", T: 2 /* ScalarType.FLOAT */, opt: true },
     { no: 7, name: "frequency_penalty", kind: "scalar", T: 2 /* ScalarType.FLOAT */, opt: true },
     { no: 8, name: "stream", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
-    { no: 9, name: "top_k", kind: "scalar", T: 13 /* ScalarType.UINT32 */, opt: true },
+    { no: 9, name: "top_k", kind: "scalar", T: 2 /* ScalarType.FLOAT */, opt: true },
     { no: 10, name: "top_p", kind: "scalar", T: 2 /* ScalarType.FLOAT */, opt: true },
     { no: 11, name: "stop", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
     { no: 12, name: "max_tokens", kind: "scalar", T: 4 /* ScalarType.UINT64 */, opt: true },
     { no: 13, name: "logprobs", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
-    { no: 14, name: "top_logprobs", kind: "scalar", T: 13 /* ScalarType.UINT32 */, opt: true },
+    { no: 14, name: "top_logprobs", kind: "scalar", T: 4 /* ScalarType.UINT64 */, opt: true },
     { no: 15, name: "logit_bias", kind: "message", T: Struct, opt: true },
     { no: 16, name: "response_format", kind: "message", T: ResponseFormat, opt: true },
     { no: 17, name: "user", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
     { no: 18, name: "tool_choice", kind: "message", T: Struct, opt: true },
+    { no: 19, name: "suffix", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 20, name: "echo", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 21, name: "best_of", kind: "scalar", T: 4 /* ScalarType.UINT64 */, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ChatCompletionRequest {
@@ -339,9 +455,9 @@ export class CompletionChoice extends Message<CompletionChoice> {
   /**
    * index of the choice in the list of choices.
    *
-   * @generated from field: uint32 index = 1;
+   * @generated from field: uint64 index = 1;
    */
-  index = 0;
+  index = protoInt64.zero;
 
   /**
    * message generated by the model.
@@ -368,7 +484,7 @@ export class CompletionChoice extends Message<CompletionChoice> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "llm.v1.CompletionChoice";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "index", kind: "scalar", T: 13 /* ScalarType.UINT32 */ },
+    { no: 1, name: "index", kind: "scalar", T: 4 /* ScalarType.UINT64 */ },
     { no: 2, name: "message", kind: "message", T: ChatCompletionMessage },
     { no: 3, name: "logprobs", kind: "message", T: Struct },
     { no: 4, name: "finish_reason", kind: "scalar", T: 9 /* ScalarType.STRING */ },
@@ -493,9 +609,9 @@ export class ChatCompletionResponse extends Message<ChatCompletionResponse> {
   usage?: Usage;
 
   /**
-   * @generated from field: string system_fingerprint = 7;
+   * @generated from field: bool cached = 7;
    */
-  systemFingerprint = "";
+  cached = false;
 
   constructor(data?: PartialMessage<ChatCompletionResponse>) {
     super();
@@ -511,7 +627,7 @@ export class ChatCompletionResponse extends Message<ChatCompletionResponse> {
     { no: 4, name: "model", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 5, name: "choices", kind: "message", T: CompletionChoice, repeated: true },
     { no: 6, name: "usage", kind: "message", T: Usage },
-    { no: 7, name: "system_fingerprint", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 7, name: "cached", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ChatCompletionResponse {

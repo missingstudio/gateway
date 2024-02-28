@@ -10,7 +10,7 @@ import (
 //go:embed schema.json
 var schema []byte
 
-var _ base.IProvider = &anyscaleProvider{}
+var _ base.ChatCompletionInterface = &anyscaleProvider{}
 
 type anyscaleProvider struct {
 	info   base.ProviderInfo
@@ -47,7 +47,7 @@ func getAnyscaleConfig(baseURL string) base.ProviderConfig {
 }
 
 func init() {
-	models.ProviderRegistry["anyscale"] = func(connection models.Connection) base.IProvider {
+	base.ProviderRegistry["anyscale"] = func(connection models.Connection) base.IProvider {
 		config := getAnyscaleConfig("https://api.endpoints.anyscale.com")
 		return &anyscaleProvider{
 			info:   getAnyscaleInfo(),

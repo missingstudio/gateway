@@ -5,10 +5,10 @@ import (
 	"errors"
 
 	"github.com/missingstudio/studio/backend/internal/providers/openai"
-	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
+	"github.com/missingstudio/studio/backend/models"
 )
 
-func (az *azureProvider) ChatCompletion(ctx context.Context, cr *llmv1.ChatCompletionRequest) (*llmv1.ChatCompletionResponse, error) {
+func (az *azureProvider) ChatCompletion(ctx context.Context, payload *models.ChatCompletionRequest) (*models.ChatCompletionResponse, error) {
 	return nil, errors.New("Not yet implemented")
 }
 

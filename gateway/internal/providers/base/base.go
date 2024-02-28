@@ -2,7 +2,8 @@ package base
 
 import (
 	"context"
-	"net/http"
+
+	"github.com/missingstudio/studio/backend/models"
 )
 
 type ProviderConfig struct {
@@ -22,7 +23,11 @@ type IProvider interface {
 	Schema() []byte
 }
 
+// ProviderRegistry holds all supported provider for which connections
+// can be initialized
+var ProviderRegistry = map[string]func(models.Connection) IProvider{}
+
 type ChatCompletionInterface interface {
 	IProvider
-	ChatCompletion(context.Context, []byte) (*http.Response, error)
+	ChatCompletion(context.Context, *models.ChatCompletionRequest) (*models.ChatCompletionResponse, error)
 }

@@ -10,7 +10,7 @@ import (
 //go:embed schema.json
 var schema []byte
 
-var _ base.IProvider = &togetherAIProvider{}
+var _ base.ChatCompletionInterface = &togetherAIProvider{}
 
 type togetherAIProvider struct {
 	info   base.ProviderInfo
@@ -46,7 +46,7 @@ func getTogetherAIConfig(baseURL string) base.ProviderConfig {
 }
 
 func init() {
-	models.ProviderRegistry["togetherai"] = func(connection models.Connection) base.IProvider {
+	base.ProviderRegistry["togetherai"] = func(connection models.Connection) base.IProvider {
 		config := getTogetherAIConfig("https://api.together.xyz")
 		return &togetherAIProvider{
 			info:   getTogetherAIInfo(),

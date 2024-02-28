@@ -10,7 +10,7 @@ import (
 //go:embed schema.json
 var schema []byte
 
-var _ base.IProvider = &openAIProvider{}
+var _ base.ChatCompletionInterface = &openAIProvider{}
 
 type openAIProvider struct {
 	info   base.ProviderInfo
@@ -46,7 +46,7 @@ func getOpenAIConfig(baseURL string) base.ProviderConfig {
 }
 
 func init() {
-	models.ProviderRegistry["openai"] = func(connection models.Connection) base.IProvider {
+	base.ProviderRegistry["openai"] = func(connection models.Connection) base.IProvider {
 		config := getOpenAIConfig("https://api.openai.com")
 		return &openAIProvider{
 			info:   getOpenAIInfo(),

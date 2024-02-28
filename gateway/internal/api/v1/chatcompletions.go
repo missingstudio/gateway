@@ -33,15 +33,14 @@ func (s *V1Handler) ChatCompletions(
 		return nil, ErrRequiredHeaderNotExit
 	}
 
-	startTime := time.Now()
-	payload, err := json.Marshal(req.Msg)
+	chatCompletionRequestSchema, err := s.createChatCompletionRequestSchema(req.Msg)
 	if err != nil {
 		return nil, errors.New(err)
 	}
 
+	startTime := time.Now()
 	rsvc := router.NewRouterService(routerConfig)
 
-	data := &llmv1.ChatCompletionResponse{}
 	providerConfig := rsvc.Next()
 	if providerConfig == nil {
 		return nil, ErrNoProviderAbleToServe
@@ -69,31 +68,60 @@ func (s *V1Handler) ChatCompletions(
 		return nil, ErrChatCompletionNotSupported
 	}
 
-	resp, err := chatCompletionProvider.ChatCompletion(ctx, payload)
+	resp, err := chatCompletionProvider.ChatCompletion(ctx, chatCompletionRequestSchema)
 	if err != nil {
 		return nil, errors.New(err)
 	}
 
+	providerInfo := p.Info()
 	latency := time.Since(startTime)
-	if err := json.NewDecoder(resp.Body).Decode(data); err != nil {
+	s.sendMetrics(providerInfo.Name, latency, resp)
+
+	chatCompletionResponseSchema, err := s.createChatCompletionResponseSchema(resp)
+	if err != nil {
 		return nil, errors.New(err)
 	}
 
-	ingesterdata := make(map[string]any)
-	providerInfo := p.Info()
+	return connect.NewResponse(chatCompletionResponseSchema), nil
+}
 
-	ingesterdata["provider"] = providerInfo.Name
-	ingesterdata["model"] = data.Model
-	ingesterdata["latency"] = latency
-	ingesterdata["total_tokens"] = *data.Usage.TotalTokens
-	ingesterdata["prompt_tokens"] = *data.Usage.PromptTokens
-	ingesterdata["completion_tokens"] = *data.Usage.CompletionTokens
-
-	go s.ingester.Ingest(ingesterdata, "analytics")
-
+func (s *V1Handler) createChatCompletionRequestSchema(req *llmv1.ChatCompletionRequest) (*models.ChatCompletionRequest, error) {
+	payload, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
 	}
 
-	return connect.NewResponse(data), nil
+	data := &models.ChatCompletionRequest{}
+	err = json.Unmarshal(payload, data)
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
+}
+
+func (s *V1Handler) createChatCompletionResponseSchema(resp *models.ChatCompletionResponse) (*llmv1.ChatCompletionResponse, error) {
+	payload, err := json.Marshal(resp)
+	if err != nil {
+		return nil, err
+	}
+
+	data := &llmv1.ChatCompletionResponse{}
+	err = json.Unmarshal(payload, data)
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
+}
+
+func (s *V1Handler) sendMetrics(provider string, latency time.Duration, response *models.ChatCompletionResponse) {
+	ingesterdata := make(map[string]any)
+	ingesterdata["provider"] = provider
+	ingesterdata["latency"] = latency
+	ingesterdata["model"] = response.Model
+	ingesterdata["total_tokens"] = response.Usage.TotalTokens
+	ingesterdata["prompt_tokens"] = response.Usage.PromptTokens
+	ingesterdata["completion_tokens"] = response.Usage.CompletionTokens
+	go s.ingester.Ingest(ingesterdata, "analytics")
 }

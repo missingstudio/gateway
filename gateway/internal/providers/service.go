@@ -22,14 +22,14 @@ func NewService() *Service {
 func (s Service) GetProviders() map[string]base.IProvider {
 	providers := map[string]base.IProvider{}
 
-	for name, p := range models.ProviderRegistry {
+	for name, p := range base.ProviderRegistry {
 		providers[name] = p(models.Connection{})
 	}
 	return providers
 }
 
 func (s Service) GetProvider(conn models.Connection) (base.IProvider, error) {
-	if val, ok := models.ProviderRegistry[conn.Name]; ok {
+	if val, ok := base.ProviderRegistry[conn.Name]; ok {
 		return val(conn), nil
 	}
 	return nil, errors.New("unsupported connection")
