@@ -7,12 +7,12 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/missingstudio/studio/backend/core/chat"
 	"github.com/missingstudio/studio/backend/core/connection"
-	"github.com/missingstudio/studio/backend/models"
 	"github.com/missingstudio/studio/backend/pkg/requester"
 )
 
-func (anyscale *anyscaleProvider) ChatCompletion(ctx context.Context, payload *models.ChatCompletionRequest) (*models.ChatCompletionResponse, error) {
+func (anyscale *anyscaleProvider) ChatCompletion(ctx context.Context, payload *chat.ChatCompletionRequest) (*chat.ChatCompletionResponse, error) {
 	client := requester.NewHTTPClient()
 
 	rawPayload, err := json.Marshal(payload)
@@ -32,7 +32,7 @@ func (anyscale *anyscaleProvider) ChatCompletion(ctx context.Context, payload *m
 		return nil, err
 	}
 
-	data := &models.ChatCompletionResponse{}
+	data := &chat.ChatCompletionResponse{}
 	if err := json.NewDecoder(resp.Body).Decode(data); err != nil {
 		return nil, err
 	}

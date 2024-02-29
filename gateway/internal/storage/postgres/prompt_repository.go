@@ -80,7 +80,6 @@ func (c *PromptRepository) GetByName(ctx context.Context, name string) (prompt.P
 	return pdb.ToPrompt()
 }
 
-// Upsert implements prompt.Repository.
 func (c *PromptRepository) Upsert(ctx context.Context, conn prompt.Prompt) (prompt.Prompt, error) {
 	marshaledMetadata, err := json.Marshal(conn.Metadata)
 	if err != nil {

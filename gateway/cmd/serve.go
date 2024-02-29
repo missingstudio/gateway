@@ -69,7 +69,12 @@ func Serve(cfg *config.Config) error {
 	promptService := prompt.NewService(promptRepository)
 
 	providerService := providers.NewService()
-	deps := api.NewDeps(logger, ingester, rl, providerService, connectionService, promptService)
+	deps := api.NewDeps(
+		logger, ingester, rl,
+		providerService,
+		connectionService,
+		promptService,
+	)
 
 	if err := server.Serve(ctx, logger, cfg.App, deps); err != nil {
 		logger.Error("error starting server", "error", err)

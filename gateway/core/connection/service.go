@@ -27,12 +27,10 @@ func NewService(connectionRepo Repository) *Service {
 	}
 }
 
-// DeleteByID implements connection.Repository.
 func (s *Service) DeleteByID(ctx context.Context, connID uuid.UUID) error {
 	return s.connectionRepo.DeleteByID(ctx, connID)
 }
 
-// GetAll implements connection.Repository.
 func (s *Service) GetAll(ctx context.Context) ([]Connection, error) {
 	conns, err := s.connectionRepo.GetAll(ctx)
 	if err != nil {
@@ -41,7 +39,6 @@ func (s *Service) GetAll(ctx context.Context) ([]Connection, error) {
 	return conns, nil
 }
 
-// GetByID implements connection.Repository.
 func (s *Service) GetByID(ctx context.Context, connID uuid.UUID) (Connection, error) {
 	conn, err := s.connectionRepo.GetByID(ctx, connID)
 	if err != nil {
@@ -51,7 +48,6 @@ func (s *Service) GetByID(ctx context.Context, connID uuid.UUID) (Connection, er
 	return conn, err
 }
 
-// GetByName implements connection.Repository.
 func (s *Service) GetByName(ctx context.Context, name string) (Connection, error) {
 	conn, err := s.connectionRepo.GetByName(ctx, name)
 	if err != nil {
@@ -61,7 +57,6 @@ func (s *Service) GetByName(ctx context.Context, name string) (Connection, error
 	return conn, err
 }
 
-// Upsert implements connection.Repository.
 func (s *Service) Upsert(ctx context.Context, c Connection) (Connection, error) {
 	id, err := s.connectionRepo.Upsert(ctx, c)
 	if err != nil {

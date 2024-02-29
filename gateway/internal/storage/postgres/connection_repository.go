@@ -27,12 +27,10 @@ func NewConnectionRepository(dbc *database.Client) *ConnectionRepository {
 	}
 }
 
-// DeleteByID implements connection.Repository.
 func (*ConnectionRepository) DeleteByID(ctx context.Context, connID uuid.UUID) error {
 	panic("unimplemented")
 }
 
-// GetAll implements connection.Repository.
 func (c *ConnectionRepository) GetAll(ctx context.Context) ([]connection.Connection, error) {
 	query, params, err := dialect.From(TABLE_CONNECTIONS).ToSQL()
 	if err != nil {
@@ -62,12 +60,10 @@ func (c *ConnectionRepository) GetAll(ctx context.Context) ([]connection.Connect
 	return connections, nil
 }
 
-// GetByID implements connection.Repository.
 func (*ConnectionRepository) GetByID(ctx context.Context, connID uuid.UUID) (connection.Connection, error) {
 	panic("unimplemented")
 }
 
-// GetByID implements connection.Repository.
 func (c *ConnectionRepository) GetByName(ctx context.Context, name string) (connection.Connection, error) {
 	query, params, err := dialect.From(TABLE_CONNECTIONS).Where(goqu.Ex{"name": name}).ToSQL()
 	if err != nil {
@@ -91,7 +87,6 @@ func (c *ConnectionRepository) GetByName(ctx context.Context, name string) (conn
 	return connDb.ToConnection()
 }
 
-// Upsert implements connection.Repository.
 func (c *ConnectionRepository) Upsert(ctx context.Context, conn connection.Connection) (connection.Connection, error) {
 	marshaledConfig, err := json.Marshal(conn.Config)
 	if err != nil {

@@ -1,4 +1,4 @@
-package models
+package chat
 
 type ResponseFormat struct {
 	Type string `json:"type,omitempty"`

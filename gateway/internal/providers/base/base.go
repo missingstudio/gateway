@@ -3,8 +3,8 @@ package base
 import (
 	"context"
 
+	"github.com/missingstudio/studio/backend/core/chat"
 	"github.com/missingstudio/studio/backend/core/connection"
-	"github.com/missingstudio/studio/backend/models"
 )
 
 type ProviderConfig struct {
@@ -30,5 +30,5 @@ var ProviderRegistry = map[string]func(connection.Connection) IProvider{}
 
 type ChatCompletionInterface interface {
 	IProvider
-	ChatCompletion(context.Context, *models.ChatCompletionRequest) (*models.ChatCompletionResponse, error)
+	ChatCompletion(context.Context, *chat.ChatCompletionRequest) (*chat.ChatCompletionResponse, error)
 }

@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/missingstudio/studio/backend/core/chat"
 	"github.com/missingstudio/studio/backend/core/connection"
-	"github.com/missingstudio/studio/backend/models"
 	"github.com/missingstudio/studio/backend/pkg/requester"
 )
 
@@ -28,7 +28,7 @@ var OpenAIModels = []string{
 	"gpt-3.5-turbo-instruct",
 }
 
-func (oai *openAIProvider) ChatCompletion(ctx context.Context, payload *models.ChatCompletionRequest) (*models.ChatCompletionResponse, error) {
+func (oai *openAIProvider) ChatCompletion(ctx context.Context, payload *chat.ChatCompletionRequest) (*chat.ChatCompletionResponse, error) {
 	client := requester.NewHTTPClient()
 
 	rawPayload, err := json.Marshal(payload)
@@ -48,7 +48,7 @@ func (oai *openAIProvider) ChatCompletion(ctx context.Context, payload *models.C
 		return nil, err
 	}
 
-	data := &models.ChatCompletionResponse{}
+	data := &chat.ChatCompletionResponse{}
 	if err := json.NewDecoder(resp.Body).Decode(data); err != nil {
 		return nil, err
 	}

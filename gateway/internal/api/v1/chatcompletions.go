@@ -7,12 +7,12 @@ import (
 	"time"
 
 	"connectrpc.com/connect"
+	"github.com/missingstudio/studio/backend/core/chat"
 	"github.com/missingstudio/studio/backend/core/connection"
 	"github.com/missingstudio/studio/backend/internal/constants"
 	"github.com/missingstudio/studio/backend/internal/providers"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
 	"github.com/missingstudio/studio/backend/internal/router"
-	"github.com/missingstudio/studio/backend/models"
 	"github.com/missingstudio/studio/common/errors"
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm/v1"
 )
@@ -86,13 +86,13 @@ func (s *V1Handler) ChatCompletions(
 	return connect.NewResponse(chatCompletionResponseSchema), nil
 }
 
-func (s *V1Handler) createChatCompletionRequestSchema(req *llmv1.ChatCompletionRequest) (*models.ChatCompletionRequest, error) {
+func (s *V1Handler) createChatCompletionRequestSchema(req *llmv1.ChatCompletionRequest) (*chat.ChatCompletionRequest, error) {
 	payload, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
 	}
 
-	data := &models.ChatCompletionRequest{}
+	data := &chat.ChatCompletionRequest{}
 	err = json.Unmarshal(payload, data)
 	if err != nil {
 		return nil, err
@@ -101,7 +101,7 @@ func (s *V1Handler) createChatCompletionRequestSchema(req *llmv1.ChatCompletionR
 	return data, nil
 }
 
-func (s *V1Handler) createChatCompletionResponseSchema(resp *models.ChatCompletionResponse) (*llmv1.ChatCompletionResponse, error) {
+func (s *V1Handler) createChatCompletionResponseSchema(resp *chat.ChatCompletionResponse) (*llmv1.ChatCompletionResponse, error) {
 	payload, err := json.Marshal(resp)
 	if err != nil {
 		return nil, err
@@ -116,7 +116,7 @@ func (s *V1Handler) createChatCompletionResponseSchema(resp *models.ChatCompleti
 	return data, nil
 }
 
-func (s *V1Handler) sendMetrics(provider string, latency time.Duration, response *models.ChatCompletionResponse) {
+func (s *V1Handler) sendMetrics(provider string, latency time.Duration, response *chat.ChatCompletionResponse) {
 	ingesterdata := make(map[string]any)
 	ingesterdata["provider"] = provider
 	ingesterdata["latency"] = latency
