@@ -5,7 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3, protoInt64, Struct } from "@bufbuild/protobuf";
-import { ChatCompletionMessage, CompletionChoice, Provider, ProviderModels, ResponseFormat, Usage } from "./models_pb";
+import { APIKey, ChatCompletionMessage, CompletionChoice, Provider, ProviderModels, ResponseFormat, Usage } from "./models_pb";
 
 /**
  * @generated from message llm.v1.ChatCompletionRequest
@@ -332,39 +332,39 @@ export class ModelResponse extends Message<ModelResponse> {
 }
 
 /**
- * @generated from message llm.v1.ProvidersResponse
+ * @generated from message llm.v1.ListProvidersResponse
  */
-export class ProvidersResponse extends Message<ProvidersResponse> {
+export class ListProvidersResponse extends Message<ListProvidersResponse> {
   /**
    * @generated from field: repeated llm.v1.Provider providers = 1;
    */
   providers: Provider[] = [];
 
-  constructor(data?: PartialMessage<ProvidersResponse>) {
+  constructor(data?: PartialMessage<ListProvidersResponse>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "llm.v1.ProvidersResponse";
+  static readonly typeName = "llm.v1.ListProvidersResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "providers", kind: "message", T: Provider, repeated: true },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ProvidersResponse {
-    return new ProvidersResponse().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ListProvidersResponse {
+    return new ListProvidersResponse().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ProvidersResponse {
-    return new ProvidersResponse().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ListProvidersResponse {
+    return new ListProvidersResponse().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ProvidersResponse {
-    return new ProvidersResponse().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ListProvidersResponse {
+    return new ListProvidersResponse().fromJsonString(jsonString, options);
   }
 
-  static equals(a: ProvidersResponse | PlainMessage<ProvidersResponse> | undefined, b: ProvidersResponse | PlainMessage<ProvidersResponse> | undefined): boolean {
-    return proto3.util.equals(ProvidersResponse, a, b);
+  static equals(a: ListProvidersResponse | PlainMessage<ListProvidersResponse> | undefined, b: ListProvidersResponse | PlainMessage<ListProvidersResponse> | undefined): boolean {
+    return proto3.util.equals(ListProvidersResponse, a, b);
   }
 }
 
@@ -759,6 +759,308 @@ export class LogResponse extends Message<LogResponse> {
 
   static equals(a: LogResponse | PlainMessage<LogResponse> | undefined, b: LogResponse | PlainMessage<LogResponse> | undefined): boolean {
     return proto3.util.equals(LogResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.ListAPIKeysResponse
+ */
+export class ListAPIKeysResponse extends Message<ListAPIKeysResponse> {
+  /**
+   * @generated from field: repeated llm.v1.APIKey keys = 1;
+   */
+  keys: APIKey[] = [];
+
+  constructor(data?: PartialMessage<ListAPIKeysResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.ListAPIKeysResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "keys", kind: "message", T: APIKey, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ListAPIKeysResponse {
+    return new ListAPIKeysResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ListAPIKeysResponse {
+    return new ListAPIKeysResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ListAPIKeysResponse {
+    return new ListAPIKeysResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ListAPIKeysResponse | PlainMessage<ListAPIKeysResponse> | undefined, b: ListAPIKeysResponse | PlainMessage<ListAPIKeysResponse> | undefined): boolean {
+    return proto3.util.equals(ListAPIKeysResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.CreateAPIKeyRequest
+ */
+export class CreateAPIKeyRequest extends Message<CreateAPIKeyRequest> {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name = "";
+
+  constructor(data?: PartialMessage<CreateAPIKeyRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.CreateAPIKeyRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CreateAPIKeyRequest {
+    return new CreateAPIKeyRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): CreateAPIKeyRequest {
+    return new CreateAPIKeyRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): CreateAPIKeyRequest {
+    return new CreateAPIKeyRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: CreateAPIKeyRequest | PlainMessage<CreateAPIKeyRequest> | undefined, b: CreateAPIKeyRequest | PlainMessage<CreateAPIKeyRequest> | undefined): boolean {
+    return proto3.util.equals(CreateAPIKeyRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.CreateAPIKeyResponse
+ */
+export class CreateAPIKeyResponse extends Message<CreateAPIKeyResponse> {
+  /**
+   * @generated from field: llm.v1.APIKey key = 1;
+   */
+  key?: APIKey;
+
+  constructor(data?: PartialMessage<CreateAPIKeyResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.CreateAPIKeyResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "key", kind: "message", T: APIKey },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CreateAPIKeyResponse {
+    return new CreateAPIKeyResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): CreateAPIKeyResponse {
+    return new CreateAPIKeyResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): CreateAPIKeyResponse {
+    return new CreateAPIKeyResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: CreateAPIKeyResponse | PlainMessage<CreateAPIKeyResponse> | undefined, b: CreateAPIKeyResponse | PlainMessage<CreateAPIKeyResponse> | undefined): boolean {
+    return proto3.util.equals(CreateAPIKeyResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.GetAPIKeyRequest
+ */
+export class GetAPIKeyRequest extends Message<GetAPIKeyRequest> {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id = "";
+
+  constructor(data?: PartialMessage<GetAPIKeyRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.GetAPIKeyRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetAPIKeyRequest {
+    return new GetAPIKeyRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetAPIKeyRequest {
+    return new GetAPIKeyRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetAPIKeyRequest {
+    return new GetAPIKeyRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetAPIKeyRequest | PlainMessage<GetAPIKeyRequest> | undefined, b: GetAPIKeyRequest | PlainMessage<GetAPIKeyRequest> | undefined): boolean {
+    return proto3.util.equals(GetAPIKeyRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.GetAPIKeyResponse
+ */
+export class GetAPIKeyResponse extends Message<GetAPIKeyResponse> {
+  /**
+   * @generated from field: llm.v1.APIKey key = 1;
+   */
+  key?: APIKey;
+
+  constructor(data?: PartialMessage<GetAPIKeyResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.GetAPIKeyResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "key", kind: "message", T: APIKey },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetAPIKeyResponse {
+    return new GetAPIKeyResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetAPIKeyResponse {
+    return new GetAPIKeyResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetAPIKeyResponse {
+    return new GetAPIKeyResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetAPIKeyResponse | PlainMessage<GetAPIKeyResponse> | undefined, b: GetAPIKeyResponse | PlainMessage<GetAPIKeyResponse> | undefined): boolean {
+    return proto3.util.equals(GetAPIKeyResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.UpdateAPIKeyRequest
+ */
+export class UpdateAPIKeyRequest extends Message<UpdateAPIKeyRequest> {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id = "";
+
+  /**
+   * @generated from field: string name = 2;
+   */
+  name = "";
+
+  constructor(data?: PartialMessage<UpdateAPIKeyRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.UpdateAPIKeyRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UpdateAPIKeyRequest {
+    return new UpdateAPIKeyRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UpdateAPIKeyRequest {
+    return new UpdateAPIKeyRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UpdateAPIKeyRequest {
+    return new UpdateAPIKeyRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: UpdateAPIKeyRequest | PlainMessage<UpdateAPIKeyRequest> | undefined, b: UpdateAPIKeyRequest | PlainMessage<UpdateAPIKeyRequest> | undefined): boolean {
+    return proto3.util.equals(UpdateAPIKeyRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.UpdateAPIKeyResponse
+ */
+export class UpdateAPIKeyResponse extends Message<UpdateAPIKeyResponse> {
+  /**
+   * @generated from field: llm.v1.APIKey key = 1;
+   */
+  key?: APIKey;
+
+  constructor(data?: PartialMessage<UpdateAPIKeyResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.UpdateAPIKeyResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "key", kind: "message", T: APIKey },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UpdateAPIKeyResponse {
+    return new UpdateAPIKeyResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UpdateAPIKeyResponse {
+    return new UpdateAPIKeyResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UpdateAPIKeyResponse {
+    return new UpdateAPIKeyResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: UpdateAPIKeyResponse | PlainMessage<UpdateAPIKeyResponse> | undefined, b: UpdateAPIKeyResponse | PlainMessage<UpdateAPIKeyResponse> | undefined): boolean {
+    return proto3.util.equals(UpdateAPIKeyResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.DeleteAPIKeyRequest
+ */
+export class DeleteAPIKeyRequest extends Message<DeleteAPIKeyRequest> {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id = "";
+
+  constructor(data?: PartialMessage<DeleteAPIKeyRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.DeleteAPIKeyRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DeleteAPIKeyRequest {
+    return new DeleteAPIKeyRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DeleteAPIKeyRequest {
+    return new DeleteAPIKeyRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DeleteAPIKeyRequest {
+    return new DeleteAPIKeyRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DeleteAPIKeyRequest | PlainMessage<DeleteAPIKeyRequest> | undefined, b: DeleteAPIKeyRequest | PlainMessage<DeleteAPIKeyRequest> | undefined): boolean {
+    return proto3.util.equals(DeleteAPIKeyRequest, a, b);
   }
 }
 

@@ -9,49 +9,72 @@ import "llm/v1/models.proto";
 
 service LLMService {
   rpc ChatCompletions(ChatCompletionRequest) returns (ChatCompletionResponse) {
-    option (google.api.http).post = "/v1/chat/completions";
+    option (google.api.http).post = "/api/v1/chat/completions";
     option (google.api.http).body = "*";
   }
   
   rpc StreamChatCompletions(ChatCompletionRequest) returns (stream ChatCompletionResponse) {
-    option (google.api.http).post = "/v1/chat/completions:stream";
+    option (google.api.http).post = "/api/v1/chat/completions:stream";
     option (google.api.http).body = "*";
   }
 
   rpc ListModels(ModelRequest) returns (ModelResponse) {
-    option (google.api.http).get = "/v1/models";
+    option (google.api.http).get = "/api/v1/models";
     option (google.api.http).body = "*";
   }
 
-  rpc ListProviders(google.protobuf.Empty) returns (ProvidersResponse) {
-    option (google.api.http).get = "/v1/providers";
+  rpc ListProviders(google.protobuf.Empty) returns (ListProvidersResponse) {
+    option (google.api.http).get = "/api/v1/providers";
     option (google.api.http).body = "*";
   }
 
   rpc CreateProvider(CreateProviderRequest) returns (CreateProviderResponse) {
-    option (google.api.http).post = "/v1/providers";
+    option (google.api.http).post = "/api/v1/providers";
     option (google.api.http).body = "*";
   }
 
   rpc GetProvider(GetProviderRequest) returns (GetProviderResponse) {
-    option (google.api.http) = {get: "/v1/providers/{name}"};
+    option (google.api.http) = {get: "/api/v1/providers/{name}"};
   }
 
   rpc UpsertProvider(UpdateProviderRequest) returns (UpdateProviderResponse) {
-    option (google.api.http).put = "/v1/providers/{name}";
+    option (google.api.http).put = "/api/v1/providers/{name}";
     option (google.api.http).body = "*";
   }
 
   rpc DeleteProvider(DeleteProviderRequest) returns (google.protobuf.Empty) {
-    option (google.api.http).delete = "/v1/providers/{name}";
+    option (google.api.http).delete = "/api/v1/providers/{name}";
   }
   
   rpc GetProviderConfig(GetProviderConfigRequest) returns (GetProviderConfigResponse) {
-    option (google.api.http) = {get: "/v1/providers/{name}/config"};
+    option (google.api.http) = {get: "/api/v1/providers/{name}/config"};
+  }
+
+  rpc ListAPIKeys(google.protobuf.Empty) returns (ListAPIKeysResponse) {
+    option (google.api.http).get = "/api/v1/keys";
+    option (google.api.http).body = "*";
+  }
+
+  rpc CreateAPIKey(CreateAPIKeyRequest) returns (CreateAPIKeyResponse) {
+    option (google.api.http).post = "/api/v1/keys";
+    option (google.api.http).body = "*";
+  }
+
+  rpc GetAPIKey(GetAPIKeyRequest) returns (GetAPIKeyResponse) {
+    option (google.api.http) = {get: "/api/v1/keys/{id}"};
+  }
+
+  rpc UpdateAPIKey(UpdateAPIKeyRequest) returns (UpdateAPIKeyResponse) {
+    option (google.api.http).put = "/api/v1/keys/{id}";
+    option (google.api.http).body = "*";
+  }
+
+  rpc DeleteAPIKey(DeleteAPIKeyRequest) returns (google.protobuf.Empty) {
+    option (google.api.http).delete = "/api/v1/keys/{id}";
   }
 
   rpc ListTrackingLogs(google.protobuf.Empty) returns (LogResponse) {
-    option (google.api.http).get = "/v1/tracking/logs"; 
+    option (google.api.http).get = "/api/v1/tracking/logs"; 
     option (google.api.http).body = "*";
   }
 }
@@ -113,7 +136,7 @@ message ModelResponse {
   map<string, ProviderModels> models = 1;
 }
 
-message ProvidersResponse {
+message ListProvidersResponse {
   repeated Provider providers = 1;
 }
 
@@ -159,4 +182,39 @@ message DeleteProviderRequest {
 
 message LogResponse {
   repeated google.protobuf.Struct logs = 1;
+}
+
+
+
+message ListAPIKeysResponse {
+  repeated APIKey keys = 1;
+}
+
+message CreateAPIKeyRequest {
+  string name = 1;
+}
+
+message CreateAPIKeyResponse {
+  APIKey key = 1;
+}
+
+message GetAPIKeyRequest {
+  string id = 1;
+}
+
+message GetAPIKeyResponse {
+  APIKey key = 1;
+}
+
+message UpdateAPIKeyRequest {
+  string id = 1;
+  string name = 2;
+}
+
+message UpdateAPIKeyResponse {
+  APIKey key = 1;
+}
+
+message DeleteAPIKeyRequest {
+  string id = 1;
 }

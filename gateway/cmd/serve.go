@@ -10,6 +10,7 @@ import (
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/missingstudio/studio/backend/config"
+	"github.com/missingstudio/studio/backend/core/apikey"
 	"github.com/missingstudio/studio/backend/core/connection"
 	"github.com/missingstudio/studio/backend/core/prompt"
 	"github.com/missingstudio/studio/backend/internal/api"
@@ -65,6 +66,9 @@ func Serve(cfg *config.Config) error {
 	connectionRepository := postgres.NewConnectionRepository(dbc)
 	connectionService := connection.NewService(connectionRepository)
 
+	apikeyRepository := postgres.NewAPIKeyRepository(dbc)
+	apikeyService := apikey.NewService(apikeyRepository)
+
 	promptRepository := postgres.NewPromptRepository(dbc)
 	promptService := prompt.NewService(promptRepository)
 
@@ -74,6 +78,7 @@ func Serve(cfg *config.Config) error {
 		providerService,
 		connectionService,
 		promptService,
+		apikeyService,
 	)
 
 	if err := server.Serve(ctx, logger, cfg.App, deps); err != nil {

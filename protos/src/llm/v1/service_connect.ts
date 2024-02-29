@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ChatCompletionRequest, ChatCompletionResponse, CreateProviderRequest, CreateProviderResponse, DeleteProviderRequest, GetProviderConfigRequest, GetProviderConfigResponse, GetProviderRequest, GetProviderResponse, LogResponse, ModelRequest, ModelResponse, ProvidersResponse, UpdateProviderRequest, UpdateProviderResponse } from "./service_pb";
+import { ChatCompletionRequest, ChatCompletionResponse, CreateAPIKeyRequest, CreateAPIKeyResponse, CreateProviderRequest, CreateProviderResponse, DeleteAPIKeyRequest, DeleteProviderRequest, GetAPIKeyRequest, GetAPIKeyResponse, GetProviderConfigRequest, GetProviderConfigResponse, GetProviderRequest, GetProviderResponse, ListAPIKeysResponse, ListProvidersResponse, LogResponse, ModelRequest, ModelResponse, UpdateAPIKeyRequest, UpdateAPIKeyResponse, UpdateProviderRequest, UpdateProviderResponse } from "./service_pb";
 import { Empty, MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -45,7 +45,7 @@ export const LLMService = {
     listProviders: {
       name: "ListProviders",
       I: Empty,
-      O: ProvidersResponse,
+      O: ListProvidersResponse,
       kind: MethodKind.Unary,
     },
     /**
@@ -91,6 +91,51 @@ export const LLMService = {
       name: "GetProviderConfig",
       I: GetProviderConfigRequest,
       O: GetProviderConfigResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc llm.v1.LLMService.ListAPIKeys
+     */
+    listAPIKeys: {
+      name: "ListAPIKeys",
+      I: Empty,
+      O: ListAPIKeysResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc llm.v1.LLMService.CreateAPIKey
+     */
+    createAPIKey: {
+      name: "CreateAPIKey",
+      I: CreateAPIKeyRequest,
+      O: CreateAPIKeyResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc llm.v1.LLMService.GetAPIKey
+     */
+    getAPIKey: {
+      name: "GetAPIKey",
+      I: GetAPIKeyRequest,
+      O: GetAPIKeyResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc llm.v1.LLMService.UpdateAPIKey
+     */
+    updateAPIKey: {
+      name: "UpdateAPIKey",
+      I: UpdateAPIKeyRequest,
+      O: UpdateAPIKeyResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc llm.v1.LLMService.DeleteAPIKey
+     */
+    deleteAPIKey: {
+      name: "DeleteAPIKey",
+      I: DeleteAPIKeyRequest,
+      O: Empty,
       kind: MethodKind.Unary,
     },
     /**

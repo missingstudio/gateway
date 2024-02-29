@@ -8,6 +8,7 @@ import (
 	"connectrpc.com/otelconnect"
 	"connectrpc.com/validate"
 	"connectrpc.com/vanguard"
+	"github.com/missingstudio/studio/backend/core/apikey"
 	"github.com/missingstudio/studio/backend/core/connection"
 	"github.com/missingstudio/studio/backend/core/prompt"
 	"github.com/missingstudio/studio/backend/internal/api"
@@ -24,6 +25,7 @@ type V1Handler struct {
 	ingester          ingester.Ingester
 	providerService   *providers.Service
 	connectionService *connection.Service
+	apikeyService     *apikey.Service
 	promptService     *prompt.Service
 }
 
@@ -33,6 +35,7 @@ func NewHandlerV1(d *api.Deps) *V1Handler {
 		providerService:   d.ProviderService,
 		connectionService: d.ConnectionService,
 		promptService:     d.PromptService,
+		apikeyService:     d.APIKeyService,
 	}
 }
 
@@ -52,6 +55,7 @@ func Register(d *api.Deps) (http.Handler, error) {
 	stdInterceptors := []connect.Interceptor{
 		validateInterceptor,
 		otelconnectInterceptor,
+		interceptor.NewAPIKeyInterceptor(d.Logger, d.APIKeyService),
 		interceptor.HeadersInterceptor(),
 		interceptor.RateLimiterInterceptor(d.RateLimiter),
 		interceptor.RetryInterceptor(),

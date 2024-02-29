@@ -3,6 +3,7 @@ package api
 import (
 	"log/slog"
 
+	"github.com/missingstudio/studio/backend/core/apikey"
 	"github.com/missingstudio/studio/backend/core/connection"
 	"github.com/missingstudio/studio/backend/core/prompt"
 	"github.com/missingstudio/studio/backend/internal/ingester"
@@ -17,6 +18,7 @@ type Deps struct {
 	ProviderService   *providers.Service
 	ConnectionService *connection.Service
 	PromptService     *prompt.Service
+	APIKeyService     *apikey.Service
 }
 
 func NewDeps(
@@ -26,6 +28,7 @@ func NewDeps(
 	ps *providers.Service,
 	cs *connection.Service,
 	pms *prompt.Service,
+	aks *apikey.Service,
 ) *Deps {
 	return &Deps{
 		Logger:            logger,
@@ -34,5 +37,6 @@ func NewDeps(
 		ProviderService:   ps,
 		ConnectionService: cs,
 		PromptService:     pms,
+		APIKeyService:     aks,
 	}
 }
