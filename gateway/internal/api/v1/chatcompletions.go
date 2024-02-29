@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"connectrpc.com/connect"
+	"github.com/missingstudio/studio/backend/core/connection"
 	"github.com/missingstudio/studio/backend/internal/constants"
 	"github.com/missingstudio/studio/backend/internal/providers"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
@@ -47,7 +48,7 @@ func (s *V1Handler) ChatCompletions(
 	}
 
 	authConfig := map[string]any{"auth": providerConfig.Auth}
-	connectionObj := models.Connection{
+	connectionObj := connection.Connection{
 		Name:   providerConfig.Name,
 		Config: authConfig,
 	}

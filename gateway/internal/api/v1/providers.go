@@ -6,7 +6,7 @@ import (
 
 	"connectrpc.com/connect"
 	"github.com/jeremywohl/flatten"
-	"github.com/missingstudio/studio/backend/models"
+	"github.com/missingstudio/studio/backend/core/connection"
 	"github.com/missingstudio/studio/common/errors"
 	llmv1 "github.com/missingstudio/studio/protos/pkg/llm/v1"
 	"github.com/xeipuuv/gojsonschema"
@@ -33,7 +33,7 @@ func (s *V1Handler) ListProviders(ctx context.Context, req *connect.Request[empt
 }
 
 func (s *V1Handler) GetProvider(ctx context.Context, req *connect.Request[llmv1.GetProviderRequest]) (*connect.Response[llmv1.GetProviderResponse], error) {
-	provider, err := s.providerService.GetProvider(models.Connection{Name: req.Msg.Name})
+	provider, err := s.providerService.GetProvider(connection.Connection{Name: req.Msg.Name})
 	if err != nil {
 		return nil, errors.NewNotFound(err.Error())
 	}
@@ -62,7 +62,7 @@ func (s *V1Handler) GetProvider(ctx context.Context, req *connect.Request[llmv1.
 }
 
 func (s *V1Handler) CreateProvider(ctx context.Context, req *connect.Request[llmv1.CreateProviderRequest]) (*connect.Response[llmv1.CreateProviderResponse], error) {
-	connnection := models.Connection{Name: req.Msg.Name, Config: req.Msg.Config.AsMap()}
+	connnection := connection.Connection{Name: req.Msg.Name, Config: req.Msg.Config.AsMap()}
 
 	provider, err := s.providerService.GetProvider(connnection)
 	if err != nil {
@@ -110,7 +110,7 @@ func (s *V1Handler) CreateProvider(ctx context.Context, req *connect.Request[llm
 }
 
 func (s *V1Handler) UpsertProvider(ctx context.Context, req *connect.Request[llmv1.UpdateProviderRequest]) (*connect.Response[llmv1.UpdateProviderResponse], error) {
-	connnection := models.Connection{Name: req.Msg.Name, Config: req.Msg.Config.AsMap()}
+	connnection := connection.Connection{Name: req.Msg.Name, Config: req.Msg.Config.AsMap()}
 
 	provider, err := s.providerService.GetProvider(connnection)
 	if err != nil {
@@ -171,7 +171,7 @@ func (s *V1Handler) UpsertProvider(ctx context.Context, req *connect.Request[llm
 }
 
 func (s *V1Handler) GetProviderConfig(ctx context.Context, req *connect.Request[llmv1.GetProviderConfigRequest]) (*connect.Response[llmv1.GetProviderConfigResponse], error) {
-	provider, err := s.providerService.GetProvider(models.Connection{Name: req.Msg.Name})
+	provider, err := s.providerService.GetProvider(connection.Connection{Name: req.Msg.Name})
 	if err != nil {
 		return nil, errors.NewNotFound(err.Error())
 	}

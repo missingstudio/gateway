@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/missingstudio/studio/backend/core/connection"
 	"github.com/missingstudio/studio/backend/models"
 	"github.com/missingstudio/studio/backend/pkg/requester"
 )
@@ -25,7 +26,7 @@ func (anyscale *anyscaleProvider) ChatCompletion(ctx context.Context, payload *m
 		return nil, err
 	}
 
-	req = anyscale.AddDefaultHeaders(req, models.AuthorizationHeader)
+	req = anyscale.AddDefaultHeaders(req, connection.AuthorizationHeader)
 	resp, err := client.SendRequestRaw(req)
 	if err != nil {
 		return nil, err
@@ -41,11 +42,11 @@ func (anyscale *anyscaleProvider) ChatCompletion(ctx context.Context, payload *m
 
 func (anyscale *anyscaleProvider) AddDefaultHeaders(req *http.Request, key string) *http.Request {
 	connectionConfigMap := anyscale.conn.GetConfig([]string{
-		models.AuthorizationHeader,
+		connection.AuthorizationHeader,
 	})
 
 	var authorizationHeader string
-	if val, ok := connectionConfigMap[models.AuthorizationHeader].(string); ok && val != "" {
+	if val, ok := connectionConfigMap[connection.AuthorizationHeader].(string); ok && val != "" {
 		authorizationHeader = val
 	}
 

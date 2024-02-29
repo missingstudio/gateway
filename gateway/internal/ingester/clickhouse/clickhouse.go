@@ -6,6 +6,7 @@ import (
 	"time"
 
 	_ "github.com/ClickHouse/clickhouse-go"
+	"github.com/missingstudio/studio/common/errors"
 )
 
 type ClickHouseIngester struct {
@@ -35,8 +36,7 @@ func (ci *ClickHouseIngester) Ingest(data map[string]interface{}) {
 	}()
 
 	query := fmt.Sprintf("INSERT INTO %s (provider, latency, model, total_tokens, prompt_tokens, completion_tokens) VALUES (?, ?, ?, ?, ?, ?)", ci.table)
-	result, err := tx.Exec(query, data["provider"], data["latency"].(time.Duration).String(), data["model"], data["total_tokens"], data["prompt_tokens"], data["completion_tokens"])
-	fmt.Println(result)
+	_, err = tx.Exec(query, data["provider"], data["latency"].(time.Duration).String(), data["model"], data["total_tokens"], data["prompt_tokens"], data["completion_tokens"])
 	if err != nil {
 		fmt.Println("Error ingesting data:", err)
 		return
@@ -44,7 +44,7 @@ func (ci *ClickHouseIngester) Ingest(data map[string]interface{}) {
 }
 
 func (ci *ClickHouseIngester) Get() ([]map[string]interface{}, error) {
-	return nil, fmt.Errorf("Get not implemented for ClickHouseIngester")
+	return nil, errors.NewNotImplemented("Get not implemented for ClickHouseIngester")
 }
 
 func (ci *ClickHouseIngester) Close() error {

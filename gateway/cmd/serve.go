@@ -10,8 +10,8 @@ import (
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/missingstudio/studio/backend/config"
+	"github.com/missingstudio/studio/backend/core/connection"
 	"github.com/missingstudio/studio/backend/internal/api"
-	"github.com/missingstudio/studio/backend/internal/connections"
 	"github.com/missingstudio/studio/backend/internal/ingester"
 	"github.com/missingstudio/studio/backend/internal/prompt"
 	"github.com/missingstudio/studio/backend/internal/providers"
@@ -63,7 +63,7 @@ func Serve(cfg *config.Config) error {
 	}()
 
 	connectionRepository := postgres.NewConnectionRepository(dbc)
-	connectionService := connections.NewService(connectionRepository)
+	connectionService := connection.NewService(connectionRepository)
 
 	promptRepository := postgres.NewPromptRepository(dbc)
 	promptService := prompt.NewService(promptRepository)

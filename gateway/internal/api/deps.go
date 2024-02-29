@@ -3,7 +3,7 @@ package api
 import (
 	"log/slog"
 
-	"github.com/missingstudio/studio/backend/internal/connections"
+	"github.com/missingstudio/studio/backend/core/connection"
 	"github.com/missingstudio/studio/backend/internal/ingester"
 	"github.com/missingstudio/studio/backend/internal/prompt"
 	"github.com/missingstudio/studio/backend/internal/providers"
@@ -15,7 +15,7 @@ type Deps struct {
 	Ingester          ingester.Ingester
 	RateLimiter       *ratelimiter.RateLimiter
 	ProviderService   *providers.Service
-	ConnectionService *connections.Service
+	ConnectionService *connection.Service
 	PromptService     *prompt.Service
 }
 
@@ -24,7 +24,7 @@ func NewDeps(
 	ingester ingester.Ingester,
 	ratelimiter *ratelimiter.RateLimiter,
 	ps *providers.Service,
-	cs *connections.Service,
+	cs *connection.Service,
 	pms *prompt.Service,
 ) *Deps {
 	return &Deps{

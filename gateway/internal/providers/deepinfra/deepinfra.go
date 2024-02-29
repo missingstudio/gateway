@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/missingstudio/studio/backend/core/connection"
 	"github.com/missingstudio/studio/backend/models"
 	"github.com/missingstudio/studio/backend/pkg/requester"
 )
@@ -25,7 +26,7 @@ func (deepinfra *deepinfraProvider) ChatCompletion(ctx context.Context, payload 
 		return nil, err
 	}
 
-	req = deepinfra.AddDefaultHeaders(req, models.AuthorizationHeader)
+	req = deepinfra.AddDefaultHeaders(req, connection.AuthorizationHeader)
 	resp, err := client.SendRequestRaw(req)
 	if err != nil {
 		return nil, err
@@ -43,7 +44,7 @@ func (deepinfra *deepinfraProvider) AddDefaultHeaders(req *http.Request, key str
 	connectionConfigMap := deepinfra.conn.GetConfig([]string{key})
 
 	var authorizationHeader string
-	if val, ok := connectionConfigMap[models.AuthorizationHeader].(string); ok && val != "" {
+	if val, ok := connectionConfigMap[connection.AuthorizationHeader].(string); ok && val != "" {
 		authorizationHeader = val
 	}
 

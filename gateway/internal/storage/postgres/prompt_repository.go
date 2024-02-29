@@ -8,7 +8,7 @@ import (
 	"fmt"
 
 	"github.com/doug-martin/goqu/v9"
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 	"github.com/missingstudio/studio/backend/internal/prompt"
 	"github.com/missingstudio/studio/backend/models"
 	"github.com/missingstudio/studio/backend/pkg/database"

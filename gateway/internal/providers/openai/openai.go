@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/missingstudio/studio/backend/core/connection"
 	"github.com/missingstudio/studio/backend/models"
 	"github.com/missingstudio/studio/backend/pkg/requester"
 )
@@ -41,7 +42,7 @@ func (oai *openAIProvider) ChatCompletion(ctx context.Context, payload *models.C
 		return nil, err
 	}
 
-	req = oai.AddDefaultHeaders(req, models.AuthorizationHeader)
+	req = oai.AddDefaultHeaders(req, connection.AuthorizationHeader)
 	resp, err := client.SendRequestRaw(req)
 	if err != nil {
 		return nil, err
@@ -63,7 +64,7 @@ func (oai *openAIProvider) AddDefaultHeaders(req *http.Request, key string) *htt
 	connectionConfigMap := oai.conn.GetConfig([]string{key})
 
 	var authorizationHeader string
-	if val, ok := connectionConfigMap[models.AuthorizationHeader].(string); ok && val != "" {
+	if val, ok := connectionConfigMap[connection.AuthorizationHeader].(string); ok && val != "" {
 		authorizationHeader = val
 	}
 

@@ -3,6 +3,7 @@ package base
 import (
 	"context"
 
+	"github.com/missingstudio/studio/backend/core/connection"
 	"github.com/missingstudio/studio/backend/models"
 )
 
@@ -25,7 +26,7 @@ type IProvider interface {
 
 // ProviderRegistry holds all supported provider for which connections
 // can be initialized
-var ProviderRegistry = map[string]func(models.Connection) IProvider{}
+var ProviderRegistry = map[string]func(connection.Connection) IProvider{}
 
 type ChatCompletionInterface interface {
 	IProvider

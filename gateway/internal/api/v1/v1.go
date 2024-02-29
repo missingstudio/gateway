@@ -8,8 +8,8 @@ import (
 	"connectrpc.com/otelconnect"
 	"connectrpc.com/validate"
 	"connectrpc.com/vanguard"
+	"github.com/missingstudio/studio/backend/core/connection"
 	"github.com/missingstudio/studio/backend/internal/api"
-	"github.com/missingstudio/studio/backend/internal/connections"
 	"github.com/missingstudio/studio/backend/internal/ingester"
 	"github.com/missingstudio/studio/backend/internal/interceptor"
 	"github.com/missingstudio/studio/backend/internal/prompt"
@@ -23,7 +23,7 @@ type V1Handler struct {
 	promptv1connect.UnimplementedPromptRegistryServiceHandler
 	ingester          ingester.Ingester
 	providerService   *providers.Service
-	connectionService *connections.Service
+	connectionService *connection.Service
 	promptService     *prompt.Service
 }
 

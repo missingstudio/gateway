@@ -1,14 +1,10 @@
-package models
+package connection
 
 import (
 	"encoding/json"
 
 	"github.com/Jeffail/gabs/v2"
 	"github.com/google/uuid"
-)
-
-const (
-	AuthorizationHeader string = "auth.api_key"
 )
 
 type ConnectionState string
@@ -23,10 +19,8 @@ func (s ConnectionState) String() string {
 }
 
 type Connection struct {
-	ID   uuid.UUID `json:"id"`
-	Name string    `json:"name"`
-
-	// Config stores user input configurations
+	ID     uuid.UUID       `json:"id"`
+	Name   string          `json:"name"`
 	State  ConnectionState `json:"state"`
 	Config map[string]any  `json:"config"`
 }

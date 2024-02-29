@@ -5,7 +5,7 @@ import (
 	"context"
 	"html/template"
 
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 	"github.com/missingstudio/studio/backend/models"
 )
 

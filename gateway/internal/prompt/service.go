@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 	"github.com/missingstudio/studio/backend/models"
 )
 

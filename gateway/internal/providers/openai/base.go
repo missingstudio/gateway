@@ -3,8 +3,8 @@ package openai
 import (
 	_ "embed"
 
+	"github.com/missingstudio/studio/backend/core/connection"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
-	"github.com/missingstudio/studio/backend/models"
 )
 
 //go:embed schema.json
@@ -15,7 +15,7 @@ var _ base.ChatCompletionInterface = &openAIProvider{}
 type openAIProvider struct {
 	info   base.ProviderInfo
 	config base.ProviderConfig
-	conn   models.Connection
+	conn   connection.Connection
 }
 
 func (anyscale openAIProvider) Info() base.ProviderInfo {
@@ -46,7 +46,7 @@ func getOpenAIConfig(baseURL string) base.ProviderConfig {
 }
 
 func init() {
-	base.ProviderRegistry["openai"] = func(connection models.Connection) base.IProvider {
+	base.ProviderRegistry["openai"] = func(connection connection.Connection) base.IProvider {
 		config := getOpenAIConfig("https://api.openai.com")
 		return &openAIProvider{
 			info:   getOpenAIInfo(),

@@ -3,8 +3,8 @@ package deepinfra
 import (
 	_ "embed"
 
+	"github.com/missingstudio/studio/backend/core/connection"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
-	"github.com/missingstudio/studio/backend/models"
 )
 
 //go:embed schema.json
@@ -15,7 +15,7 @@ var _ base.ChatCompletionInterface = &deepinfraProvider{}
 type deepinfraProvider struct {
 	info   base.ProviderInfo
 	config base.ProviderConfig
-	conn   models.Connection
+	conn   connection.Connection
 }
 
 func (anyscale deepinfraProvider) Info() base.ProviderInfo {
@@ -47,7 +47,7 @@ func getDeepinfraConfig(baseURL string) base.ProviderConfig {
 }
 
 func init() {
-	base.ProviderRegistry["deepinfra"] = func(connection models.Connection) base.IProvider {
+	base.ProviderRegistry["deepinfra"] = func(connection connection.Connection) base.IProvider {
 		config := getDeepinfraConfig("https://api.deepinfra.com/v1/openai")
 		return &deepinfraProvider{
 			info:   getDeepinfraInfo(),

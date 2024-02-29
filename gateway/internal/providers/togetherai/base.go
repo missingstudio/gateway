@@ -3,8 +3,8 @@ package togetherai
 import (
 	_ "embed"
 
+	"github.com/missingstudio/studio/backend/core/connection"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
-	"github.com/missingstudio/studio/backend/models"
 )
 
 //go:embed schema.json
@@ -15,7 +15,7 @@ var _ base.ChatCompletionInterface = &togetherAIProvider{}
 type togetherAIProvider struct {
 	info   base.ProviderInfo
 	config base.ProviderConfig
-	conn   models.Connection
+	conn   connection.Connection
 }
 
 func (anyscale togetherAIProvider) Info() base.ProviderInfo {
@@ -46,7 +46,7 @@ func getTogetherAIConfig(baseURL string) base.ProviderConfig {
 }
 
 func init() {
-	base.ProviderRegistry["togetherai"] = func(connection models.Connection) base.IProvider {
+	base.ProviderRegistry["togetherai"] = func(connection connection.Connection) base.IProvider {
 		config := getTogetherAIConfig("https://api.together.xyz")
 		return &togetherAIProvider{
 			info:   getTogetherAIInfo(),

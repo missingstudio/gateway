@@ -3,8 +3,8 @@ package anyscale
 import (
 	_ "embed"
 
+	"github.com/missingstudio/studio/backend/core/connection"
 	"github.com/missingstudio/studio/backend/internal/providers/base"
-	"github.com/missingstudio/studio/backend/models"
 )
 
 //go:embed schema.json
@@ -15,7 +15,7 @@ var _ base.ChatCompletionInterface = &anyscaleProvider{}
 type anyscaleProvider struct {
 	info   base.ProviderInfo
 	config base.ProviderConfig
-	conn   models.Connection
+	conn   connection.Connection
 }
 
 func (anyscale anyscaleProvider) Info() base.ProviderInfo {
@@ -47,7 +47,7 @@ func getAnyscaleConfig(baseURL string) base.ProviderConfig {
 }
 
 func init() {
-	base.ProviderRegistry["anyscale"] = func(connection models.Connection) base.IProvider {
+	base.ProviderRegistry["anyscale"] = func(connection connection.Connection) base.IProvider {
 		config := getAnyscaleConfig("https://api.endpoints.anyscale.com")
 		return &anyscaleProvider{
 			info:   getAnyscaleInfo(),

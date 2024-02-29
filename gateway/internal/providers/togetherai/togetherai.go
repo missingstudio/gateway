@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/missingstudio/studio/backend/core/connection"
 	"github.com/missingstudio/studio/backend/models"
 	"github.com/missingstudio/studio/backend/pkg/requester"
 )
@@ -25,7 +26,7 @@ func (ta *togetherAIProvider) ChatCompletion(ctx context.Context, payload *model
 		return nil, err
 	}
 
-	req = ta.AddDefaultHeaders(req, models.AuthorizationHeader)
+	req = ta.AddDefaultHeaders(req, connection.AuthorizationHeader)
 	resp, err := client.SendRequestRaw(req)
 	if err != nil {
 		return nil, err
@@ -43,7 +44,7 @@ func (ta *togetherAIProvider) AddDefaultHeaders(req *http.Request, key string) *
 	connectionConfigMap := ta.conn.GetConfig([]string{key})
 
 	var authorizationHeader string
-	if val, ok := connectionConfigMap[models.AuthorizationHeader].(string); ok && val != "" {
+	if val, ok := connectionConfigMap[connection.AuthorizationHeader].(string); ok && val != "" {
 		authorizationHeader = val
 	}
 
