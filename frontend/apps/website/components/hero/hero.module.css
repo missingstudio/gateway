@@ -1,9 +1,0 @@
-.heading {
-  line-height: 1.25;
-}
-
-.headergradient {
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(0deg, rgb(128, 133, 143)  0%, rgb(255, 255, 255) 100%);
-}

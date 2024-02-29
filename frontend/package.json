@@ -8,8 +8,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "@missingstudio/eslint-config": "*",
-    "@missingstudio/typescript-config": "*",
+    "@missingstudio/eslint-config": "https://gitpkg.now.sh/missingstudio/apsara/packages/eslint-config?main",
+    "@missingstudio/typescript-config": "https://gitpkg.now.sh/missingstudio/apsara/packages/typescript-config?main",
     "prettier": "^3.1.1",
     "turbo": "latest"
   },
@@ -18,8 +18,7 @@
   },
   "packageManager": "bun@1.0.25",
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "playgrounds/*"
   ],
   "dependencies": {
     "prettier-plugin-tailwindcss": "^0.5.11"

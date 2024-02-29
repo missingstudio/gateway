@@ -12,13 +12,9 @@ This Turborepo includes the following packages/apps:
 
 ### Apps and Packages
 
-- `console`: a [Next.js](https://nextjs.org/) app
-- `website`: another [Next.js](https://nextjs.org/) app
-- `@missingstudio/ui`: a stub React component library shared by both `console` and `website` applications
+- `studio`: a [Next.js](https://nextjs.org/) app
 - `@missingstudio/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `@missingstudio/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
 ### Utilities
 

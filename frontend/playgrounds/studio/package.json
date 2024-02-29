@@ -1,16 +1,16 @@
 {
-  "name": "conosle",
+  "name": "@missingstudio/studio",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3002",
+    "dev": "next dev --port 3001",
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
-    "@missingstudio/ui": "*",
+    "@missingstudio/ui": "https://gitpkg.now.sh/missingstudio/apsara/packages/ui?main",
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-popover": "^1.0.7",
     "@tailwindcss/typography": "^0.5.10",
@@ -43,8 +43,6 @@
     "zustand": "^4.5.0"
   },
   "devDependencies": {
-    "@missingstudio/eslint-config": "*",
-    "@missingstudio/typescript-config": "*",
     "@next/eslint-plugin-next": "^14.0.4",
     "@types/eslint": "^8.56.1",
     "@types/node": "^20.10.6",
