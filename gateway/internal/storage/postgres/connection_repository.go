@@ -15,7 +15,10 @@ import (
 
 var _ connection.Repository = &ConnectionRepository{}
 
-var ErrConflict = errors.New("connection already exist")
+var (
+	ErrConflict = errors.New("connection already exist")
+	ErrNotExist = errors.New("apikey or its relations doesn't exist")
+)
 
 type ConnectionRepository struct {
 	dbc *database.Client

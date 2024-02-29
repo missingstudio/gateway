@@ -4,7 +4,7 @@
 // @ts-nocheck
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { Message, proto3, Struct } from "@bufbuild/protobuf";
+import { Message, proto3, Struct, Timestamp } from "@bufbuild/protobuf";
 
 /**
  * @generated from enum llm.v1.FinishReason
@@ -541,6 +541,73 @@ export class ResponseFormat extends Message<ResponseFormat> {
 
   static equals(a: ResponseFormat | PlainMessage<ResponseFormat> | undefined, b: ResponseFormat | PlainMessage<ResponseFormat> | undefined): boolean {
     return proto3.util.equals(ResponseFormat, a, b);
+  }
+}
+
+/**
+ * @generated from message llm.v1.APIKey
+ */
+export class APIKey extends Message<APIKey> {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id = "";
+
+  /**
+   * @generated from field: string name = 2;
+   */
+  name = "";
+
+  /**
+   * @generated from field: string value = 3;
+   */
+  value = "";
+
+  /**
+   * @generated from field: string masked_value = 4;
+   */
+  maskedValue = "";
+
+  /**
+   * @generated from field: google.protobuf.Timestamp created_at = 5;
+   */
+  createdAt?: Timestamp;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp last_used_at = 6;
+   */
+  lastUsedAt?: Timestamp;
+
+  constructor(data?: PartialMessage<APIKey>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "llm.v1.APIKey";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "value", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "masked_value", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "created_at", kind: "message", T: Timestamp },
+    { no: 6, name: "last_used_at", kind: "message", T: Timestamp },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): APIKey {
+    return new APIKey().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): APIKey {
+    return new APIKey().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): APIKey {
+    return new APIKey().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: APIKey | PlainMessage<APIKey> | undefined, b: APIKey | PlainMessage<APIKey> | undefined): boolean {
+    return proto3.util.equals(APIKey, a, b);
   }
 }
 

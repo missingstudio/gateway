@@ -1,6 +1,7 @@
 syntax = "proto3";
 package llm.v1;
 
+import "google/protobuf/timestamp.proto";
 import "buf/validate/validate.proto";
 import "google/protobuf/struct.proto";
 
@@ -83,4 +84,13 @@ message Role {
 
 message ResponseFormat {
   string type = 1;
+}
+
+message APIKey {
+  string id = 1;
+  string name = 2;
+  string value = 3;
+  string masked_value=4;
+  google.protobuf.Timestamp created_at=5;
+  google.protobuf.Timestamp last_used_at=6;
 }

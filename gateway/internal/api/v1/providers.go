@@ -14,7 +14,7 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 )
 
-func (s *V1Handler) ListProviders(ctx context.Context, req *connect.Request[emptypb.Empty]) (*connect.Response[llmv1.ProvidersResponse], error) {
+func (s *V1Handler) ListProviders(ctx context.Context, req *connect.Request[emptypb.Empty]) (*connect.Response[llmv1.ListProvidersResponse], error) {
 	providers := s.providerService.GetProviders()
 
 	data := []*llmv1.Provider{}
@@ -27,7 +27,7 @@ func (s *V1Handler) ListProviders(ctx context.Context, req *connect.Request[empt
 		})
 	}
 
-	return connect.NewResponse(&llmv1.ProvidersResponse{
+	return connect.NewResponse(&llmv1.ListProvidersResponse{
 		Providers: data,
 	}), nil
 }

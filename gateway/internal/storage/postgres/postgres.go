@@ -27,6 +27,7 @@ var (
 const (
 	TABLE_CONNECTIONS = "connections"
 	TABLE_PROMPTS     = "prompts"
+	TABLE_APIKEYS     = "apikeys"
 )
 
 type Encryptor interface {

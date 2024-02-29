@@ -9,20 +9,20 @@ import "prompt/v1/models.proto";
 service PromptRegistryService {
   // Prompt managment
   rpc ListPrompts(google.protobuf.Empty) returns (ListPromptsResponse) {
-    option (google.api.http).get = "/v1/prompts";
+    option (google.api.http).get = "/api/v1/prompts";
     option (google.api.http).body = "*";
   }
 
   rpc CreatePrompt(CreatePromptRequest) returns (CreatePromptResponse) {
-    option (google.api.http).post = "/v1/prompts";
+    option (google.api.http).post = "/api/v1/prompts";
     option (google.api.http).body = "*";
   }
 
   rpc GetPrompt(GetPromptRequest) returns (GetPromptResponse) {
-    option (google.api.http) = {get: "/v1/prompts/{name}"};
+    option (google.api.http) = {get: "/api/v1/prompts/{name}"};
   }
   rpc GetPromptValue(GetPromptValueRequest) returns (GetPromptValueResponse) {
-    option (google.api.http).post = "/v1/prompts/{name}";
+    option (google.api.http).post = "/api/v1/prompts/{name}";
     option (google.api.http).body = "*";
   }
 }

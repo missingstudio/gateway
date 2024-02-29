@@ -59,6 +59,16 @@ const (
 	// LLMServiceGetProviderConfigProcedure is the fully-qualified name of the LLMService's
 	// GetProviderConfig RPC.
 	LLMServiceGetProviderConfigProcedure = "/llm.v1.LLMService/GetProviderConfig"
+	// LLMServiceListAPIKeysProcedure is the fully-qualified name of the LLMService's ListAPIKeys RPC.
+	LLMServiceListAPIKeysProcedure = "/llm.v1.LLMService/ListAPIKeys"
+	// LLMServiceCreateAPIKeyProcedure is the fully-qualified name of the LLMService's CreateAPIKey RPC.
+	LLMServiceCreateAPIKeyProcedure = "/llm.v1.LLMService/CreateAPIKey"
+	// LLMServiceGetAPIKeyProcedure is the fully-qualified name of the LLMService's GetAPIKey RPC.
+	LLMServiceGetAPIKeyProcedure = "/llm.v1.LLMService/GetAPIKey"
+	// LLMServiceUpdateAPIKeyProcedure is the fully-qualified name of the LLMService's UpdateAPIKey RPC.
+	LLMServiceUpdateAPIKeyProcedure = "/llm.v1.LLMService/UpdateAPIKey"
+	// LLMServiceDeleteAPIKeyProcedure is the fully-qualified name of the LLMService's DeleteAPIKey RPC.
+	LLMServiceDeleteAPIKeyProcedure = "/llm.v1.LLMService/DeleteAPIKey"
 	// LLMServiceListTrackingLogsProcedure is the fully-qualified name of the LLMService's
 	// ListTrackingLogs RPC.
 	LLMServiceListTrackingLogsProcedure = "/llm.v1.LLMService/ListTrackingLogs"
@@ -76,6 +86,11 @@ var (
 	lLMServiceUpsertProviderMethodDescriptor        = lLMServiceServiceDescriptor.Methods().ByName("UpsertProvider")
 	lLMServiceDeleteProviderMethodDescriptor        = lLMServiceServiceDescriptor.Methods().ByName("DeleteProvider")
 	lLMServiceGetProviderConfigMethodDescriptor     = lLMServiceServiceDescriptor.Methods().ByName("GetProviderConfig")
+	lLMServiceListAPIKeysMethodDescriptor           = lLMServiceServiceDescriptor.Methods().ByName("ListAPIKeys")
+	lLMServiceCreateAPIKeyMethodDescriptor          = lLMServiceServiceDescriptor.Methods().ByName("CreateAPIKey")
+	lLMServiceGetAPIKeyMethodDescriptor             = lLMServiceServiceDescriptor.Methods().ByName("GetAPIKey")
+	lLMServiceUpdateAPIKeyMethodDescriptor          = lLMServiceServiceDescriptor.Methods().ByName("UpdateAPIKey")
+	lLMServiceDeleteAPIKeyMethodDescriptor          = lLMServiceServiceDescriptor.Methods().ByName("DeleteAPIKey")
 	lLMServiceListTrackingLogsMethodDescriptor      = lLMServiceServiceDescriptor.Methods().ByName("ListTrackingLogs")
 )
 
@@ -84,12 +99,17 @@ type LLMServiceClient interface {
 	ChatCompletions(context.Context, *connect.Request[v1.ChatCompletionRequest]) (*connect.Response[v1.ChatCompletionResponse], error)
 	StreamChatCompletions(context.Context, *connect.Request[v1.ChatCompletionRequest]) (*connect.ServerStreamForClient[v1.ChatCompletionResponse], error)
 	ListModels(context.Context, *connect.Request[v1.ModelRequest]) (*connect.Response[v1.ModelResponse], error)
-	ListProviders(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v1.ProvidersResponse], error)
+	ListProviders(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v1.ListProvidersResponse], error)
 	CreateProvider(context.Context, *connect.Request[v1.CreateProviderRequest]) (*connect.Response[v1.CreateProviderResponse], error)
 	GetProvider(context.Context, *connect.Request[v1.GetProviderRequest]) (*connect.Response[v1.GetProviderResponse], error)
 	UpsertProvider(context.Context, *connect.Request[v1.UpdateProviderRequest]) (*connect.Response[v1.UpdateProviderResponse], error)
 	DeleteProvider(context.Context, *connect.Request[v1.DeleteProviderRequest]) (*connect.Response[emptypb.Empty], error)
 	GetProviderConfig(context.Context, *connect.Request[v1.GetProviderConfigRequest]) (*connect.Response[v1.GetProviderConfigResponse], error)
+	ListAPIKeys(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v1.ListAPIKeysResponse], error)
+	CreateAPIKey(context.Context, *connect.Request[v1.CreateAPIKeyRequest]) (*connect.Response[v1.CreateAPIKeyResponse], error)
+	GetAPIKey(context.Context, *connect.Request[v1.GetAPIKeyRequest]) (*connect.Response[v1.GetAPIKeyResponse], error)
+	UpdateAPIKey(context.Context, *connect.Request[v1.UpdateAPIKeyRequest]) (*connect.Response[v1.UpdateAPIKeyResponse], error)
+	DeleteAPIKey(context.Context, *connect.Request[v1.DeleteAPIKeyRequest]) (*connect.Response[emptypb.Empty], error)
 	ListTrackingLogs(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v1.LogResponse], error)
 }
 
@@ -121,7 +141,7 @@ func NewLLMServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(lLMServiceListModelsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		listProviders: connect.NewClient[emptypb.Empty, v1.ProvidersResponse](
+		listProviders: connect.NewClient[emptypb.Empty, v1.ListProvidersResponse](
 			httpClient,
 			baseURL+LLMServiceListProvidersProcedure,
 			connect.WithSchema(lLMServiceListProvidersMethodDescriptor),
@@ -157,6 +177,36 @@ func NewLLMServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(lLMServiceGetProviderConfigMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		listAPIKeys: connect.NewClient[emptypb.Empty, v1.ListAPIKeysResponse](
+			httpClient,
+			baseURL+LLMServiceListAPIKeysProcedure,
+			connect.WithSchema(lLMServiceListAPIKeysMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		createAPIKey: connect.NewClient[v1.CreateAPIKeyRequest, v1.CreateAPIKeyResponse](
+			httpClient,
+			baseURL+LLMServiceCreateAPIKeyProcedure,
+			connect.WithSchema(lLMServiceCreateAPIKeyMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		getAPIKey: connect.NewClient[v1.GetAPIKeyRequest, v1.GetAPIKeyResponse](
+			httpClient,
+			baseURL+LLMServiceGetAPIKeyProcedure,
+			connect.WithSchema(lLMServiceGetAPIKeyMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		updateAPIKey: connect.NewClient[v1.UpdateAPIKeyRequest, v1.UpdateAPIKeyResponse](
+			httpClient,
+			baseURL+LLMServiceUpdateAPIKeyProcedure,
+			connect.WithSchema(lLMServiceUpdateAPIKeyMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		deleteAPIKey: connect.NewClient[v1.DeleteAPIKeyRequest, emptypb.Empty](
+			httpClient,
+			baseURL+LLMServiceDeleteAPIKeyProcedure,
+			connect.WithSchema(lLMServiceDeleteAPIKeyMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 		listTrackingLogs: connect.NewClient[emptypb.Empty, v1.LogResponse](
 			httpClient,
 			baseURL+LLMServiceListTrackingLogsProcedure,
@@ -171,12 +221,17 @@ type lLMServiceClient struct {
 	chatCompletions       *connect.Client[v1.ChatCompletionRequest, v1.ChatCompletionResponse]
 	streamChatCompletions *connect.Client[v1.ChatCompletionRequest, v1.ChatCompletionResponse]
 	listModels            *connect.Client[v1.ModelRequest, v1.ModelResponse]
-	listProviders         *connect.Client[emptypb.Empty, v1.ProvidersResponse]
+	listProviders         *connect.Client[emptypb.Empty, v1.ListProvidersResponse]
 	createProvider        *connect.Client[v1.CreateProviderRequest, v1.CreateProviderResponse]
 	getProvider           *connect.Client[v1.GetProviderRequest, v1.GetProviderResponse]
 	upsertProvider        *connect.Client[v1.UpdateProviderRequest, v1.UpdateProviderResponse]
 	deleteProvider        *connect.Client[v1.DeleteProviderRequest, emptypb.Empty]
 	getProviderConfig     *connect.Client[v1.GetProviderConfigRequest, v1.GetProviderConfigResponse]
+	listAPIKeys           *connect.Client[emptypb.Empty, v1.ListAPIKeysResponse]
+	createAPIKey          *connect.Client[v1.CreateAPIKeyRequest, v1.CreateAPIKeyResponse]
+	getAPIKey             *connect.Client[v1.GetAPIKeyRequest, v1.GetAPIKeyResponse]
+	updateAPIKey          *connect.Client[v1.UpdateAPIKeyRequest, v1.UpdateAPIKeyResponse]
+	deleteAPIKey          *connect.Client[v1.DeleteAPIKeyRequest, emptypb.Empty]
 	listTrackingLogs      *connect.Client[emptypb.Empty, v1.LogResponse]
 }
 
@@ -196,7 +251,7 @@ func (c *lLMServiceClient) ListModels(ctx context.Context, req *connect.Request[
 }
 
 // ListProviders calls llm.v1.LLMService.ListProviders.
-func (c *lLMServiceClient) ListProviders(ctx context.Context, req *connect.Request[emptypb.Empty]) (*connect.Response[v1.ProvidersResponse], error) {
+func (c *lLMServiceClient) ListProviders(ctx context.Context, req *connect.Request[emptypb.Empty]) (*connect.Response[v1.ListProvidersResponse], error) {
 	return c.listProviders.CallUnary(ctx, req)
 }
 
@@ -225,6 +280,31 @@ func (c *lLMServiceClient) GetProviderConfig(ctx context.Context, req *connect.R
 	return c.getProviderConfig.CallUnary(ctx, req)
 }
 
+// ListAPIKeys calls llm.v1.LLMService.ListAPIKeys.
+func (c *lLMServiceClient) ListAPIKeys(ctx context.Context, req *connect.Request[emptypb.Empty]) (*connect.Response[v1.ListAPIKeysResponse], error) {
+	return c.listAPIKeys.CallUnary(ctx, req)
+}
+
+// CreateAPIKey calls llm.v1.LLMService.CreateAPIKey.
+func (c *lLMServiceClient) CreateAPIKey(ctx context.Context, req *connect.Request[v1.CreateAPIKeyRequest]) (*connect.Response[v1.CreateAPIKeyResponse], error) {
+	return c.createAPIKey.CallUnary(ctx, req)
+}
+
+// GetAPIKey calls llm.v1.LLMService.GetAPIKey.
+func (c *lLMServiceClient) GetAPIKey(ctx context.Context, req *connect.Request[v1.GetAPIKeyRequest]) (*connect.Response[v1.GetAPIKeyResponse], error) {
+	return c.getAPIKey.CallUnary(ctx, req)
+}
+
+// UpdateAPIKey calls llm.v1.LLMService.UpdateAPIKey.
+func (c *lLMServiceClient) UpdateAPIKey(ctx context.Context, req *connect.Request[v1.UpdateAPIKeyRequest]) (*connect.Response[v1.UpdateAPIKeyResponse], error) {
+	return c.updateAPIKey.CallUnary(ctx, req)
+}
+
+// DeleteAPIKey calls llm.v1.LLMService.DeleteAPIKey.
+func (c *lLMServiceClient) DeleteAPIKey(ctx context.Context, req *connect.Request[v1.DeleteAPIKeyRequest]) (*connect.Response[emptypb.Empty], error) {
+	return c.deleteAPIKey.CallUnary(ctx, req)
+}
+
 // ListTrackingLogs calls llm.v1.LLMService.ListTrackingLogs.
 func (c *lLMServiceClient) ListTrackingLogs(ctx context.Context, req *connect.Request[emptypb.Empty]) (*connect.Response[v1.LogResponse], error) {
 	return c.listTrackingLogs.CallUnary(ctx, req)
@@ -235,12 +315,17 @@ type LLMServiceHandler interface {
 	ChatCompletions(context.Context, *connect.Request[v1.ChatCompletionRequest]) (*connect.Response[v1.ChatCompletionResponse], error)
 	StreamChatCompletions(context.Context, *connect.Request[v1.ChatCompletionRequest], *connect.ServerStream[v1.ChatCompletionResponse]) error
 	ListModels(context.Context, *connect.Request[v1.ModelRequest]) (*connect.Response[v1.ModelResponse], error)
-	ListProviders(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v1.ProvidersResponse], error)
+	ListProviders(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v1.ListProvidersResponse], error)
 	CreateProvider(context.Context, *connect.Request[v1.CreateProviderRequest]) (*connect.Response[v1.CreateProviderResponse], error)
 	GetProvider(context.Context, *connect.Request[v1.GetProviderRequest]) (*connect.Response[v1.GetProviderResponse], error)
 	UpsertProvider(context.Context, *connect.Request[v1.UpdateProviderRequest]) (*connect.Response[v1.UpdateProviderResponse], error)
 	DeleteProvider(context.Context, *connect.Request[v1.DeleteProviderRequest]) (*connect.Response[emptypb.Empty], error)
 	GetProviderConfig(context.Context, *connect.Request[v1.GetProviderConfigRequest]) (*connect.Response[v1.GetProviderConfigResponse], error)
+	ListAPIKeys(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v1.ListAPIKeysResponse], error)
+	CreateAPIKey(context.Context, *connect.Request[v1.CreateAPIKeyRequest]) (*connect.Response[v1.CreateAPIKeyResponse], error)
+	GetAPIKey(context.Context, *connect.Request[v1.GetAPIKeyRequest]) (*connect.Response[v1.GetAPIKeyResponse], error)
+	UpdateAPIKey(context.Context, *connect.Request[v1.UpdateAPIKeyRequest]) (*connect.Response[v1.UpdateAPIKeyResponse], error)
+	DeleteAPIKey(context.Context, *connect.Request[v1.DeleteAPIKeyRequest]) (*connect.Response[emptypb.Empty], error)
 	ListTrackingLogs(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v1.LogResponse], error)
 }
 
@@ -304,6 +389,36 @@ func NewLLMServiceHandler(svc LLMServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(lLMServiceGetProviderConfigMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	lLMServiceListAPIKeysHandler := connect.NewUnaryHandler(
+		LLMServiceListAPIKeysProcedure,
+		svc.ListAPIKeys,
+		connect.WithSchema(lLMServiceListAPIKeysMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	lLMServiceCreateAPIKeyHandler := connect.NewUnaryHandler(
+		LLMServiceCreateAPIKeyProcedure,
+		svc.CreateAPIKey,
+		connect.WithSchema(lLMServiceCreateAPIKeyMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	lLMServiceGetAPIKeyHandler := connect.NewUnaryHandler(
+		LLMServiceGetAPIKeyProcedure,
+		svc.GetAPIKey,
+		connect.WithSchema(lLMServiceGetAPIKeyMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	lLMServiceUpdateAPIKeyHandler := connect.NewUnaryHandler(
+		LLMServiceUpdateAPIKeyProcedure,
+		svc.UpdateAPIKey,
+		connect.WithSchema(lLMServiceUpdateAPIKeyMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	lLMServiceDeleteAPIKeyHandler := connect.NewUnaryHandler(
+		LLMServiceDeleteAPIKeyProcedure,
+		svc.DeleteAPIKey,
+		connect.WithSchema(lLMServiceDeleteAPIKeyMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	lLMServiceListTrackingLogsHandler := connect.NewUnaryHandler(
 		LLMServiceListTrackingLogsProcedure,
 		svc.ListTrackingLogs,
@@ -330,6 +445,16 @@ func NewLLMServiceHandler(svc LLMServiceHandler, opts ...connect.HandlerOption) 
 			lLMServiceDeleteProviderHandler.ServeHTTP(w, r)
 		case LLMServiceGetProviderConfigProcedure:
 			lLMServiceGetProviderConfigHandler.ServeHTTP(w, r)
+		case LLMServiceListAPIKeysProcedure:
+			lLMServiceListAPIKeysHandler.ServeHTTP(w, r)
+		case LLMServiceCreateAPIKeyProcedure:
+			lLMServiceCreateAPIKeyHandler.ServeHTTP(w, r)
+		case LLMServiceGetAPIKeyProcedure:
+			lLMServiceGetAPIKeyHandler.ServeHTTP(w, r)
+		case LLMServiceUpdateAPIKeyProcedure:
+			lLMServiceUpdateAPIKeyHandler.ServeHTTP(w, r)
+		case LLMServiceDeleteAPIKeyProcedure:
+			lLMServiceDeleteAPIKeyHandler.ServeHTTP(w, r)
 		case LLMServiceListTrackingLogsProcedure:
 			lLMServiceListTrackingLogsHandler.ServeHTTP(w, r)
 		default:
@@ -353,7 +478,7 @@ func (UnimplementedLLMServiceHandler) ListModels(context.Context, *connect.Reque
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.ListModels is not implemented"))
 }
 
-func (UnimplementedLLMServiceHandler) ListProviders(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v1.ProvidersResponse], error) {
+func (UnimplementedLLMServiceHandler) ListProviders(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v1.ListProvidersResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.ListProviders is not implemented"))
 }
 
@@ -375,6 +500,26 @@ func (UnimplementedLLMServiceHandler) DeleteProvider(context.Context, *connect.R
 
 func (UnimplementedLLMServiceHandler) GetProviderConfig(context.Context, *connect.Request[v1.GetProviderConfigRequest]) (*connect.Response[v1.GetProviderConfigResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.GetProviderConfig is not implemented"))
+}
+
+func (UnimplementedLLMServiceHandler) ListAPIKeys(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v1.ListAPIKeysResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.ListAPIKeys is not implemented"))
+}
+
+func (UnimplementedLLMServiceHandler) CreateAPIKey(context.Context, *connect.Request[v1.CreateAPIKeyRequest]) (*connect.Response[v1.CreateAPIKeyResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.CreateAPIKey is not implemented"))
+}
+
+func (UnimplementedLLMServiceHandler) GetAPIKey(context.Context, *connect.Request[v1.GetAPIKeyRequest]) (*connect.Response[v1.GetAPIKeyResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.GetAPIKey is not implemented"))
+}
+
+func (UnimplementedLLMServiceHandler) UpdateAPIKey(context.Context, *connect.Request[v1.UpdateAPIKeyRequest]) (*connect.Response[v1.UpdateAPIKeyResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.UpdateAPIKey is not implemented"))
+}
+
+func (UnimplementedLLMServiceHandler) DeleteAPIKey(context.Context, *connect.Request[v1.DeleteAPIKeyRequest]) (*connect.Response[emptypb.Empty], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("llm.v1.LLMService.DeleteAPIKey is not implemented"))
 }
 
 func (UnimplementedLLMServiceHandler) ListTrackingLogs(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v1.LogResponse], error) {
