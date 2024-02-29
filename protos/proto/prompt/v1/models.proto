@@ -1,0 +1,12 @@
+syntax = "proto3";
+package prompt.v1;
+
+import "google/protobuf/struct.proto";
+
+message Prompt {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string template = 4;
+  google.protobuf.Struct metadata = 5;
+}

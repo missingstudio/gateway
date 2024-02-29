@@ -5,6 +5,7 @@ import (
 
 	"github.com/missingstudio/studio/backend/internal/connections"
 	"github.com/missingstudio/studio/backend/internal/ingester"
+	"github.com/missingstudio/studio/backend/internal/prompt"
 	"github.com/missingstudio/studio/backend/internal/providers"
 	"github.com/missingstudio/studio/backend/internal/ratelimiter"
 )
@@ -15,6 +16,7 @@ type Deps struct {
 	RateLimiter       *ratelimiter.RateLimiter
 	ProviderService   *providers.Service
 	ConnectionService *connections.Service
+	PromptService     *prompt.Service
 }
 
 func NewDeps(
@@ -23,6 +25,7 @@ func NewDeps(
 	ratelimiter *ratelimiter.RateLimiter,
 	ps *providers.Service,
 	cs *connections.Service,
+	pms *prompt.Service,
 ) *Deps {
 	return &Deps{
 		Logger:            logger,
@@ -30,5 +33,6 @@ func NewDeps(
 		RateLimiter:       ratelimiter,
 		ProviderService:   ps,
 		ConnectionService: cs,
+		PromptService:     pms,
 	}
 }

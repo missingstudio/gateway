@@ -1,0 +1,65 @@
+syntax = "proto3";
+package prompt.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/struct.proto";
+import "prompt/v1/models.proto";
+
+service PromptRegistryService {
+  // Prompt managment
+  rpc ListPrompts(google.protobuf.Empty) returns (ListPromptsResponse) {
+    option (google.api.http).get = "/v1/prompts";
+    option (google.api.http).body = "*";
+  }
+
+  rpc CreatePrompt(CreatePromptRequest) returns (CreatePromptResponse) {
+    option (google.api.http).post = "/v1/prompts";
+    option (google.api.http).body = "*";
+  }
+
+  rpc GetPrompt(GetPromptRequest) returns (GetPromptResponse) {
+    option (google.api.http) = {get: "/v1/prompts/{name}"};
+  }
+  rpc GetPromptValue(GetPromptValueRequest) returns (GetPromptValueResponse) {
+    option (google.api.http).post = "/v1/prompts/{name}";
+    option (google.api.http).body = "*";
+  }
+}
+
+
+message ListPromptsResponse {
+  repeated Prompt prompt = 1;
+}
+
+message CreatePromptRequest {
+  string name = 1;
+  string description = 2;
+  string template = 3;
+  google.protobuf.Struct metadata = 4;
+}
+
+message CreatePromptResponse {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string template = 4;
+  google.protobuf.Struct metadata = 5;
+}
+
+message GetPromptRequest {
+  string name = 1;
+}
+
+message GetPromptResponse {
+  Prompt prompt = 1;
+}
+
+message GetPromptValueRequest {
+  string name = 1;
+  google.protobuf.Struct data = 2;
+}
+
+message GetPromptValueResponse {
+  string data = 1;
+}

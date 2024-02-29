@@ -13,6 +13,7 @@ import (
 	"github.com/missingstudio/studio/backend/internal/api"
 	"github.com/missingstudio/studio/backend/internal/connections"
 	"github.com/missingstudio/studio/backend/internal/ingester"
+	"github.com/missingstudio/studio/backend/internal/prompt"
 	"github.com/missingstudio/studio/backend/internal/providers"
 	"github.com/missingstudio/studio/backend/internal/ratelimiter"
 	"github.com/missingstudio/studio/backend/internal/server"
@@ -64,8 +65,11 @@ func Serve(cfg *config.Config) error {
 	connectionRepository := postgres.NewConnectionRepository(dbc)
 	connectionService := connections.NewService(connectionRepository)
 
+	promptRepository := postgres.NewPromptRepository(dbc)
+	promptService := prompt.NewService(promptRepository)
+
 	providerService := providers.NewService()
-	deps := api.NewDeps(logger, ingester, rl, providerService, connectionService)
+	deps := api.NewDeps(logger, ingester, rl, providerService, connectionService, promptService)
 
 	if err := server.Serve(ctx, logger, cfg.App, deps); err != nil {
 		logger.Error("error starting server", "error", err)

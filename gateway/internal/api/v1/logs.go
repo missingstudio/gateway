@@ -5,7 +5,7 @@ import (
 
 	"connectrpc.com/connect"
 	"github.com/missingstudio/studio/common/errors"
-	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
+	llmv1 "github.com/missingstudio/studio/protos/pkg/llm/v1"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/structpb"
 )

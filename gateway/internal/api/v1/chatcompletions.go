@@ -13,7 +13,7 @@ import (
 	"github.com/missingstudio/studio/backend/internal/router"
 	"github.com/missingstudio/studio/backend/models"
 	"github.com/missingstudio/studio/common/errors"
-	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
+	llmv1 "github.com/missingstudio/studio/protos/pkg/llm/v1"
 )
 
 var (

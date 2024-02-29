@@ -12,8 +12,8 @@ import (
 	v1 "github.com/missingstudio/studio/backend/internal/api/v1"
 	"github.com/missingstudio/studio/backend/internal/errors"
 	"github.com/missingstudio/studio/backend/internal/interceptor"
-	llmv1 "github.com/missingstudio/studio/protos/pkg/llm"
-	"github.com/missingstudio/studio/protos/pkg/llm/llmv1connect"
+	llmv1 "github.com/missingstudio/studio/protos/pkg/llm/v1"
+	"github.com/missingstudio/studio/protos/pkg/llm/v1/llmv1connect"
 	"github.com/zeebo/assert"
 
 	"github.com/stretchr/testify/require"

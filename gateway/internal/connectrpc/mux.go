@@ -10,7 +10,8 @@ import (
 
 	"github.com/missingstudio/studio/backend/internal/api"
 	v1 "github.com/missingstudio/studio/backend/internal/api/v1"
-	"github.com/missingstudio/studio/protos/pkg/llm/llmv1connect"
+	"github.com/missingstudio/studio/protos/pkg/llm/v1/llmv1connect"
+	"github.com/missingstudio/studio/protos/pkg/prompt/v1/promptv1connect"
 )
 
 func NewConnectMux(d *api.Deps) (*http.ServeMux, error) {
@@ -28,13 +29,18 @@ func NewConnectMux(d *api.Deps) (*http.ServeMux, error) {
 	}))
 
 	mux.Handle(grpchealth.NewHandler(
-		grpchealth.NewStaticChecker(llmv1connect.LLMServiceName),
+		grpchealth.NewStaticChecker(
+			llmv1connect.LLMServiceName,
+			promptv1connect.PromptRegistryServiceName,
+		),
 		compress1KB,
 	))
 
-	reflector := grpcreflect.NewStaticReflector(llmv1connect.LLMServiceName)
+	reflector := grpcreflect.NewStaticReflector(
+		llmv1connect.LLMServiceName,
+		promptv1connect.PromptRegistryServiceName,
+	)
 	mux.Handle(grpcreflect.NewHandlerV1(reflector, compress1KB))
 	mux.Handle(grpcreflect.NewHandlerV1Alpha(reflector, compress1KB))
-
 	return mux, nil
 }

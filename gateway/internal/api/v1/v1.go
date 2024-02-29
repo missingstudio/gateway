@@ -12,15 +12,19 @@ import (
 	"github.com/missingstudio/studio/backend/internal/connections"
 	"github.com/missingstudio/studio/backend/internal/ingester"
 	"github.com/missingstudio/studio/backend/internal/interceptor"
+	"github.com/missingstudio/studio/backend/internal/prompt"
 	"github.com/missingstudio/studio/backend/internal/providers"
-	"github.com/missingstudio/studio/protos/pkg/llm/llmv1connect"
+	"github.com/missingstudio/studio/protos/pkg/llm/v1/llmv1connect"
+	"github.com/missingstudio/studio/protos/pkg/prompt/v1/promptv1connect"
 )
 
 type V1Handler struct {
 	llmv1connect.UnimplementedLLMServiceHandler
+	promptv1connect.UnimplementedPromptRegistryServiceHandler
 	ingester          ingester.Ingester
 	providerService   *providers.Service
 	connectionService *connections.Service
+	promptService     *prompt.Service
 }
 
 func NewHandlerV1(d *api.Deps) *V1Handler {
@@ -28,6 +32,7 @@ func NewHandlerV1(d *api.Deps) *V1Handler {
 		ingester:          d.Ingester,
 		providerService:   d.ProviderService,
 		connectionService: d.ConnectionService,
+		promptService:     d.PromptService,
 	}
 }
 
@@ -55,6 +60,11 @@ func Register(d *api.Deps) (http.Handler, error) {
 
 	services := []*vanguard.Service{
 		vanguard.NewService(llmv1connect.NewLLMServiceHandler(
+			v1Handler,
+			compress1KB,
+			connect.WithInterceptors(stdInterceptors...),
+		)),
+		vanguard.NewService(promptv1connect.NewPromptRegistryServiceHandler(
 			v1Handler,
 			compress1KB,
 			connect.WithInterceptors(stdInterceptors...),
