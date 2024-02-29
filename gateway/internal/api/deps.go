@@ -4,8 +4,8 @@ import (
 	"log/slog"
 
 	"github.com/missingstudio/studio/backend/core/connection"
+	"github.com/missingstudio/studio/backend/core/prompt"
 	"github.com/missingstudio/studio/backend/internal/ingester"
-	"github.com/missingstudio/studio/backend/internal/prompt"
 	"github.com/missingstudio/studio/backend/internal/providers"
 	"github.com/missingstudio/studio/backend/internal/ratelimiter"
 )

@@ -1,4 +1,4 @@
-package models
+package prompt
 
 import "github.com/google/uuid"
 

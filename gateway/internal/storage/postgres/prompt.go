@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/missingstudio/studio/backend/models"
+	"github.com/missingstudio/studio/backend/core/prompt"
 )
 
 type PromptDB struct {
@@ -19,15 +19,15 @@ type PromptDB struct {
 	CreatedAt   time.Time `db:"created_at"`
 }
 
-func (c PromptDB) ToPrompt() (models.Prompt, error) {
+func (c PromptDB) ToPrompt() (prompt.Prompt, error) {
 	var unmarshalledMetadata map[string]any
 	if len(c.Metadata) > 0 {
 		if err := json.Unmarshal(c.Metadata, &unmarshalledMetadata); err != nil {
-			return models.Prompt{}, fmt.Errorf("failed to unmarshal connection metadata(%s): %w", c.ID.String(), err)
+			return prompt.Prompt{}, fmt.Errorf("failed to unmarshal connection metadata(%s): %w", c.ID.String(), err)
 		}
 	}
 
-	return models.Prompt{
+	return prompt.Prompt{
 		ID:          c.ID,
 		Name:        c.Name,
 		Description: c.Description,

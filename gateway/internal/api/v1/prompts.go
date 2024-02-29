@@ -1,11 +1,12 @@
 package v1
 
 import (
+	"bytes"
 	"context"
+	"text/template"
 
 	"connectrpc.com/connect"
-	"github.com/missingstudio/studio/backend/internal/prompt"
-	"github.com/missingstudio/studio/backend/models"
+	"github.com/missingstudio/studio/backend/core/prompt"
 	"github.com/missingstudio/studio/common/errors"
 	promptv1 "github.com/missingstudio/studio/protos/pkg/prompt/v1"
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -37,7 +38,7 @@ func (s *V1Handler) ListPrompts(ctx context.Context, req *connect.Request[emptyp
 }
 
 func (s *V1Handler) CreatePrompt(ctx context.Context, req *connect.Request[promptv1.CreatePromptRequest]) (*connect.Response[promptv1.CreatePromptResponse], error) {
-	prompt := models.Prompt{
+	prompt := prompt.Prompt{
 		Name:        req.Msg.Name,
 		Description: req.Msg.Description,
 		Template:    req.Msg.Template,
@@ -92,13 +93,14 @@ func (s *V1Handler) GetPromptValue(ctx context.Context, req *connect.Request[pro
 		return nil, errors.NewNotFound(err.Error())
 	}
 
-	prompt := prompt.NewPrompt(p.Template, req.Msg.Data.AsMap())
-	value, err := prompt.Run()
+	var buf bytes.Buffer
+	tmpl := template.Must(template.New("prompt").Parse(p.Template))
+	err = tmpl.Execute(&buf, req.Msg.Data.AsMap())
 	if err != nil {
-		return nil, errors.NewNotFound(err.Error())
+		return nil, errors.New(err)
 	}
 
 	return connect.NewResponse(&promptv1.GetPromptValueResponse{
-		Data: value,
+		Data: buf.String(),
 	}), nil
 }
