@@ -55,7 +55,7 @@ func Register(d *api.Deps) (http.Handler, error) {
 	stdInterceptors := []connect.Interceptor{
 		validateInterceptor,
 		otelconnectInterceptor,
-		interceptor.NewAPIKeyInterceptor(d.Logger, d.APIKeyService),
+		interceptor.NewAPIKeyInterceptor(d.Logger, d.APIKeyService, d.AuthEnabled),
 		interceptor.HeadersInterceptor(),
 		interceptor.RateLimiterInterceptor(d.RateLimiter),
 		interceptor.RetryInterceptor(),

@@ -19,6 +19,7 @@ type Deps struct {
 	ConnectionService *connection.Service
 	PromptService     *prompt.Service
 	APIKeyService     *apikey.Service
+	AuthEnabled       bool
 }
 
 func NewDeps(
@@ -29,6 +30,7 @@ func NewDeps(
 	cs *connection.Service,
 	pms *prompt.Service,
 	aks *apikey.Service,
+	authEnabled bool,
 ) *Deps {
 	return &Deps{
 		Logger:            logger,
@@ -38,5 +40,6 @@ func NewDeps(
 		ConnectionService: cs,
 		PromptService:     pms,
 		APIKeyService:     aks,
+		AuthEnabled:       authEnabled,
 	}
 }

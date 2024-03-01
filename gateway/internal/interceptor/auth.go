@@ -11,9 +11,13 @@ import (
 )
 
 // NewAPIKeyInterceptor returns interceptor which is checking if api key exits
-func NewAPIKeyInterceptor(logger *slog.Logger, aks *apikey.Service) connect.UnaryInterceptorFunc {
+func NewAPIKeyInterceptor(logger *slog.Logger, aks *apikey.Service, authEnabled bool) connect.UnaryInterceptorFunc {
 	return connect.UnaryInterceptorFunc(func(next connect.UnaryFunc) connect.UnaryFunc {
 		return connect.UnaryFunc(func(ctx context.Context, req connect.AnyRequest) (connect.AnyResponse, error) {
+			if !authEnabled {
+				return next(ctx, req)
+			}
+
 			if authenticationSkipList[req.Spec().Procedure] {
 				return next(ctx, req)
 			}

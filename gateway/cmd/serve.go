@@ -79,6 +79,7 @@ func Serve(cfg *config.Config) error {
 		connectionService,
 		promptService,
 		apikeyService,
+		cfg.App.Authentication.Enabled,
 	)
 
 	if err := server.Serve(ctx, logger, cfg.App, deps); err != nil {
