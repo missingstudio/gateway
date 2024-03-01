@@ -9,7 +9,7 @@ export function useLogsFetch() {
   useEffect(() => {
     async function fetchLogs() {
       try {
-        const response = await fetch(`${BASE_URL}/v1/tracking/logs`);
+        const response = await fetch(`${BASE_URL}/api/v1/tracking/logs`);
         const { logs = [] } = await response.json();
         setLogs(logs);
       } catch (e) {

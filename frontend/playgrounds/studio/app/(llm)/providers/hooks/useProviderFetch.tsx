@@ -15,7 +15,7 @@ export function useProviderFetch(pname: string) {
   useEffect(() => {
     async function fetchProvider() {
       try {
-        const response = await fetch(`${BASE_URL}/v1/providers/${pname}`);
+        const response = await fetch(`${BASE_URL}/api/v1/providers/${pname}`);
         const { provider } = await response.json();
 
         setProvider(provider);
@@ -30,7 +30,7 @@ export function useProviderFetch(pname: string) {
     async function fetchProviderConfig() {
       try {
         const response = await fetch(
-          `${BASE_URL}/v1/providers/${pname}/config`
+          `${BASE_URL}/api/v1/providers/${pname}/config`
         );
         const { config } = await response.json();
 

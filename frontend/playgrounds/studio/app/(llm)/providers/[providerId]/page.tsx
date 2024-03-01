@@ -66,7 +66,7 @@ export default function SingleProvider() {
     try {
       const data = getValues();
       const response = await fetch(
-        `${BASE_URL}/v1/providers/${params.providerId}`,
+        `${BASE_URL}/api/v1/providers/${params.providerId}`,
         {
           method: "put",
           body: JSON.stringify(data),
@@ -75,7 +75,13 @@ export default function SingleProvider() {
           },
         }
       );
-      await response.json();
+      var res = await response.json();
+      if (!response.ok) {
+        return toast.error("Something went wrong", {
+          description: res.message,
+        });
+      }
+      
       toast.info("Updated", {
         description: "Configuration has been updated",
       });

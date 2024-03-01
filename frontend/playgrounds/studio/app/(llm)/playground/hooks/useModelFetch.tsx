@@ -18,7 +18,7 @@ export function useModelFetch() {
   useEffect(() => {
     async function fetchModels() {
       try {
-        const response = await fetch(`${BASE_URL}/v1/models`);
+        const response = await fetch(`${BASE_URL}/api/v1/models`);
         const { models } = await response.json();
         const fetchedProviders: ModelType[] = Object.keys(models).map(
           (key) => ({

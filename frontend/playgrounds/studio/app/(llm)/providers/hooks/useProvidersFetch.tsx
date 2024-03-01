@@ -14,7 +14,7 @@ export function useProvidersFetch() {
   useEffect(() => {
     async function fetchModels() {
       try {
-        const response = await fetch(`${BASE_URL}/v1/providers`);
+        const response = await fetch(`${BASE_URL}/api/v1/providers`);
         const { providers } = await response.json();
 
         setProviders(providers);

@@ -5,7 +5,7 @@ const config = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
-    "../../packages/ui/**/*.{js,ts,jsx,tsx}",
+    "../../node_modules/@missingstudio/ui/**/*.{js,ts,jsx,tsx}",
   ],
   prefix: "",
   theme: {

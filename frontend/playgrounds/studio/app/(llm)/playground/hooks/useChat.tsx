@@ -15,7 +15,7 @@ export const useChat = (): (() => Promise<void>) => {
     async function chatCompletions() {
       try {
         const providerResponse = await fetch(
-          `${BASE_URL}/v1/providers/${provider}`
+          `${BASE_URL}/api/v1/providers/${provider}`
         );
         const providerData = await providerResponse.json();
         const apikey = pathOr("", ["provider", "config", "auth", "api_key"])(
@@ -25,7 +25,7 @@ export const useChat = (): (() => Promise<void>) => {
         if (!apikey)
           return toast.error(`Provide API key for provider - ${provider}`);
 
-        const response = await fetch(`${BASE_URL}/v1/chat/completions`, {
+        const response = await fetch(`${BASE_URL}/api/v1/chat/completions`, {
           method: "post",
           headers: {
             "x-ms-provider": provider,
