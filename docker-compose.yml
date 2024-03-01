@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   gateway:
     container_name: gateway
@@ -14,8 +16,6 @@ services:
       - GATEWAY_APP_PORT=8080
       - GATEWAY_REDIS_HOST=redis
       - GATEWAY_REDIS_PORT=6379
-      - GATEWAY_POSTGRES_DRIVER
-      - GATEWAY_POSTGRES_postgres=postgres
       - GATEWAY_POSTGRES_URL=postgres://mstudio@postgres:5432/mstudio?sslmode=disable
     ports:
       - 8080:8080

@@ -2,14 +2,14 @@
   "$schema": "https://mintlify.com/schema.json",
   "name": "Missing studio",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/logo/dark.png",
+    "light": "/logo/dark.png"
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#00CCB1",
+    "primary": "#7B61FF",
     "light": "#7B61FF",
-    "dark": "#00CCB1",
+    "dark": "#7B61FF",
     "background": {
       "dark": "#000000",
       "light": "#FFFFFF"
@@ -64,6 +64,7 @@
       "group": "Get Started",
       "pages": [
         "introduction/what-is-missingstudio",
+        "introduction/quickstart",
         {
           "group": "Installation",
           "icon": "circle-down",
@@ -86,6 +87,30 @@
       ]
     },
     {
+      "group": "Providers",
+      "pages": [
+        "providers/introduction",
+        {
+          "group": "OpenAI",
+          "pages": [
+            "providers/openai/introduction",
+            {
+              "group": "Examples",
+              "pages": ["providers/openai/examples/chat"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Connections",
+      "pages": ["connections/introduction"]
+    },
+    {
+      "group": "API Reference",
+      "pages": ["api-reference/introduction"]
+    },
+    {
       "group": "Essentials",
       "pages": [
         "essentials/roadmap",
@@ -99,6 +124,11 @@
       "pages": ["other/philosophy"]
     }
   ],
+  "analytics": {
+    "ga4": {
+      "measurementId": "G-MQRRP55X29"
+    }
+  },
   "footerSocials": {
     "twitter": "https://twitter.com/_missingstudio",
     "github": "https://github.com/missingstudio",

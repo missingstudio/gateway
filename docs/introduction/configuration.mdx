@@ -1,29 +1,76 @@
 ---
-title: 'Configuration'
-description: 'Configuration options for AI Studio'
-icon: 'sliders'
+title: "Configuration"
+description: "Configuration options for AI Studio gateway server"
+icon: "sliders"
 ---
 
 This document outlines the various options available for configuring AI Studio.
 For ease of use and clarity, we recommend naming the configuration file `config.yml`
 
-### Gateway Configuration
+### Sample config file (config.yml)
+
+```yml
+app:
+  host: 0.0.0.0
+  port: 8080
+
+log:
+  json: false
+
+redis:
+  host: localhost
+  port: 6379
+
+postgres:
+  driver: postgres
+  url: postgres://aistudio@localhost:5432/aistudio?sslmode=disable
+  max_idle_conns: 10
+  max_open_conns: 10
+  conn_max_life_time: 1m0s
+  max_query_timeout: 1s
+
+ratelimiter:
+  enabled: true
+  type: sliding_window
+  duration_in_seconds: 100
+  number_of_requests: 5000
+
+ingester:
+  enabled: true
+  provider: clickhouse
+
+  clickhouse:
+    connection_url: clickhouse://localhost:9000/default
+    table: token
+
+  influx3:
+    host: host
+    token: token
+    organization: organization
+    database: database
+    measurement: measurement
+```
+
+#### Gateway Configuration
+
 <ResponseField name="app" type="Object">
   Configure the application gateway config
   <Expandable title="properties">
-  <ResponseField name="host" type="String">
+    <ResponseField name="host" type="String">
       The `host` can be any device connected to a network.
     </ResponseField>
     <ResponseField name="port" type="String">
-      The `port` specifies the network port that the gateway Server will listen to for incoming data. You can set this to any available port on your system.
+      The `port` specifies the network port that the gateway Server will listen
+      to for incoming data. You can set this to any available port on your
+      system.
     </ResponseField>
-    
   </Expandable>
 </ResponseField>
 
 **Example**:
+
 ```yaml
-app: 
+app:
   host: localhost
   port: 8080
 ```
@@ -33,27 +80,55 @@ app:
 <ResponseField name="redis" type="Object">
   Configure the redis database connection details to connect with AI studio
   <Expandable title="properties">
-  <ResponseField name="host" type="String">
+    <ResponseField name="host" type="String">
       Host address for the database.
     </ResponseField>
     <ResponseField name="port" type="String">
       Network port for the database connection.
     </ResponseField>
-    
+
     <ResponseField name="username" type="String">
       The username for the database.
     </ResponseField>
     <ResponseField name="password" type="String">
       The password for the database.
     </ResponseField>
+
   </Expandable>
-  
   **Example**:
-  ```yaml
-  redis: 
-    host: localhost
-    port: 6379
-    username: username
-    password: password
-  ```
+
+```yaml
+redis:
+  host: localhost
+  port: 6379
+  username: username
+  password: password
+```
+
+</ResponseField>
+
+### Postgress Configuration
+
+<ResponseField name="redis" type="Object">
+  Configure the postgres database connection details to connect with AI studio
+  <Expandable title="properties">
+    <ResponseField name="driver" type="String">
+      Driver for the database.
+    </ResponseField>
+    <ResponseField name="url" type="String">
+      Postgres Connection string for the database connection.
+    </ResponseField>
+  </Expandable>
+  **Example**:
+
+```yaml
+redis:
+  driver: postgres
+  url: postgres://aistudio@localhost:5432/aistudio?sslmode=disable
+  max_idle_conns: 10
+  max_open_conns: 10
+  conn_max_life_time: 1m0s
+  max_query_timeout: 1s
+```
+
 </ResponseField>

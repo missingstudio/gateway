@@ -1,0 +1,21 @@
+---
+title: "Introduction"
+description: "OpenAPI specification for API Endpoints"
+---
+
+<CardGroup cols={2}>
+  <Card title="API Keys" icon="key" href="/introduction/quickstart"></Card>
+</CardGroup>
+
+## Authentication
+
+All API endpoints are authenticated using `X-Ms-Api-Key` Header.
+
+```json
+X-Ms-Api-Key: <api-key>
+```
+
+<Info>
+  Store the provided API key securely; it will be required to pass the generated
+  and a valid API Key in Authorization header for subsequent API calls.
+</Info>

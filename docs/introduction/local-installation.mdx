@@ -11,17 +11,40 @@ To start missing studio server, simply run the following command:
 ```bash
 make compose-dev
 ```
-<Info>**Note:** Your AI Gateway is now running on http://localhost:8080 💥.</Info>
 
-## Send a request
+<Info>
+  **Note:** Your AI Gateway is now running on http://localhost:8080 💥.
+</Info>
+**You're geared up and ready to go! 🚀**
 
-After running studio gateway, you can call api using `curl` in your terminal by running:
+Following these steps should have you AI studio up and running to power up LLMOps for your LLM appplications.
+If you have any questions or need support, reach out to our [Discord Community](https://discord.gg/99UVa6MkUX).
 
-```bash
-curl \
---header "Content-Type: application/json" \
---header "x-ms-provider: openai" \
---header "Authorization: Bearer {{OPENAI_API_KEY}}" \
---data '{"model":"gpt-3.5-turbo","messages":[{"role":"user","content":"who are you?"}]}' \
-http://localhost:8080/v1/chat/completions
-```
+## Other options
+
+<CardGroup cols={2}>
+  <Card
+    href="/introduction/docker-installation/"
+    title="Docker"
+    icon="docker"
+    color="#18A0FB"
+  >
+    Get started with AI Studio in a few minutes with Docker (recommended)
+  </Card>
+  <Card
+    title={
+      <>
+        Kubernetes{" "}
+        <span
+          style={{ fontSize: "10px", color: "green", display: "flex-inline" }}
+        >
+          (coming soon)
+        </span>{" "}
+      </>
+    }
+    icon="cloud"
+    color="#00CCB1"
+  >
+    Install AI Studio into a Kubernetes cluster using helm chart
+  </Card>
+</CardGroup>

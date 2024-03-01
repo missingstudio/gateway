@@ -1,12 +1,16 @@
 ---
-title: Docker Setup
-description: How to install and run **AI Studio** via Docker
+title: "Quickstart"
+description: "Quickly start deploying **a production-ready core infrastructure stack** for your LLM applications"
+icon: "bolt"
 ---
 
-The easiest and quickest way to run AI Studio is via [docker-compose](https://docs.docker.com/compose/).
+This guide will walk you through setting up a production-ready core infrastructure stack for your LLM Application with minimal effort. 
+In just a few steps, you'll be able to setup Universal API, AI routing, AI Gateway and Observablity to track and analyze the performance 
+and usage of your Large Language Model (LLM) applications.
 
 <Steps>
-  <Step title="Create `docker-compose.yml`">
+  <Step title="Deploy AI studio">
+    #### Preparing docker environment
     ```yaml docker-compose.yml
       version: '3.8'
 
@@ -82,12 +86,32 @@ The easiest and quickest way to run AI Studio is via [docker-compose](https://do
         clickhouse: {}
     ```
 
-  </Step>
-  <Step title="Start Docker Compose">
-   ```shell
+    #### Launch AI studio gateway server
+    ```shell
       docker-compose up -d
     ```
-  </Step>  
+
+  </Step>
+  <Step title="Generate an API Key">
+    With AI studio running, the next step is to [generate an API key](/api-reference/endpoint/api-keys/create) for resource access from AI studio
+
+    To generate your first API key, you can use the following command:
+
+    ```shell shell
+    curl --request POST \
+      --url http://127.0.0.1:8080/api/v1/keys \
+      --header 'Content-Type: application/json' \
+      --data '{
+        "name": "Base"
+      }'
+    ```
+
+    <Note>
+    **Save the API Key**
+    Remember to include this API key in the `X-Ms-Api-Key` header for all future API interactions
+    </Note>
+
+  </Step>
 </Steps>
 
 **You're geared up and ready to go! 🚀**
@@ -95,32 +119,13 @@ The easiest and quickest way to run AI Studio is via [docker-compose](https://do
 Following these steps should have you AI studio up and running to power up LLMOps for your LLM appplications.
 If you have any questions or need support, reach out to our [Discord Community](https://discord.gg/99UVa6MkUX).
 
-## Other options
+---
 
 <CardGroup cols={2}>
-  <Card
-    href="/introduction/local-installation/"
-    title="Command Line Interface (CLI)"
-    icon="square-terminal"
-    color="#FFC414"
-  >
-    Install AI Studio locally into your developer machine or bare metal setup
-    via CLI (MacOS, Linux)
+  <Card title="Providers" href="/providers/introduction" icon="circle-nodes">
+    Integrate your LLM Provider with AI studio
   </Card>
-  <Card
-    title={
-      <>
-        Kubernetes{" "}
-        <span
-          style={{ fontSize: "10px", color: "green", display: "flex-inline" }}
-        >
-          (coming soon)
-        </span>{" "}
-      </>
-    }
-    icon="cloud"
-    color="#00CCB1"
-  >
-    Install AI Studio into a Kubernetes cluster using helm chart
+  <Card title="Connections" href="/connections/introduction" icon="link">
+    Connect to your existing Observablity Platform
   </Card>
 </CardGroup>
