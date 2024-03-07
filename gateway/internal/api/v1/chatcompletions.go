@@ -7,14 +7,14 @@ import (
 	"time"
 
 	"connectrpc.com/connect"
-	"github.com/missingstudio/studio/backend/core/chat"
-	"github.com/missingstudio/studio/backend/core/connection"
-	"github.com/missingstudio/studio/backend/internal/constants"
-	"github.com/missingstudio/studio/backend/internal/providers"
-	"github.com/missingstudio/studio/backend/internal/providers/base"
-	"github.com/missingstudio/studio/backend/internal/router"
-	"github.com/missingstudio/studio/common/errors"
-	llmv1 "github.com/missingstudio/studio/protos/pkg/llm/v1"
+	"github.com/missingstudio/ai/common/errors"
+	"github.com/missingstudio/ai/gateway/core/chat"
+	"github.com/missingstudio/ai/gateway/core/connection"
+	"github.com/missingstudio/ai/gateway/internal/constants"
+	"github.com/missingstudio/ai/gateway/internal/providers"
+	"github.com/missingstudio/ai/gateway/internal/providers/base"
+	"github.com/missingstudio/ai/gateway/internal/router"
+	llmv1 "github.com/missingstudio/ai/protos/pkg/llm/v1"
 )
 
 var (

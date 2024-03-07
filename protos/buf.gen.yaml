@@ -2,7 +2,7 @@ version: v1
 managed:
   enabled: true
   go_package_prefix:
-    default: github.com/missingstudio/studio/protos/pkg
+    default: github.com/missingstudio/ai/protos/pkg
     except:
       - buf.build/googleapis/googleapis
       - buf.build/bufbuild/protovalidate

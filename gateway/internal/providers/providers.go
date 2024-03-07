@@ -3,8 +3,8 @@ package providers
 import (
 	"net/http"
 
-	"github.com/missingstudio/studio/backend/internal/providers/base"
-	"github.com/missingstudio/studio/common/errors"
+	"github.com/missingstudio/ai/common/errors"
+	"github.com/missingstudio/ai/gateway/internal/providers/base"
 	"github.com/xeipuuv/gojsonschema"
 )
 

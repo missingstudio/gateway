@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/missingstudio/studio/backend/core/connection"
+	"github.com/missingstudio/ai/gateway/core/connection"
 )
 
 type ConnectionDB struct {

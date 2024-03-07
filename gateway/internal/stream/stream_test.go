@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/missingstudio/studio/backend/internal/mock"
+	"github.com/missingstudio/ai/gateway/internal/mock"
 )
 
 type Data struct {

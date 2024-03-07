@@ -3,8 +3,8 @@ package deepinfra
 import (
 	_ "embed"
 
-	"github.com/missingstudio/studio/backend/core/connection"
-	"github.com/missingstudio/studio/backend/internal/providers/base"
+	"github.com/missingstudio/ai/gateway/core/connection"
+	"github.com/missingstudio/ai/gateway/internal/providers/base"
 )
 
 //go:embed schema.json

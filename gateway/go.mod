@@ -1,10 +1,10 @@
-module github.com/missingstudio/studio/backend
+module github.com/missingstudio/ai/gateway
 
 go 1.21.5
 
-replace github.com/missingstudio/studio/protos => ../protos
+replace github.com/missingstudio/ai/protos => ../protos
 
-replace github.com/missingstudio/studio/common => ../common
+replace github.com/missingstudio/ai/common => ../common
 
 require (
 	connectrpc.com/connect v1.15.0
@@ -31,8 +31,8 @@ require (
 	github.com/jeremywohl/flatten v1.0.1
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/mcuadros/go-defaults v1.2.0
-	github.com/missingstudio/studio/common v0.0.0-00010101000000-000000000000
-	github.com/missingstudio/studio/protos v0.0.0-00010101000000-000000000000
+	github.com/missingstudio/ai/common v0.0.0-00010101000000-000000000000
+	github.com/missingstudio/ai/protos v0.0.0-00010101000000-000000000000
 	github.com/muesli/termenv v0.15.2
 	github.com/ory/dockertest/v3 v3.10.0
 	github.com/pkg/errors v0.9.1

@@ -6,8 +6,8 @@ import (
 	"fmt"
 
 	"github.com/InfluxCommunity/influxdb3-go/influxdb3"
-	"github.com/missingstudio/studio/backend/internal/ingester/clickhouse"
-	"github.com/missingstudio/studio/backend/internal/ingester/influx3"
+	"github.com/missingstudio/ai/gateway/internal/ingester/clickhouse"
+	"github.com/missingstudio/ai/gateway/internal/ingester/influx3"
 	"github.com/sagikazarmark/slog-shim"
 )
 

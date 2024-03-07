@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"connectrpc.com/connect"
-	"github.com/missingstudio/studio/backend/internal/constants"
-	"github.com/missingstudio/studio/backend/internal/errors"
-	"github.com/missingstudio/studio/backend/internal/router"
+	"github.com/missingstudio/ai/gateway/internal/constants"
+	"github.com/missingstudio/ai/gateway/internal/errors"
+	"github.com/missingstudio/ai/gateway/internal/router"
 )
 
 func HeadersInterceptor() connect.UnaryInterceptorFunc {

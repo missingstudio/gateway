@@ -47,7 +47,7 @@ To preview changes locally
 
 ### Bug triage guidelines
 
-The [issues](https://github.com/missingstudio/studio/issues) contain all current bugs, improvements, and feature requests. [Check incoming bug reports](https://github.com/missingstudio/studio/issues) that do not have a `confirmed` or `needs-feedback` label
+The [issues](https://github.com/missingstudio/ai/issues) contain all current bugs, improvements, and feature requests. [Check incoming bug reports](https://github.com/missingstudio/ai/issues) that do not have a `confirmed` or `needs-feedback` label
 
 1. Make sure the issue is labeled as either `bug` or `feature`.
 2. If the issue does not have a clear repro or you cannot repro, ask for the repro and set the `needs-feedback` label.

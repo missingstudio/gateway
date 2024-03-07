@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/missingstudio/studio/common/cmdx"
+	"github.com/missingstudio/ai/common/cmdx"
 
 	"github.com/spf13/cobra"
 )

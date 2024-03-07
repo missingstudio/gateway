@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"connectrpc.com/connect"
-	"github.com/missingstudio/studio/backend/internal/router"
-	"github.com/missingstudio/studio/common/resilience/retry"
+	"github.com/missingstudio/ai/common/resilience/retry"
+	"github.com/missingstudio/ai/gateway/internal/router"
 )
 
 func RetryInterceptor() connect.UnaryInterceptorFunc {

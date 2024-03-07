@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/missingstudio/studio/backend/cmd"
+	"github.com/missingstudio/ai/gateway/cmd"
 )
 
 func main() {

@@ -5,10 +5,10 @@ import (
 
 	"connectrpc.com/connect"
 	"github.com/google/uuid"
-	"github.com/missingstudio/studio/backend/core/apikey"
-	"github.com/missingstudio/studio/backend/pkg/utils"
-	"github.com/missingstudio/studio/common/errors"
-	llmv1 "github.com/missingstudio/studio/protos/pkg/llm/v1"
+	"github.com/missingstudio/ai/common/errors"
+	"github.com/missingstudio/ai/gateway/core/apikey"
+	"github.com/missingstudio/ai/gateway/pkg/utils"
+	llmv1 "github.com/missingstudio/ai/protos/pkg/llm/v1"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )

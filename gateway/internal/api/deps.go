@@ -3,12 +3,12 @@ package api
 import (
 	"log/slog"
 
-	"github.com/missingstudio/studio/backend/core/apikey"
-	"github.com/missingstudio/studio/backend/core/connection"
-	"github.com/missingstudio/studio/backend/core/prompt"
-	"github.com/missingstudio/studio/backend/internal/ingester"
-	"github.com/missingstudio/studio/backend/internal/providers"
-	"github.com/missingstudio/studio/backend/internal/ratelimiter"
+	"github.com/missingstudio/ai/gateway/core/apikey"
+	"github.com/missingstudio/ai/gateway/core/connection"
+	"github.com/missingstudio/ai/gateway/core/prompt"
+	"github.com/missingstudio/ai/gateway/internal/ingester"
+	"github.com/missingstudio/ai/gateway/internal/providers"
+	"github.com/missingstudio/ai/gateway/internal/ratelimiter"
 )
 
 type Deps struct {

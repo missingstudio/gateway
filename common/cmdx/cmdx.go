@@ -7,7 +7,7 @@ import (
 	"runtime"
 
 	"github.com/mcuadros/go-defaults"
-	"github.com/missingstudio/studio/common/config"
+	"github.com/missingstudio/ai/common/config"
 	"github.com/spf13/pflag"
 	"gopkg.in/yaml.v2"
 )

@@ -1,4 +1,4 @@
-module github.com/missingstudio/studio/common
+module github.com/missingstudio/ai/common
 
 go 1.21.5
 

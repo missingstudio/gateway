@@ -4,8 +4,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/missingstudio/studio/backend/internal/cache"
-	"github.com/missingstudio/studio/backend/internal/mock"
+	"github.com/missingstudio/ai/gateway/internal/cache"
+	"github.com/missingstudio/ai/gateway/internal/mock"
 )
 
 func TestCache_SetValue(t *testing.T) {

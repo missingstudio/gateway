@@ -10,8 +10,8 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/golang-migrate/migrate/v4/source/iofs"
-	"github.com/missingstudio/studio/backend/internal/storage/postgres/migrations"
-	"github.com/missingstudio/studio/backend/pkg/database"
+	"github.com/missingstudio/ai/gateway/internal/storage/postgres/migrations"
+	"github.com/missingstudio/ai/gateway/pkg/database"
 )
 
 func RunMigrations(logger *slog.Logger, config database.Config) error {

@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/missingstudio/studio/common/resilience"
-	"github.com/missingstudio/studio/common/resilience/retry"
+	"github.com/missingstudio/ai/common/resilience"
+	"github.com/missingstudio/ai/common/resilience/retry"
 	"github.com/zeebo/assert"
 )
 

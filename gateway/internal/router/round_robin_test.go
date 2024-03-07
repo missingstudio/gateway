@@ -3,7 +3,7 @@ package router_test
 import (
 	"testing"
 
-	"github.com/missingstudio/studio/backend/internal/router"
+	"github.com/missingstudio/ai/gateway/internal/router"
 	"github.com/stretchr/testify/require"
 )
 

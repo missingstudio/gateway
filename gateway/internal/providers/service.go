@@ -3,13 +3,13 @@ package providers
 import (
 	"errors"
 
-	"github.com/missingstudio/studio/backend/core/connection"
-	_ "github.com/missingstudio/studio/backend/internal/providers/anyscale"
-	_ "github.com/missingstudio/studio/backend/internal/providers/azure"
-	"github.com/missingstudio/studio/backend/internal/providers/base"
-	_ "github.com/missingstudio/studio/backend/internal/providers/deepinfra"
-	_ "github.com/missingstudio/studio/backend/internal/providers/openai"
-	_ "github.com/missingstudio/studio/backend/internal/providers/togetherai"
+	"github.com/missingstudio/ai/gateway/core/connection"
+	_ "github.com/missingstudio/ai/gateway/internal/providers/anyscale"
+	_ "github.com/missingstudio/ai/gateway/internal/providers/azure"
+	"github.com/missingstudio/ai/gateway/internal/providers/base"
+	_ "github.com/missingstudio/ai/gateway/internal/providers/deepinfra"
+	_ "github.com/missingstudio/ai/gateway/internal/providers/openai"
+	_ "github.com/missingstudio/ai/gateway/internal/providers/togetherai"
 )
 
 type Service struct{}

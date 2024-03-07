@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"connectrpc.com/connect"
-	"github.com/missingstudio/studio/common/logger"
+	"github.com/missingstudio/ai/common/logger"
 )
 
 var _ connect.Interceptor = &loggingInterceptor{}

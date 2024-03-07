@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"connectrpc.com/connect"
-	"github.com/missingstudio/studio/backend/core/connection"
-	"github.com/missingstudio/studio/backend/internal/providers/base"
-	llmv1 "github.com/missingstudio/studio/protos/pkg/llm/v1"
+	"github.com/missingstudio/ai/gateway/core/connection"
+	"github.com/missingstudio/ai/gateway/internal/providers/base"
+	llmv1 "github.com/missingstudio/ai/protos/pkg/llm/v1"
 )
 
 func (s *V1Handler) ListModels(ctx context.Context, req *connect.Request[llmv1.ModelRequest]) (*connect.Response[llmv1.ModelResponse], error) {

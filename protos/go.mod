@@ -1,4 +1,4 @@
-module github.com/missingstudio/studio/protos
+module github.com/missingstudio/ai/protos
 
 go 1.21.5
 

@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/missingstudio/studio/backend/core/prompt"
+	"github.com/missingstudio/ai/gateway/core/prompt"
 )
 
 type PromptDB struct {

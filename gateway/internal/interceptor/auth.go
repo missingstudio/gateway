@@ -5,9 +5,9 @@ import (
 	"log/slog"
 
 	"connectrpc.com/connect"
-	"github.com/missingstudio/studio/backend/core/apikey"
-	"github.com/missingstudio/studio/backend/internal/constants"
-	"github.com/missingstudio/studio/backend/internal/errors"
+	"github.com/missingstudio/ai/gateway/core/apikey"
+	"github.com/missingstudio/ai/gateway/internal/constants"
+	"github.com/missingstudio/ai/gateway/internal/errors"
 )
 
 // NewAPIKeyInterceptor returns interceptor which is checking if api key exits

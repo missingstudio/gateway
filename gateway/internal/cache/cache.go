@@ -3,7 +3,7 @@ package cache
 import (
 	"time"
 
-	"github.com/missingstudio/studio/backend/internal/encoding"
+	"github.com/missingstudio/ai/gateway/internal/encoding"
 )
 
 type store interface {

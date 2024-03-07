@@ -3,7 +3,7 @@ package azure
 import (
 	_ "embed"
 
-	"github.com/missingstudio/studio/backend/internal/providers/base"
+	"github.com/missingstudio/ai/gateway/internal/providers/base"
 )
 
 //go:embed schema.json

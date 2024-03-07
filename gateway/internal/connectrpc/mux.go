@@ -8,10 +8,10 @@ import (
 	"connectrpc.com/grpchealth"
 	"connectrpc.com/grpcreflect"
 
-	"github.com/missingstudio/studio/backend/internal/api"
-	v1 "github.com/missingstudio/studio/backend/internal/api/v1"
-	"github.com/missingstudio/studio/protos/pkg/llm/v1/llmv1connect"
-	"github.com/missingstudio/studio/protos/pkg/prompt/v1/promptv1connect"
+	"github.com/missingstudio/ai/gateway/internal/api"
+	v1 "github.com/missingstudio/ai/gateway/internal/api/v1"
+	"github.com/missingstudio/ai/protos/pkg/llm/v1/llmv1connect"
+	"github.com/missingstudio/ai/protos/pkg/prompt/v1/promptv1connect"
 )
 
 func NewConnectMux(d *api.Deps) (*http.ServeMux, error) {

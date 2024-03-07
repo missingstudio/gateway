@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/missingstudio/studio/backend/internal/api"
-	"github.com/missingstudio/studio/backend/internal/connectrpc"
-	"github.com/missingstudio/studio/backend/internal/httpserver"
-	"github.com/missingstudio/studio/backend/pkg/utils"
+	"github.com/missingstudio/ai/gateway/internal/api"
+	"github.com/missingstudio/ai/gateway/internal/connectrpc"
+	"github.com/missingstudio/ai/gateway/internal/httpserver"
+	"github.com/missingstudio/ai/gateway/pkg/utils"
 )
 
 func Serve(ctx context.Context, logger *slog.Logger, cfg Config, deps *api.Deps) error {

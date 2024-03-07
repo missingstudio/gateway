@@ -5,8 +5,8 @@ import (
 	"log/slog"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/missingstudio/studio/backend/config"
-	"github.com/missingstudio/studio/common/logger"
+	"github.com/missingstudio/ai/common/logger"
+	"github.com/missingstudio/ai/gateway/config"
 
 	"github.com/spf13/cobra"
 )

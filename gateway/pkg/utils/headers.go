@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/missingstudio/studio/common/errors"
+	"github.com/missingstudio/ai/common/errors"
 )
 
 var ErrRouterConfigHeaderNotValid = errors.New(fmt.Errorf("x-ms-config header is not valid"))

@@ -6,7 +6,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/missingstudio/studio/common/resilience"
+	"github.com/missingstudio/ai/common/resilience"
 )
 
 type Config struct {

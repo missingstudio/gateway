@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/missingstudio/studio/backend/core/apikey"
+	"github.com/missingstudio/ai/gateway/core/apikey"
 )
 
 type APIKey struct {

@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/mcuadros/go-defaults"
-	"github.com/missingstudio/studio/common/file"
+	"github.com/missingstudio/ai/common/file"
 	"gopkg.in/yaml.v2"
 )
 

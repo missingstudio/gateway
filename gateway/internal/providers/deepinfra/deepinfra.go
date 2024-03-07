@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/missingstudio/studio/backend/core/chat"
-	"github.com/missingstudio/studio/backend/core/connection"
-	"github.com/missingstudio/studio/backend/pkg/requester"
+	"github.com/missingstudio/ai/gateway/core/chat"
+	"github.com/missingstudio/ai/gateway/core/connection"
+	"github.com/missingstudio/ai/gateway/pkg/requester"
 )
 
 func (deepinfra *deepinfraProvider) ChatCompletion(ctx context.Context, payload *chat.ChatCompletionRequest) (*chat.ChatCompletionResponse, error) {

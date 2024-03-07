@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/missingstudio/studio/backend/internal/constants"
-	"github.com/missingstudio/studio/backend/internal/errors"
+	"github.com/missingstudio/ai/gateway/internal/constants"
+	"github.com/missingstudio/ai/gateway/internal/errors"
 )
 
 type RetryConfig struct {

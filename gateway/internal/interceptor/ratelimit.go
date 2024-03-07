@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"connectrpc.com/connect"
-	"github.com/missingstudio/studio/backend/internal/errors"
-	"github.com/missingstudio/studio/backend/internal/ratelimiter"
+	"github.com/missingstudio/ai/gateway/internal/errors"
+	"github.com/missingstudio/ai/gateway/internal/ratelimiter"
 )
 
 func RateLimiterInterceptor(rl *ratelimiter.RateLimiter) connect.UnaryInterceptorFunc {

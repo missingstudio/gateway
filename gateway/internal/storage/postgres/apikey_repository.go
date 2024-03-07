@@ -7,8 +7,8 @@ import (
 	"fmt"
 
 	"github.com/doug-martin/goqu/v9"
-	"github.com/missingstudio/studio/backend/core/apikey"
-	"github.com/missingstudio/studio/backend/pkg/database"
+	"github.com/missingstudio/ai/gateway/core/apikey"
+	"github.com/missingstudio/ai/gateway/pkg/database"
 )
 
 var _ apikey.Repository = &APIKeyRepository{}

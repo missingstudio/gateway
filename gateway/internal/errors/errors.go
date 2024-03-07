@@ -3,8 +3,8 @@ package errors
 import (
 	"fmt"
 
-	"github.com/missingstudio/studio/backend/internal/constants"
-	"github.com/missingstudio/studio/common/errors"
+	"github.com/missingstudio/ai/common/errors"
+	"github.com/missingstudio/ai/gateway/internal/constants"
 )
 
 var (

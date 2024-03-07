@@ -9,8 +9,8 @@ import (
 
 	"github.com/doug-martin/goqu/v9"
 	"github.com/google/uuid"
-	"github.com/missingstudio/studio/backend/core/connection"
-	"github.com/missingstudio/studio/backend/pkg/database"
+	"github.com/missingstudio/ai/gateway/core/connection"
+	"github.com/missingstudio/ai/gateway/pkg/database"
 )
 
 var _ connection.Repository = &ConnectionRepository{}

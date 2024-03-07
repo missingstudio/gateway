@@ -3,8 +3,8 @@ package base
 import (
 	"context"
 
-	"github.com/missingstudio/studio/backend/core/chat"
-	"github.com/missingstudio/studio/backend/core/connection"
+	"github.com/missingstudio/ai/gateway/core/chat"
+	"github.com/missingstudio/ai/gateway/core/connection"
 )
 
 type ProviderConfig struct {

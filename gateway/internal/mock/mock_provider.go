@@ -1,6 +1,6 @@
 package mock
 
-import "github.com/missingstudio/studio/backend/internal/providers/base"
+import "github.com/missingstudio/ai/gateway/internal/providers/base"
 
 var _ base.IProvider = &providerMock{}
 

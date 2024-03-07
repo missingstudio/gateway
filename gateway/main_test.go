@@ -9,11 +9,11 @@ import (
 
 	"connectrpc.com/connect"
 
-	v1 "github.com/missingstudio/studio/backend/internal/api/v1"
-	"github.com/missingstudio/studio/backend/internal/errors"
-	"github.com/missingstudio/studio/backend/internal/interceptor"
-	llmv1 "github.com/missingstudio/studio/protos/pkg/llm/v1"
-	"github.com/missingstudio/studio/protos/pkg/llm/v1/llmv1connect"
+	v1 "github.com/missingstudio/ai/gateway/internal/api/v1"
+	"github.com/missingstudio/ai/gateway/internal/errors"
+	"github.com/missingstudio/ai/gateway/internal/interceptor"
+	llmv1 "github.com/missingstudio/ai/protos/pkg/llm/v1"
+	"github.com/missingstudio/ai/protos/pkg/llm/v1/llmv1connect"
 	"github.com/zeebo/assert"
 
 	"github.com/stretchr/testify/require"

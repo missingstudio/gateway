@@ -5,13 +5,13 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/missingstudio/studio/backend/internal/ingester"
-	"github.com/missingstudio/studio/backend/internal/ratelimiter"
-	"github.com/missingstudio/studio/backend/internal/server"
-	"github.com/missingstudio/studio/backend/pkg/database"
+	"github.com/missingstudio/ai/gateway/internal/ingester"
+	"github.com/missingstudio/ai/gateway/internal/ratelimiter"
+	"github.com/missingstudio/ai/gateway/internal/server"
+	"github.com/missingstudio/ai/gateway/pkg/database"
 
-	"github.com/missingstudio/studio/common/config"
-	"github.com/missingstudio/studio/common/logger"
+	"github.com/missingstudio/ai/common/config"
+	"github.com/missingstudio/ai/common/logger"
 )
 
 type Config struct {
