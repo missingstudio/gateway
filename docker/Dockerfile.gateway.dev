@@ -7,7 +7,6 @@ RUN mkdir /workspace
 WORKDIR /workspace
 COPY ./gateway ./gateway
 COPY ./protos ./protos
-COPY ./worker ./worker
 COPY ./common ./common
 
 COPY ./go.work .

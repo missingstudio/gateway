@@ -4,5 +4,4 @@ use (
 	./common
 	./gateway
 	./protos
-	./worker
 )

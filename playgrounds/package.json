@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "studio",
   "private": true,
   "scripts": {
     "build": "turbo build",
@@ -18,7 +18,7 @@
   },
   "packageManager": "bun@1.0.25",
   "workspaces": [
-    "playgrounds/*"
+    "apps/*"
   ],
   "dependencies": {
     "prettier-plugin-tailwindcss": "^0.5.11"
