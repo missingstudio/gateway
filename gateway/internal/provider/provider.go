@@ -1,18 +1,12 @@
-package providers
+package provider
 
 import (
-	"net/http"
-
-	"github.com/missingstudio/ai/gateway/internal/providers/base"
+	"github.com/missingstudio/ai/gateway/internal/provider/base"
 	"github.com/missingstudio/common/errors"
 	"github.com/xeipuuv/gojsonschema"
 )
 
-type ProviderFactory interface {
-	Create(headers http.Header) (base.IProvider, error)
-}
-
-func Validate(provider base.IProvider, data map[string]any) error {
+func Validate(provider base.Provider, data map[string]any) error {
 	providerSchema := gojsonschema.NewBytesLoader(provider.Schema())
 	connectionSchema := gojsonschema.NewGoLoader(data)
 

@@ -6,10 +6,10 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/missingstudio/ai/gateway/core/connection"
+	"github.com/missingstudio/ai/gateway/core/provider"
 )
 
-type ConnectionDB struct {
+type ProviderDB struct {
 	ID        uuid.UUID `db:"id"`
 	Name      string    `db:"name"`
 	Config    []byte    `db:"config"`
@@ -17,15 +17,15 @@ type ConnectionDB struct {
 	CreatedAt time.Time `db:"created_at"`
 }
 
-func (c ConnectionDB) ToConnection() (connection.Connection, error) {
+func (c ProviderDB) ToProvider() (provider.Provider, error) {
 	var unmarshalledConfig map[string]any
 	if len(c.Config) > 0 {
 		if err := json.Unmarshal(c.Config, &unmarshalledConfig); err != nil {
-			return connection.Connection{}, fmt.Errorf("failed to unmarshal connection config(%s): %w", c.ID.String(), err)
+			return provider.Provider{}, fmt.Errorf("failed to unmarshal connection config(%s): %w", c.ID.String(), err)
 		}
 	}
 
-	return connection.Connection{
+	return provider.Provider{
 		ID:     c.ID,
 		Name:   c.Name,
 		Config: unmarshalledConfig,

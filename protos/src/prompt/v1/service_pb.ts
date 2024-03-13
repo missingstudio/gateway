@@ -12,9 +12,9 @@ import { Prompt } from "./models_pb";
  */
 export class ListPromptsResponse extends Message<ListPromptsResponse> {
   /**
-   * @generated from field: repeated prompt.v1.Prompt prompt = 1;
+   * @generated from field: repeated prompt.v1.Prompt prompts = 1;
    */
-  prompt: Prompt[] = [];
+  prompts: Prompt[] = [];
 
   constructor(data?: PartialMessage<ListPromptsResponse>) {
     super();
@@ -24,7 +24,7 @@ export class ListPromptsResponse extends Message<ListPromptsResponse> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "prompt.v1.ListPromptsResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "prompt", kind: "message", T: Prompt, repeated: true },
+    { no: 1, name: "prompts", kind: "message", T: Prompt, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ListPromptsResponse {

@@ -8,10 +8,10 @@ import (
 
 	"connectrpc.com/connect"
 	"github.com/missingstudio/ai/gateway/core/chat"
-	"github.com/missingstudio/ai/gateway/core/connection"
+	"github.com/missingstudio/ai/gateway/core/provider"
 	"github.com/missingstudio/ai/gateway/internal/constants"
-	"github.com/missingstudio/ai/gateway/internal/providers"
-	"github.com/missingstudio/ai/gateway/internal/providers/base"
+	iProvider "github.com/missingstudio/ai/gateway/internal/provider"
+	"github.com/missingstudio/ai/gateway/internal/provider/base"
 	"github.com/missingstudio/ai/gateway/internal/router"
 	llmv1 "github.com/missingstudio/ai/protos/pkg/llm/v1"
 	"github.com/missingstudio/common/errors"
@@ -48,23 +48,23 @@ func (s *V1Handler) ChatCompletions(
 	}
 
 	authConfig := map[string]any{"auth": providerConfig.Auth}
-	connectionObj := connection.Connection{
+	connectionObj := provider.Provider{
 		Name:   providerConfig.Name,
 		Config: authConfig,
 	}
 
-	p, err := s.providerService.GetProvider(connectionObj)
+	p, err := s.iProviderService.GetProvider(connectionObj)
 	if err != nil {
 		return nil, errors.New(err)
 	}
 
 	// Validate provider configs
-	err = providers.Validate(p, authConfig)
+	err = iProvider.Validate(p, authConfig)
 	if err != nil {
 		return nil, errors.NewBadRequest(err.Error())
 	}
 
-	chatCompletionProvider, ok := p.(base.ChatCompletionInterface)
+	chatCompletionProvider, ok := p.(base.ChatCompletionProvider)
 	if !ok {
 		return nil, ErrChatCompletionNotSupported
 	}

@@ -29,7 +29,7 @@ service PromptRegistryService {
 
 
 message ListPromptsResponse {
-  repeated Prompt prompt = 1;
+  repeated Prompt prompts = 1;
 }
 
 message CreatePromptRequest {

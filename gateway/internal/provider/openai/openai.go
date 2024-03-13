@@ -8,8 +8,8 @@ import (
 	"net/http"
 
 	"github.com/missingstudio/ai/gateway/core/chat"
-	"github.com/missingstudio/ai/gateway/core/connection"
-	"github.com/missingstudio/ai/gateway/pkg/requester"
+	"github.com/missingstudio/ai/gateway/core/provider"
+	"github.com/missingstudio/ai/gateway/internal/requester"
 )
 
 var OpenAIModels = []string{
@@ -42,7 +42,7 @@ func (oai *openAIProvider) ChatCompletion(ctx context.Context, payload *chat.Cha
 		return nil, err
 	}
 
-	req = oai.AddDefaultHeaders(req, connection.AuthorizationHeader)
+	req = oai.AddDefaultHeaders(req, provider.AuthorizationHeader)
 	resp, err := client.SendRequestRaw(req)
 	if err != nil {
 		return nil, err
@@ -61,10 +61,12 @@ func (*openAIProvider) Models() []string {
 }
 
 func (oai *openAIProvider) AddDefaultHeaders(req *http.Request, key string) *http.Request {
-	connectionConfigMap := oai.conn.GetConfig([]string{key})
+	providerConfigMap := oai.provider.GetConfig([]string{
+		provider.AuthorizationHeader,
+	})
 
 	var authorizationHeader string
-	if val, ok := connectionConfigMap[connection.AuthorizationHeader].(string); ok && val != "" {
+	if val, ok := providerConfigMap[provider.AuthorizationHeader].(string); ok && val != "" {
 		authorizationHeader = val
 	}
 

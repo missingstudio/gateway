@@ -11,11 +11,11 @@ import (
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/missingstudio/ai/gateway/config"
 	"github.com/missingstudio/ai/gateway/core/apikey"
-	"github.com/missingstudio/ai/gateway/core/connection"
 	"github.com/missingstudio/ai/gateway/core/prompt"
+	"github.com/missingstudio/ai/gateway/core/provider"
 	"github.com/missingstudio/ai/gateway/internal/api"
 	"github.com/missingstudio/ai/gateway/internal/ingester"
-	"github.com/missingstudio/ai/gateway/internal/providers"
+	iprovider "github.com/missingstudio/ai/gateway/internal/provider"
 	"github.com/missingstudio/ai/gateway/internal/ratelimiter"
 	"github.com/missingstudio/ai/gateway/internal/storage/postgres"
 	"github.com/missingstudio/ai/gateway/pkg/database"
@@ -57,25 +57,26 @@ func Serve(cfg *config.Config) *api.API {
 		log.Fatalf("failed to setup db: %v", err)
 	}
 
-	connectionRepository := postgres.NewConnectionRepository(dbClient)
-	connectionService := connection.NewService(connectionRepository)
-
 	apikeyRepository := postgres.NewAPIKeyRepository(dbClient)
 	apikeyService := apikey.NewService(apikeyRepository)
 
 	promptRepository := postgres.NewPromptRepository(dbClient)
 	promptService := prompt.NewService(promptRepository)
-	providerService := providers.NewService()
+
+	providerRepository := postgres.NewProviderRepository(dbClient)
+	providerService := provider.NewService(providerRepository)
+
+	iProviderService := iprovider.NewService()
 
 	return &api.API{
-		RestConfig:        restConfig,
-		DBClient:          dbClient,
-		Logger:            logger,
-		Ingester:          ingester,
-		RateLimiter:       ratelimiter,
-		PromptService:     promptService,
-		ConnectionService: connectionService,
-		APIKeyService:     apikeyService,
-		ProviderService:   providerService,
+		RestConfig:       restConfig,
+		DBClient:         dbClient,
+		Logger:           logger,
+		Ingester:         ingester,
+		RateLimiter:      ratelimiter,
+		APIKeyService:    apikeyService,
+		PromptService:    promptService,
+		ProviderService:  providerService,
+		IProviderService: iProviderService,
 	}
 }

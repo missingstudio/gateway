@@ -5,7 +5,7 @@ import (
 	"errors"
 
 	"github.com/missingstudio/ai/gateway/core/chat"
-	"github.com/missingstudio/ai/gateway/internal/providers/openai"
+	"github.com/missingstudio/ai/gateway/internal/provider/openai"
 )
 
 func (az *azureProvider) ChatCompletion(ctx context.Context, payload *chat.ChatCompletionRequest) (*chat.ChatCompletionResponse, error) {

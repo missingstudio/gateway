@@ -21,10 +21,10 @@ func (api *API) routes() *chi.Mux {
 	router := chi.NewRouter()
 	v1Handler := v1.NewHandlerV1(
 		api.Ingester,
-		api.ProviderService,
-		api.ConnectionService,
 		api.APIKeyService,
 		api.PromptService,
+		api.ProviderService,
+		api.IProviderService,
 	)
 	compress1KB := connect.WithCompressMinBytes(1024)
 	validateInterceptor, err := validate.NewInterceptor()

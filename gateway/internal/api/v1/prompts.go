@@ -33,7 +33,7 @@ func (s *V1Handler) ListPrompts(ctx context.Context, req *connect.Request[emptyp
 	}
 
 	return connect.NewResponse(&promptv1.ListPromptsResponse{
-		Prompt: data,
+		Prompts: data,
 	}), nil
 }
 

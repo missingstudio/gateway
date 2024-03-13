@@ -6,16 +6,17 @@ import (
 
 	"connectrpc.com/connect"
 	"github.com/jeremywohl/flatten"
-	"github.com/missingstudio/ai/gateway/core/connection"
+	"github.com/missingstudio/ai/gateway/core/provider"
 	llmv1 "github.com/missingstudio/ai/protos/pkg/llm/v1"
 	"github.com/missingstudio/common/errors"
+
 	"github.com/xeipuuv/gojsonschema"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/structpb"
 )
 
 func (s *V1Handler) ListProviders(ctx context.Context, req *connect.Request[emptypb.Empty]) (*connect.Response[llmv1.ListProvidersResponse], error) {
-	providers := s.providerService.GetProviders()
+	providers := s.iProviderService.GetProviders()
 
 	data := []*llmv1.Provider{}
 	for _, provider := range providers {
@@ -33,12 +34,12 @@ func (s *V1Handler) ListProviders(ctx context.Context, req *connect.Request[empt
 }
 
 func (s *V1Handler) GetProvider(ctx context.Context, req *connect.Request[llmv1.GetProviderRequest]) (*connect.Response[llmv1.GetProviderResponse], error) {
-	provider, err := s.providerService.GetProvider(connection.Connection{Name: req.Msg.Name})
+	provider, err := s.iProviderService.GetProvider(provider.Provider{Name: req.Msg.Name})
 	if err != nil {
 		return nil, errors.NewNotFound(err.Error())
 	}
 
-	conn, err := s.connectionService.GetByName(ctx, req.Msg.Name)
+	conn, err := s.providerService.GetByName(ctx, req.Msg.Name)
 	if err != nil {
 		return nil, errors.New(err)
 	}
@@ -62,15 +63,15 @@ func (s *V1Handler) GetProvider(ctx context.Context, req *connect.Request[llmv1.
 }
 
 func (s *V1Handler) CreateProvider(ctx context.Context, req *connect.Request[llmv1.CreateProviderRequest]) (*connect.Response[llmv1.CreateProviderResponse], error) {
-	connnection := connection.Connection{Name: req.Msg.Name, Config: req.Msg.Config.AsMap()}
+	provider := provider.Provider{Name: req.Msg.Name, Config: req.Msg.Config.AsMap()}
 
-	provider, err := s.providerService.GetProvider(connnection)
+	p, err := s.iProviderService.GetProvider(provider)
 	if err != nil {
 		return nil, errors.NewNotFound(err.Error())
 	}
 
-	providerSchema := gojsonschema.NewBytesLoader(provider.Schema())
-	connectionSchema := gojsonschema.NewGoLoader(connnection.Config)
+	providerSchema := gojsonschema.NewBytesLoader(p.Schema())
+	connectionSchema := gojsonschema.NewGoLoader(provider.Config)
 
 	result, err := gojsonschema.Validate(providerSchema, connectionSchema)
 	if err != nil {
@@ -92,7 +93,7 @@ func (s *V1Handler) CreateProvider(ctx context.Context, req *connect.Request[llm
 		}
 	}
 
-	conn, err := s.connectionService.Upsert(ctx, connnection)
+	conn, err := s.providerService.Upsert(ctx, provider)
 	if err != nil {
 		return nil, errors.New(err)
 	}
@@ -102,7 +103,7 @@ func (s *V1Handler) CreateProvider(ctx context.Context, req *connect.Request[llm
 		return nil, errors.NewInternalError(err.Error())
 	}
 
-	info := provider.Info()
+	info := p.Info()
 	return connect.NewResponse(&llmv1.CreateProviderResponse{
 		Name:   info.Name,
 		Config: stConfigs,
@@ -110,15 +111,15 @@ func (s *V1Handler) CreateProvider(ctx context.Context, req *connect.Request[llm
 }
 
 func (s *V1Handler) UpsertProvider(ctx context.Context, req *connect.Request[llmv1.UpdateProviderRequest]) (*connect.Response[llmv1.UpdateProviderResponse], error) {
-	connnection := connection.Connection{Name: req.Msg.Name, Config: req.Msg.Config.AsMap()}
+	provider := provider.Provider{Name: req.Msg.Name, Config: req.Msg.Config.AsMap()}
 
-	provider, err := s.providerService.GetProvider(connnection)
+	p, err := s.iProviderService.GetProvider(provider)
 	if err != nil {
 		return nil, errors.NewNotFound(err.Error())
 	}
 
-	providerSchema := gojsonschema.NewBytesLoader(provider.Schema())
-	connectionSchema := gojsonschema.NewGoLoader(connnection.Config)
+	providerSchema := gojsonschema.NewBytesLoader(p.Schema())
+	connectionSchema := gojsonschema.NewGoLoader(provider.Config)
 
 	result, err := gojsonschema.Validate(providerSchema, connectionSchema)
 	if err != nil {
@@ -140,12 +141,12 @@ func (s *V1Handler) UpsertProvider(ctx context.Context, req *connect.Request[llm
 		}
 	}
 
-	source, err := s.connectionService.GetByName(ctx, req.Msg.Name)
+	source, err := s.providerService.GetByName(ctx, req.Msg.Name)
 	if err != nil {
 		return nil, errors.New(err)
 	}
 
-	requiredMap, err := flatten.Flatten(connnection.Config, "", flatten.DotStyle)
+	requiredMap, err := flatten.Flatten(provider.Config, "", flatten.DotStyle)
 	if err != nil {
 		return nil, errors.New(err)
 	}
@@ -153,7 +154,7 @@ func (s *V1Handler) UpsertProvider(ctx context.Context, req *connect.Request[llm
 		return nil, errors.New(err)
 	}
 
-	conn, err := s.connectionService.Upsert(ctx, source)
+	conn, err := s.providerService.Upsert(ctx, source)
 	if err != nil {
 		return nil, errors.New(err)
 	}
@@ -163,7 +164,7 @@ func (s *V1Handler) UpsertProvider(ctx context.Context, req *connect.Request[llm
 		return nil, errors.NewInternalError(err.Error())
 	}
 
-	info := provider.Info()
+	info := p.Info()
 	return connect.NewResponse(&llmv1.UpdateProviderResponse{
 		Name:   info.Name,
 		Config: stConfigs,
@@ -171,13 +172,13 @@ func (s *V1Handler) UpsertProvider(ctx context.Context, req *connect.Request[llm
 }
 
 func (s *V1Handler) GetProviderConfig(ctx context.Context, req *connect.Request[llmv1.GetProviderConfigRequest]) (*connect.Response[llmv1.GetProviderConfigResponse], error) {
-	provider, err := s.providerService.GetProvider(connection.Connection{Name: req.Msg.Name})
+	p, err := s.iProviderService.GetProvider(provider.Provider{Name: req.Msg.Name})
 	if err != nil {
 		return nil, errors.NewNotFound(err.Error())
 	}
 
 	configs := map[string]any{}
-	if err := json.Unmarshal(provider.Schema(), &configs); err != nil {
+	if err := json.Unmarshal(p.Schema(), &configs); err != nil {
 		return nil, errors.NewInternalError(err.Error())
 	}
 

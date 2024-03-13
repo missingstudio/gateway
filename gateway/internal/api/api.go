@@ -6,11 +6,13 @@ import (
 	"github.com/missingstudio/ai/gateway/core/apikey"
 	"github.com/missingstudio/ai/gateway/core/connection"
 	"github.com/missingstudio/ai/gateway/core/prompt"
+	"github.com/missingstudio/ai/gateway/core/provider"
 	"github.com/missingstudio/ai/gateway/internal/ingester"
-	"github.com/missingstudio/ai/gateway/internal/providers"
+	iprovider "github.com/missingstudio/ai/gateway/internal/provider"
 	"github.com/missingstudio/ai/gateway/internal/ratelimiter"
 	"github.com/missingstudio/ai/gateway/pkg/database"
 	"github.com/missingstudio/common/rest"
+
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 )
@@ -24,7 +26,8 @@ type API struct {
 	RateLimiter       *ratelimiter.RateLimiter
 	APIKeyService     *apikey.Service
 	PromptService     *prompt.Service
-	ProviderService   *providers.Service
+	ProviderService   *provider.Service
+	IProviderService  *iprovider.Service
 	ConnectionService *connection.Service
 }
 

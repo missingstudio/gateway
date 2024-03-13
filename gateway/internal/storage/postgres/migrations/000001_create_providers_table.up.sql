@@ -1,6 +1,6 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE connections (
+CREATE TABLE providers (
   id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   name text UNIQUE NOT NULL,
   config jsonb,

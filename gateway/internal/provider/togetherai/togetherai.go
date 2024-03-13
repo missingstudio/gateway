@@ -8,8 +8,8 @@ import (
 	"net/http"
 
 	"github.com/missingstudio/ai/gateway/core/chat"
-	"github.com/missingstudio/ai/gateway/core/connection"
-	"github.com/missingstudio/ai/gateway/pkg/requester"
+	"github.com/missingstudio/ai/gateway/core/provider"
+	"github.com/missingstudio/ai/gateway/internal/requester"
 )
 
 func (ta *togetherAIProvider) ChatCompletion(ctx context.Context, payload *chat.ChatCompletionRequest) (*chat.ChatCompletionResponse, error) {
@@ -26,7 +26,7 @@ func (ta *togetherAIProvider) ChatCompletion(ctx context.Context, payload *chat.
 		return nil, err
 	}
 
-	req = ta.AddDefaultHeaders(req, connection.AuthorizationHeader)
+	req = ta.AddDefaultHeaders(req, provider.AuthorizationHeader)
 	resp, err := client.SendRequestRaw(req)
 	if err != nil {
 		return nil, err
@@ -41,10 +41,10 @@ func (ta *togetherAIProvider) ChatCompletion(ctx context.Context, payload *chat.
 }
 
 func (ta *togetherAIProvider) AddDefaultHeaders(req *http.Request, key string) *http.Request {
-	connectionConfigMap := ta.conn.GetConfig([]string{key})
+	connectionConfigMap := ta.provider.GetConfig([]string{key})
 
 	var authorizationHeader string
-	if val, ok := connectionConfigMap[connection.AuthorizationHeader].(string); ok && val != "" {
+	if val, ok := connectionConfigMap[provider.AuthorizationHeader].(string); ok && val != "" {
 		authorizationHeader = val
 	}
 

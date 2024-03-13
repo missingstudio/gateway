@@ -1,25 +1,25 @@
 package mock
 
-import "github.com/missingstudio/ai/gateway/internal/providers/base"
+import "github.com/missingstudio/ai/gateway/internal/provider/base"
 
-var _ base.IProvider = &providerMock{}
+var _ base.Provider = &providerMock{}
 
 type providerMock struct {
-	info   base.ProviderInfo
-	config base.ProviderConfig
+	info   base.Info
+	config base.Config
 }
 
-func NewProviderMock(name string) base.IProvider {
+func NewProviderMock(name string) base.Provider {
 	return &providerMock{
-		info: base.ProviderInfo{Name: name},
+		info: base.Info{Name: name},
 	}
 }
 
-func (p providerMock) Info() base.ProviderInfo {
+func (p providerMock) Info() base.Info {
 	return p.info
 }
 
-func (p providerMock) Config() base.ProviderConfig {
+func (p providerMock) Config() base.Config {
 	return p.config
 }
 
