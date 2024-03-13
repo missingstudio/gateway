@@ -6,9 +6,9 @@ import (
 
 	"connectrpc.com/connect"
 	"github.com/jeremywohl/flatten"
-	"github.com/missingstudio/ai/common/errors"
 	"github.com/missingstudio/ai/gateway/core/connection"
 	llmv1 "github.com/missingstudio/ai/protos/pkg/llm/v1"
+	"github.com/missingstudio/common/errors"
 	"github.com/xeipuuv/gojsonschema"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/structpb"

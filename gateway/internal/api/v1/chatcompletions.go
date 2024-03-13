@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"connectrpc.com/connect"
-	"github.com/missingstudio/ai/common/errors"
 	"github.com/missingstudio/ai/gateway/core/chat"
 	"github.com/missingstudio/ai/gateway/core/connection"
 	"github.com/missingstudio/ai/gateway/internal/constants"
@@ -15,6 +14,7 @@ import (
 	"github.com/missingstudio/ai/gateway/internal/providers/base"
 	"github.com/missingstudio/ai/gateway/internal/router"
 	llmv1 "github.com/missingstudio/ai/protos/pkg/llm/v1"
+	"github.com/missingstudio/common/errors"
 )
 
 var (

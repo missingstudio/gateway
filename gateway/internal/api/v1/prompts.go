@@ -6,9 +6,9 @@ import (
 	"text/template"
 
 	"connectrpc.com/connect"
-	"github.com/missingstudio/ai/common/errors"
 	"github.com/missingstudio/ai/gateway/core/prompt"
 	promptv1 "github.com/missingstudio/ai/protos/pkg/prompt/v1"
+	"github.com/missingstudio/common/errors"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/structpb"
 )

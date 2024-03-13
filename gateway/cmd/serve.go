@@ -9,7 +9,6 @@ import (
 	"syscall"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
-	"github.com/missingstudio/ai/common/logger"
 	"github.com/missingstudio/ai/gateway/config"
 	"github.com/missingstudio/ai/gateway/core/apikey"
 	"github.com/missingstudio/ai/gateway/core/connection"
@@ -21,6 +20,7 @@ import (
 	"github.com/missingstudio/ai/gateway/internal/server"
 	"github.com/missingstudio/ai/gateway/internal/storage/postgres"
 	"github.com/missingstudio/ai/gateway/pkg/database"
+	"github.com/missingstudio/common/logger"
 	"github.com/redis/go-redis/v9"
 )
 

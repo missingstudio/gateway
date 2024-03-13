@@ -37,7 +37,7 @@ func NewInfluxIngester(opts ...Option) *InfluxDBIngester {
 
 func (in *InfluxDBIngester) Ingest(data map[string]any) {
 	point := influxdb3.NewPoint(in.measurement, nil, data, time.Now())
-	err := in.client.WritePoints(context.Background(), point)
+	err := in.client.WritePoints(context.Background(), []*influxdb3.Point{point})
 	if err != nil {
 		in.logger.Error("Not able to ingest into db", err)
 	}

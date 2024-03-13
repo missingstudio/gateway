@@ -6,7 +6,7 @@ import (
 	"time"
 
 	_ "github.com/ClickHouse/clickhouse-go"
-	"github.com/missingstudio/ai/common/errors"
+	"github.com/missingstudio/common/errors"
 )
 
 type ClickHouseIngester struct {

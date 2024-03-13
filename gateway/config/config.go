@@ -10,8 +10,8 @@ import (
 	"github.com/missingstudio/ai/gateway/internal/server"
 	"github.com/missingstudio/ai/gateway/pkg/database"
 
-	"github.com/missingstudio/ai/common/config"
-	"github.com/missingstudio/ai/common/logger"
+	"github.com/missingstudio/common/config"
+	"github.com/missingstudio/common/logger"
 )
 
 type Config struct {

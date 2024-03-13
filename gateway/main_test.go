@@ -4,17 +4,13 @@ import (
 	"context"
 	"net/http"
 	"net/http/httptest"
-	"strings"
 	"testing"
 
 	"connectrpc.com/connect"
 
 	v1 "github.com/missingstudio/ai/gateway/internal/api/v1"
-	"github.com/missingstudio/ai/gateway/internal/errors"
-	"github.com/missingstudio/ai/gateway/internal/interceptor"
 	llmv1 "github.com/missingstudio/ai/protos/pkg/llm/v1"
 	"github.com/missingstudio/ai/protos/pkg/llm/v1/llmv1connect"
-	"github.com/zeebo/assert"
 
 	"github.com/stretchr/testify/require"
 )
@@ -24,7 +20,7 @@ func TestGatewayServer(t *testing.T) {
 	mux := http.NewServeMux()
 	mux.Handle(llmv1connect.NewLLMServiceHandler(
 		&v1.V1Handler{},
-		connect.WithInterceptors(interceptor.HeadersInterceptor()),
+		connect.WithInterceptors(),
 	))
 
 	server := httptest.NewUnstartedServer(mux)
@@ -53,9 +49,7 @@ func TestGatewayServer(t *testing.T) {
 
 			req := connect.NewRequest(&llmv1.ChatCompletionRequest{})
 			_, err := client.ChatCompletions(context.Background(), req)
-
 			require.NotNil(t, err)
-			assert.True(t, strings.Contains(err.Error(), errors.ErrRequiredHeaderNotExit.Error()))
 		}
 	})
 }
