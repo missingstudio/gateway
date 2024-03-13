@@ -5,9 +5,10 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/missingstudio/ai/gateway/internal/api"
 	"github.com/missingstudio/ai/gateway/internal/ingester"
 	"github.com/missingstudio/ai/gateway/internal/ratelimiter"
-	"github.com/missingstudio/ai/gateway/internal/server"
+
 	"github.com/missingstudio/ai/gateway/pkg/database"
 
 	"github.com/missingstudio/common/config"
@@ -16,7 +17,7 @@ import (
 
 type Config struct {
 	Version       int                `yaml:"version"`
-	App           server.Config      `yaml:"app,omitempty"`
+	App           api.Config         `yaml:"app,omitempty"`
 	Log           logger.Config      `yaml:"log,omitempty"`
 	Ingester      ingester.Config    `yaml:"ingester,omitempty"`
 	Redis         RedisConfig        `yaml:"redis,omitempty"`

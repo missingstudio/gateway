@@ -3,8 +3,8 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"log"
 	"log/slog"
-	"os"
 	"os/signal"
 	"syscall"
 
@@ -17,16 +17,19 @@ import (
 	"github.com/missingstudio/ai/gateway/internal/ingester"
 	"github.com/missingstudio/ai/gateway/internal/providers"
 	"github.com/missingstudio/ai/gateway/internal/ratelimiter"
-	"github.com/missingstudio/ai/gateway/internal/server"
 	"github.com/missingstudio/ai/gateway/internal/storage/postgres"
 	"github.com/missingstudio/ai/gateway/pkg/database"
 	"github.com/missingstudio/common/logger"
+	"github.com/missingstudio/common/rest"
 	"github.com/redis/go-redis/v9"
 )
 
-func Serve(cfg *config.Config) error {
+func Serve(cfg *config.Config) *api.API {
 	ctx, cancelFunc := signal.NotifyContext(context.Background(), syscall.SIGTERM, syscall.SIGINT)
 	defer cancelFunc()
+
+	restConfig := &rest.Config{}
+	restConfig.SetDefaults()
 
 	logger := logger.New(cfg.Log.Json, logger.WithLevel(slog.Level(cfg.Log.Level)))
 	rdb := redis.NewClient(&redis.Options{
@@ -37,55 +40,42 @@ func Serve(cfg *config.Config) error {
 
 	_, err := rdb.Ping(ctx).Result()
 	if err != nil {
-		logger.Warn("failed to init redis connection")
-		os.Exit(1)
+		log.Fatal("failed to init redis connection")
 	}
 
 	rate := ratelimiter.NewRate(cfg.Ratelimiter.DurationInSecond, cfg.Ratelimiter.NumberOfRequests)
-	rl := ratelimiter.NewRateLimiter(rdb, logger, rate, cfg.Ratelimiter.Type)
 	ingester := ingester.GetIngesterWithDefault(ctx, cfg.Ingester, logger)
+	ratelimiter := ratelimiter.NewRateLimiter(rdb, logger, rate, cfg.Ratelimiter.Type)
 
 	// prefer use pgx instead of lib/pq for postgres to catch pg error
 	if cfg.Postgres.Driver == "postgres" {
 		cfg.Postgres.Driver = "pgx"
 	}
 
-	dbc, err := database.New(cfg.Postgres)
+	dbClient, err := database.New(cfg.Postgres)
 	if err != nil {
-		err = fmt.Errorf("failed to setup db: %w", err)
-		return err
+		log.Fatalf("failed to setup db: %v", err)
 	}
 
-	defer func() {
-		logger.Debug("cleaning up db")
-		if err := dbc.Close(); err != nil {
-			logger.Warn("db cleanup failed", "err", err)
-		}
-	}()
-
-	connectionRepository := postgres.NewConnectionRepository(dbc)
+	connectionRepository := postgres.NewConnectionRepository(dbClient)
 	connectionService := connection.NewService(connectionRepository)
 
-	apikeyRepository := postgres.NewAPIKeyRepository(dbc)
+	apikeyRepository := postgres.NewAPIKeyRepository(dbClient)
 	apikeyService := apikey.NewService(apikeyRepository)
 
-	promptRepository := postgres.NewPromptRepository(dbc)
+	promptRepository := postgres.NewPromptRepository(dbClient)
 	promptService := prompt.NewService(promptRepository)
-
 	providerService := providers.NewService()
-	deps := api.NewDeps(
-		logger, ingester, rl,
-		providerService,
-		connectionService,
-		promptService,
-		apikeyService,
-		cfg.App.Authentication.Enabled,
-	)
 
-	if err := server.Serve(ctx, logger, cfg.App, deps); err != nil {
-		logger.Error("error starting server", "error", err)
-		return err
+	return &api.API{
+		RestConfig:        restConfig,
+		DBClient:          dbClient,
+		Logger:            logger,
+		Ingester:          ingester,
+		RateLimiter:       ratelimiter,
+		PromptService:     promptService,
+		ConnectionService: connectionService,
+		APIKeyService:     apikeyService,
+		ProviderService:   providerService,
 	}
-
-	return nil
 }

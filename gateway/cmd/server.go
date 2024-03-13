@@ -65,7 +65,7 @@ func serverStartCommand() *cobra.Command {
 			if err != nil {
 				panic(err)
 			}
-			return Serve(appConfig)
+			return Serve(appConfig).Start()
 		},
 	}
 

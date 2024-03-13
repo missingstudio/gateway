@@ -1,19 +1,10 @@
 package v1
 
 import (
-	"fmt"
-	"net/http"
-
-	"connectrpc.com/connect"
-	"connectrpc.com/otelconnect"
-	"connectrpc.com/validate"
-	"connectrpc.com/vanguard"
 	"github.com/missingstudio/ai/gateway/core/apikey"
 	"github.com/missingstudio/ai/gateway/core/connection"
 	"github.com/missingstudio/ai/gateway/core/prompt"
-	"github.com/missingstudio/ai/gateway/internal/api"
 	"github.com/missingstudio/ai/gateway/internal/ingester"
-	"github.com/missingstudio/ai/gateway/internal/interceptor"
 	"github.com/missingstudio/ai/gateway/internal/providers"
 	"github.com/missingstudio/ai/protos/pkg/llm/v1/llmv1connect"
 	"github.com/missingstudio/ai/protos/pkg/prompt/v1/promptv1connect"
@@ -29,56 +20,18 @@ type V1Handler struct {
 	promptService     *prompt.Service
 }
 
-func NewHandlerV1(d *api.Deps) *V1Handler {
+func NewHandlerV1(
+	ingester ingester.Ingester,
+	providerService *providers.Service,
+	connectionService *connection.Service,
+	apikeyService *apikey.Service,
+	promptService *prompt.Service,
+) *V1Handler {
 	return &V1Handler{
-		ingester:          d.Ingester,
-		providerService:   d.ProviderService,
-		connectionService: d.ConnectionService,
-		promptService:     d.PromptService,
-		apikeyService:     d.APIKeyService,
+		ingester:          ingester,
+		providerService:   providerService,
+		connectionService: connectionService,
+		apikeyService:     apikeyService,
+		promptService:     promptService,
 	}
-}
-
-func Register(d *api.Deps) (http.Handler, error) {
-	validateInterceptor, err := validate.NewInterceptor()
-	if err != nil {
-		return nil, fmt.Errorf("failed to create validate interceptor: %w", err)
-	}
-
-	v1Handler := NewHandlerV1(d)
-	otelconnectInterceptor, err := otelconnect.NewInterceptor(otelconnect.WithTrustRemote())
-	if err != nil {
-		return nil, fmt.Errorf("failed to create validate otel connect: %w", err)
-	}
-
-	compress1KB := connect.WithCompressMinBytes(1024)
-	stdInterceptors := []connect.Interceptor{
-		validateInterceptor,
-		otelconnectInterceptor,
-		interceptor.NewAPIKeyInterceptor(d.Logger, d.APIKeyService, d.AuthEnabled),
-		interceptor.HeadersInterceptor(),
-		interceptor.RateLimiterInterceptor(d.RateLimiter),
-		interceptor.RetryInterceptor(),
-		interceptor.NewLoggingInterceptor(d.Logger),
-	}
-
-	services := []*vanguard.Service{
-		vanguard.NewService(llmv1connect.NewLLMServiceHandler(
-			v1Handler,
-			compress1KB,
-			connect.WithInterceptors(stdInterceptors...),
-		)),
-		vanguard.NewService(promptv1connect.NewPromptRegistryServiceHandler(
-			v1Handler,
-			compress1KB,
-			connect.WithInterceptors(stdInterceptors...),
-		)),
-	}
-	transcoderOptions := []vanguard.TranscoderOption{
-		vanguard.WithUnknownHandler(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-			http.Error(w, "custom 404 error", http.StatusNotFound)
-		})),
-	}
-
-	return vanguard.NewTranscoder(services, transcoderOptions...)
 }
