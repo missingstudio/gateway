@@ -1,0 +1,22 @@
+{
+  "description": "Groq configuration schema",
+  "title": "Groq",
+  "type": "object",
+  "properties": {
+    "auth": {
+      "type": "object",
+      "title": "Auth",
+      "description": "Provider authorization properties",
+
+      "properties": {
+        "api_key": {
+          "type": "string",
+          "title": "API Key",
+          "description": "Groq API key"
+        }
+      },
+      "required": ["api_key"]
+    }
+  },
+  "required": ["auth"]
+}

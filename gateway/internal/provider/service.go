@@ -8,6 +8,7 @@ import (
 	_ "github.com/missingstudio/ai/gateway/internal/provider/azure"
 	"github.com/missingstudio/ai/gateway/internal/provider/base"
 	_ "github.com/missingstudio/ai/gateway/internal/provider/deepinfra"
+	_ "github.com/missingstudio/ai/gateway/internal/provider/groq"
 	_ "github.com/missingstudio/ai/gateway/internal/provider/openai"
 	_ "github.com/missingstudio/ai/gateway/internal/provider/togetherai"
 )
