@@ -6,8 +6,8 @@ import (
 	"github.com/missingstudio/ai/gateway/core/provider"
 	"github.com/missingstudio/ai/gateway/internal/ingester"
 	iprovider "github.com/missingstudio/ai/gateway/internal/provider"
-	"github.com/missingstudio/ai/protos/pkg/llm/v1/llmv1connect"
-	"github.com/missingstudio/ai/protos/pkg/prompt/v1/promptv1connect"
+	"github.com/missingstudio/protos/pkg/llm/v1/llmv1connect"
+	"github.com/missingstudio/protos/pkg/prompt/v1/promptv1connect"
 )
 
 type V1Handler struct {

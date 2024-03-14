@@ -7,8 +7,8 @@ import (
 	"connectrpc.com/connect"
 	"github.com/jeremywohl/flatten"
 	"github.com/missingstudio/ai/gateway/core/provider"
-	llmv1 "github.com/missingstudio/ai/protos/pkg/llm/v1"
 	"github.com/missingstudio/common/errors"
+	llmv1 "github.com/missingstudio/protos/pkg/llm/v1"
 
 	"github.com/xeipuuv/gojsonschema"
 	"google.golang.org/protobuf/types/known/emptypb"

@@ -9,8 +9,8 @@ import (
 	"connectrpc.com/connect"
 
 	v1 "github.com/missingstudio/ai/gateway/internal/api/v1"
-	llmv1 "github.com/missingstudio/ai/protos/pkg/llm/v1"
-	"github.com/missingstudio/ai/protos/pkg/llm/v1/llmv1connect"
+	llmv1 "github.com/missingstudio/protos/pkg/llm/v1"
+	"github.com/missingstudio/protos/pkg/llm/v1/llmv1connect"
 
 	"github.com/stretchr/testify/require"
 )

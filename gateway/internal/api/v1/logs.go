@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"connectrpc.com/connect"
-	llmv1 "github.com/missingstudio/ai/protos/pkg/llm/v1"
 	"github.com/missingstudio/common/errors"
+	llmv1 "github.com/missingstudio/protos/pkg/llm/v1"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/structpb"
 )

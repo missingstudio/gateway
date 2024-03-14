@@ -6,7 +6,7 @@ import (
 	"connectrpc.com/connect"
 	"github.com/missingstudio/ai/gateway/core/provider"
 	"github.com/missingstudio/ai/gateway/internal/provider/base"
-	llmv1 "github.com/missingstudio/ai/protos/pkg/llm/v1"
+	llmv1 "github.com/missingstudio/protos/pkg/llm/v1"
 )
 
 func (s *V1Handler) ListModels(ctx context.Context, req *connect.Request[llmv1.ModelRequest]) (*connect.Response[llmv1.ModelResponse], error) {

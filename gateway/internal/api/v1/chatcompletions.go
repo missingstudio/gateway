@@ -13,8 +13,8 @@ import (
 	iProvider "github.com/missingstudio/ai/gateway/internal/provider"
 	"github.com/missingstudio/ai/gateway/internal/provider/base"
 	"github.com/missingstudio/ai/gateway/internal/router"
-	llmv1 "github.com/missingstudio/ai/protos/pkg/llm/v1"
 	"github.com/missingstudio/common/errors"
+	llmv1 "github.com/missingstudio/protos/pkg/llm/v1"
 )
 
 var (
