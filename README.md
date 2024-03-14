@@ -7,7 +7,7 @@
 ## Supported Providers
 |                                               |   Provider     |   Provider Name  |   Support   |   Supported Endpoints    |
 |-----------------------------------------------|----------------|    :---:         |    :---:    |--------------------------|
-|<img src="assets/openai.png" width=16>         | OpenAI         |     openai       |      ✅     |  `/chat/completions`     |
+|<img src="assets/openai.png" width=16>         | OpenAI         |     openai       |      ✅     |  `/chat/completions`, `/chat/completions:stream`     |
 |<img src="assets/anyscale.png" width=16>       | Anyscale       |    anyscale      |      ✅     |  `/chat/completions`     |
 |<img src="assets/deepinfra.jpeg" width=16>     | Deepinfra      |    deepinfra     |      ✅     |  `/chat/completions`     |
 |<img src="assets/togetherai.svg" width=16>     | Together AI	   |    togetherai    |      ✅     |  `/chat/completions`     |

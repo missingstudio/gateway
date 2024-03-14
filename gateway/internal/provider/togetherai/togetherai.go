@@ -12,7 +12,7 @@ import (
 	"github.com/missingstudio/ai/gateway/internal/requester"
 )
 
-func (ta *togetherAIProvider) ChatCompletion(ctx context.Context, payload *chat.ChatCompletionRequest) (*chat.ChatCompletionResponse, error) {
+func (ta *togetherAIProvider) ChatCompletions(ctx context.Context, payload *chat.ChatCompletionRequest) (*chat.ChatCompletionResponse, error) {
 	client := requester.NewHTTPClient()
 
 	rawPayload, err := json.Marshal(payload)

@@ -28,5 +28,9 @@ type Provider interface {
 var ProviderRegistry = map[string]func(provider.Provider) Provider{}
 
 type ChatCompletionProvider interface {
-	ChatCompletion(context.Context, *chat.ChatCompletionRequest) (*chat.ChatCompletionResponse, error)
+	ChatCompletions(context.Context, *chat.ChatCompletionRequest) (*chat.ChatCompletionResponse, error)
+}
+
+type StreamChatCompletionsProvider interface {
+	StreamChatCompletions(context.Context, *chat.ChatCompletionRequest, chan []byte) error
 }

@@ -8,7 +8,7 @@ import (
 	"github.com/missingstudio/ai/gateway/internal/provider/openai"
 )
 
-func (az *azureProvider) ChatCompletion(ctx context.Context, payload *chat.ChatCompletionRequest) (*chat.ChatCompletionResponse, error) {
+func (az *azureProvider) ChatCompletions(ctx context.Context, payload *chat.ChatCompletionRequest) (*chat.ChatCompletionResponse, error) {
 	return nil, errors.New("Not yet implemented")
 }
 

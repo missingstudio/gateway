@@ -15,6 +15,7 @@ import (
 	"github.com/missingstudio/ai/gateway/internal/router"
 	"github.com/missingstudio/common/errors"
 	llmv1 "github.com/missingstudio/protos/pkg/llm/v1"
+	"google.golang.org/genproto/googleapis/api/httpbody"
 )
 
 var (
@@ -69,7 +70,7 @@ func (s *V1Handler) ChatCompletions(
 		return nil, ErrChatCompletionNotSupported
 	}
 
-	resp, err := chatCompletionProvider.ChatCompletion(ctx, chatCompletionRequestSchema)
+	resp, err := chatCompletionProvider.ChatCompletions(ctx, chatCompletionRequestSchema)
 	if err != nil {
 		return nil, errors.New(err)
 	}
@@ -84,6 +85,60 @@ func (s *V1Handler) ChatCompletions(
 	}
 
 	return connect.NewResponse(chatCompletionResponseSchema), nil
+}
+
+func (s *V1Handler) StreamChatCompletions(ctx context.Context, req *connect.Request[llmv1.ChatCompletionRequest], stream *connect.ServerStream[httpbody.HttpBody]) error {
+	// Check if required headers are available
+	routerConfig := router.GetContextWithRouterConfig(ctx)
+	if routerConfig == nil {
+		return ErrRequiredHeaderNotExit
+	}
+
+	chatCompletionRequestSchema, err := s.createChatCompletionRequestSchema(req.Msg)
+	if err != nil {
+		return errors.New(err)
+	}
+
+	rsvc := router.NewRouterService(routerConfig)
+
+	providerConfig := rsvc.Next()
+	if providerConfig == nil {
+		return ErrNoProviderAbleToServe
+	}
+
+	authConfig := map[string]any{"auth": providerConfig.Auth}
+	connectionObj := provider.Provider{
+		Name:   providerConfig.Name,
+		Config: authConfig,
+	}
+
+	p, err := s.iProviderService.GetProvider(connectionObj)
+	if err != nil {
+		return errors.New(err)
+	}
+
+	// Validate provider configs
+	err = iProvider.Validate(p, authConfig)
+	if err != nil {
+		return errors.NewBadRequest(err.Error())
+	}
+
+	chatCompletionProvider, ok := p.(base.StreamChatCompletionsProvider)
+	if !ok {
+		return ErrChatCompletionNotSupported
+	}
+
+	byteChannel := make(chan []byte)
+	go sendDataStream(byteChannel, stream)
+	return chatCompletionProvider.StreamChatCompletions(ctx, chatCompletionRequestSchema, byteChannel)
+}
+
+func sendDataStream(byteChannel chan []byte, stream *connect.ServerStream[httpbody.HttpBody]) {
+	for data := range byteChannel {
+		_ = stream.Send(&httpbody.HttpBody{
+			Data: data,
+		})
+	}
 }
 
 func (s *V1Handler) createChatCompletionRequestSchema(req *llmv1.ChatCompletionRequest) (*chat.ChatCompletionRequest, error) {

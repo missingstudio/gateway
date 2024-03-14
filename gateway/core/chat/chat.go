@@ -75,3 +75,8 @@ type ChatCompletionResponse struct {
 	Cached            bool               `json:"cached,omitempty" default:"false"`
 	SystemFingerprint string             `json:"system_fingerprint,omitempty"`
 }
+
+type StreamChatData struct {
+	Data []byte
+	Chat *ChatCompletionResponse
+}
