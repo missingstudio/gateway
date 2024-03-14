@@ -13,18 +13,13 @@ lint: ## Run linters
 lint-fix:
 	golangci-lint run --fix
 
-build: gen vet ## Build AI Gateway server
+build: vet ## Build AI Gateway server
 	scripts/build.sh
 .PHONY: build
 
-dbuild: gen vet
+dbuild: vet
 	GOOS=linux scripts/build.sh
 .PHONY: dbuild
-
-gen:
-	@echo "🧹 Generating proto files.."
-	sh -c "cd ../protos && make all"
-.PHONY: gen
 
 clean: ## Clean AI Gateway server
 	rm -rf bin
