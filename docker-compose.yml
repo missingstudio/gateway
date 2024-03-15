@@ -7,7 +7,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile.gateway.dev
-    command: server start  
+    command: start  
     depends_on:
       - redis
       - postgres
