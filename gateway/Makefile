@@ -26,7 +26,7 @@ clean: ## Clean AI Gateway server
 .PHONY: clean
 
 test: ## Run tests
-	@go test -race $(shell go list ./... | grep -v /ui | grep -v /vendor/ | grep -v /test/) -coverprofile=coverage.out -count 2 -timeout 150s
+	@go test -race $(shell go list ./... | grep -v /vendor/ | grep -v /test/) -coverprofile=coverage.out -count 2 -timeout 150s
 
 install-tools: install-go-tools
 .PHONY: install-tools

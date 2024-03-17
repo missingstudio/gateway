@@ -1,0 +1,98 @@
+project_name: gateway
+
+before:
+  hooks:
+    - make test
+
+release:
+  prerelease: auto
+  footer: |
+    ## More? 🚀
+
+    - Join our [Discord server](https://discord.gg/99UVa6MkUX)
+    - Follow us on [Twitter](https://twitter.com/_missingstudio)
+builds:
+  - id: gateway
+    goos: [linux, darwin, windows]
+    goarch: [amd64, arm64]
+    binary: gateway
+    dir: ./gateway
+    main: ./
+    ldflags:
+      - -s -w -X github.com/missinstudio/ai/gateway/config.Version={{.Tag}}
+      - -X github.com/missinstudio/ai/gateway/config.BuildCommit={{.FullCommit}}
+      - -X github.com/missinstudio/ai/gateway/config.BuildDate={{.Date}}
+    env:
+      - CGO_ENABLED=0
+
+archives:
+  - format: tar.gz
+    # this name template makes the OS and Arch compatible with the results of `uname`.
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    # use zip for windows archives
+    format_overrides:
+      - goos: windows
+        format: zip
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+
+checksum:
+  name_template: "{{ .ProjectName }}_v{{ .Version }}_checksums.txt"
+
+snapshot:
+  name_template: "{{ .Tag }}-next"
+
+
+dockers:
+  - goos: linux
+    goarch: amd64
+    ids:
+      - gateway
+    dockerfile: Dockerfile
+    image_templates:
+      - "docker.io/missingstudio/{{.ProjectName}}:latest"
+      - "docker.io/missingstudio/{{.ProjectName}}:{{ .Tag }}"
+      - "docker.io/missingstudio/{{.ProjectName}}:{{ .Tag }}-amd64"
+  - goos: linux
+    goarch: arm64
+    ids:
+      - gateway
+    dockerfile: Dockerfile
+    image_templates:
+      - "docker.io/missingstudio/{{.ProjectName}}:{{ .Tag }}-arm64"
+
+brews:
+  - name: gateway
+    homepage: https://github.com/missingstudio/gateway
+    description: A robust cloud-native AI Gateway
+    repository:
+      owner: missingstudio
+      name: homebrew-tap
+    license: Apache 2.0
+    folder: Formula
+    dependencies:
+      - name: git
+    install: |-
+      bin.install "gateway"
+    commit_author:
+      name: Missing studio
+      email: support@missing.studio
+
+announce:
+  skip: "{{gt .Patch 0}}"
+  
+  discord:
+    enabled: true
+    message_template: '**📦 New Release: AI Gateway {{.Tag}}** is published! Check it out at {{ .ReleaseURL }}'
+    author: 'Missing studio - An AI studio'

@@ -10,6 +10,10 @@ help: ## Show this help
 build: build-gateway ## Build missing studio project
 .PHONY: build
 
+test:
+	sh -c "cd ./gateway && make test"
+.PHONY: test
+
 build-gateway:
 	sh -c "cd ./gateway && make all"
 .PHONY: build-gateway

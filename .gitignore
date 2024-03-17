@@ -12,3 +12,5 @@ Chart.lock
 **/*.tgz
 
 go.work.sum
+
+dist/
