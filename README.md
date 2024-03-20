@@ -1,8 +1,17 @@
-![Gateway](/assets/gateway.svg)
-![Missing studio](/assets/github.png)
+![Gateway](/.github/gateway.png)
+
+<div align="center">
+
+### Core infrastructure stack for building production-ready AI Applications
+
+[![License](https://img.shields.io/github/license/missingstudio/gateway)](./LICENSE)
+[![Discord](https://img.shields.io/discord/1136647481128661082)](https://discord.gg/99UVa6MkUX)
+[![Twitter](https://img.shields.io/twitter/follow/_missingstudio)](https://twitter.com/_missingstudio)
+</div>
+<br><br>
 
 ## Introduction
-🌈 A Robust Open Source [AI studio](https://www.missing.studio). A Universal API for inferencing 100+ LLMs(OpenAI, Azure, Cohere, Anthropic, HuggingFace, Replicate, Stable Diffusion).
+🌈 A Robust cloud-native [AI Gateway](https://www.missing.studio) - core infrastructure stack for building production-ready AI Applications . A Universal API for inferencing 100+ LLMs(OpenAI, Azure, Cohere, Anthropic, HuggingFace, Replicate, Stable Diffusion).
 
 ## Supported Providers
 |                                               |   Provider     |   Provider Name  |   Support   |   Supported Endpoints    |
