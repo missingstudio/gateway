@@ -26,12 +26,18 @@ interface ModelSelectorProps extends PopoverProps {}
 
 export default function ModelSelector(props: ModelSelectorProps) {
   const [open, setOpen] = React.useState(false);
-  const { providers } = useModelFetch();
+  const [isFineTuning, setIsFineTuning] = React.useState(false);
+  const { providers } = useModelFetch(isFineTuning);
   const { model, setModel, setProvider } = useStore();
+
+  const toggleFineTuning = () => setIsFineTuning(!isFineTuning);
 
   return (
     <div className="flex items-center gap-2">
       <Label htmlFor="model">Model: </Label>
+      <Button variant="outline" onClick={toggleFineTuning}>
+        {isFineTuning ? 'Select for Fine-Tuning' : 'Select Model'}
+      </Button>
       <Popover open={open} onOpenChange={setOpen} {...props}>
         <PopoverTrigger asChild>
           <Button
