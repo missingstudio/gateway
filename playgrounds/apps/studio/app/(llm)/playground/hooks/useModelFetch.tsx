@@ -14,11 +14,13 @@ interface Model {
 const BASE_URL = process.env.NEXT_PUBLIC_GATEWAY_URL ?? "http://localhost:3000";
 export function useModelFetch() {
   const [providers, setProviders] = useState<ModelType[]>([]);
+const [isFineTuning, setIsFineTuning] = useState<boolean>(false);
 
   useEffect(() => {
+    const fetchEndpoint = isFineTuning ? `${BASE_URL}/api/v1/finetune/models` : `${BASE_URL}/api/v1/models`;
     async function fetchModels() {
       try {
-        const response = await fetch(`${BASE_URL}/api/v1/models`);
+        const response = await fetch(fetchEndpoint);
         const { models } = await response.json();
         const fetchedProviders: ModelType[] = Object.keys(models).map(
           (key) => ({
