@@ -2,6 +2,8 @@ package router
 
 import (
 	"sync/atomic"
+	"log"
+	"gateway/internal/router" // Importing to use HealthChecker
 )
 
 const (
@@ -21,11 +23,20 @@ func NewPriorityRouter(providers []RouterConfig) *PriorityRouter {
 }
 
 func (r *PriorityRouter) Next() (*RouterConfig, error) {
-	idx := int(r.idx.Load())
-
-	// Todo: make a check for healthy provider
-	model := &r.providers[idx]
-	r.idx.Add(1)
-
-	return model, nil
+	providerLen := len(r.providers)
+	originalIdx := r.idx.Load()
+	var healthyProvider *RouterConfig
+	for i := 0; i < providerLen; i++ {
+		idx := (originalIdx + uint64(i)) % uint64(providerLen)
+		if router.DefaultHealthChecker{}.IsHealthy(r.providers[idx].Name) {
+			healthyProvider = &r.providers[idx]
+			r.idx.Store(idx + 1)
+			break
+		}
+	}
+	if healthyProvider == nil {
+		log.Println("Error: No healthy providers available.")
+		return nil, fmt.Errorf("no healthy providers available")
+	}
+	return healthyProvider, nil
 }

@@ -13,6 +13,11 @@ func (s *V1Handler) ListModels(ctx context.Context, req *connect.Request[llmv1.M
 	allProviderModels := map[string]*llmv1.ProviderModels{}
 
 	for name := range base.ProviderRegistry {
+		// Check if the provider is healthy before fetching models
+		if !router.DefaultHealthChecker{}.IsHealthy(name) {
+			continue
+		}
+
 		provider, err := s.iProviderService.GetProvider(provider.Provider{Name: name})
 		if err != nil {
 			continue
