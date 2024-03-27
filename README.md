@@ -5,7 +5,7 @@
 ### Core infrastructure stack for building production-ready AI Applications
 
 [![License](https://img.shields.io/github/license/missingstudio/gateway)](./LICENSE)
-[![Discord](https://img.shields.io/discord/1136647481128661082)](https://discord.gg/99UVa6MkUX)
+[![Discord](https://img.shields.io/discord/1136647481128661082)](https://discord.gg/yxV58ydzV7)
 [![Twitter](https://img.shields.io/twitter/follow/_missingstudio)](https://twitter.com/_missingstudio)
 </div>
 <br><br>
