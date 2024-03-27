@@ -4,14 +4,28 @@
 
 ### Core infrastructure stack for building production-ready AI Applications
 
+![Lint](https://github.com/missingstudio/gateway/actions/workflows/lint.yml/badge.svg)
+![Release](https://github.com/missingstudio/gateway/actions/workflows/release.yml/badge.svg)
 [![License](https://img.shields.io/github/license/missingstudio/gateway)](./LICENSE)
+[![Version](https://img.shields.io/github/v/release/missingstudio/gateway?logo=semantic-release)](Version)
 [![Discord](https://img.shields.io/discord/1136647481128661082)](https://discord.gg/yxV58ydzV7)
 [![Twitter](https://img.shields.io/twitter/follow/_missingstudio)](https://twitter.com/_missingstudio)
 </div>
 <br><br>
 
 ## Introduction
-🌈 A Robust cloud-native [AI Gateway](https://www.missing.studio) - core infrastructure stack for building production-ready AI Applications . A Universal API for inferencing 100+ LLMs(OpenAI, Azure, Cohere, Anthropic, HuggingFace, Replicate, Stable Diffusion).
+🌈 A Robust cloud-native [AI Gateway](https://www.missing.studio) - core LLMOps infrastructure stack for building production-ready AI Applications. It provides an Universal API for inferencing 100+ LLMs(OpenAI, Azure, Cohere, Anthropic, HuggingFace, Replicate, Stable Diffusion).
+
+## 🚀 Key Features
+:white_check_mark:&nbsp; **Universal API** - Call every LLM API like it's OpenAI <br>
+:white_check_mark:&nbsp; **Atomatic Retries** with exponential backoff <br>
+:white_check_mark:&nbsp; **High availability** and **resiliency** across multiple provider and models <br>
+:white_check_mark:&nbsp; **No Vendor lock-in** production-ready Observability - Logging, monitoring and tracing <br>
+:white_check_mark:&nbsp; Support for popular **LLM providers** like openai, groq, anyscale, together ai etc. <br>
+:white_check_mark:&nbsp; **Enterprise-ready** for enhanced security, reliability, scale, and custom deployments support. <br>
+:white_check_mark:&nbsp; **AI Studio** <br>
+:white_check_mark:&nbsp; **Rate limiting** <br>
+:black_square_button:&nbsp; **Caching**
 
 ## Supported Providers
 |                                               |   Provider     |   Provider Name  |   Support   |   Supported Endpoints    |
@@ -24,18 +38,72 @@
 
 > Not supported (yet): images, audio, files, fine-tunes, moderations
 
-## Run locally
-Missing studio can be deployed in a variety of ways. It is deployable on bare metal, or in dockerized environments.
 
-### Prerequisites
+## Installation
+AI gateway can be intall on macOS, Windows, Linux, OpenBSD, FreeBSD, and on any machine
 
-- [Buf CLI](https://buf.build/docs/installation) is required for building proto.
+### Binary (Cross-platform)
 
-To start missing studio server, simply run the following command:
+Download the appropriate version for your platform from [releases](https://github.com/missingstudio/gateway/releases) page. Once downloaded, the binary can be run from anywhere. Ideally, you should install it somewhere in your PATH for easy use. `/usr/local/bin` is the most probable location.
+
+### MacOS
+
+`gateway` is available via a Homebrew Tap, and as downloadable binary from the [releases](https://github.com/missingstudio/gateway/releases/latest) page:
+
 ```sh
-make compose-dev
+brew install missingstudio/tap/gateway
 ```
+
+To upgrade to the latest version:
+
+```sh
+brew upgrade gateway
+```
+
+### Linux
+
+`gateway` is available as downloadable binaries from the [releases](https://github.com/missingstudio/gateway/releases/latest) page. Download the `.deb` or `.rpm` from the releases page and install with `sudo dpkg -i` and `sudo rpm -i` respectively.
+
+### Windows
+
+`gateway` is available via [scoop](https://scoop.sh/), and as a downloadable binary from the [releases](https://github.com/missingstudio/gateway/releases/latest) page:
+
+```sh
+scoop bucket add gateway https://github.com/missingstudio/scoop-bucket.git
+```
+
+To upgrade to the latest version:
+
+```sh
+scoop update gateway
+```
+
+### Docker
+
+We provide ready to use Docker container images. To pull the latest image:
+
+```sh
+docker pull missingstudio/gateway:latest
+```
+
+To pull a specific version:
+
+```sh
+docker pull missingstudio/gateway:v0.0.1
+```
+
+### Docker compose
+
+To start missing studio AI gateway, simply run the following command:
+
+```sh
+make up
+```
+
 > Your AI Gateway is now running on http://localhost:8080 💥
+
+## Usage
+Let's make a chat completion request to OpenAI through the AI Gateway using both REST and gRPC protocols
 
 ### Send a request using curl
 ```sh
@@ -56,24 +124,6 @@ grpcurl \
 -H 'Authorization: Bearer {{OPENAI_API_KEY}}' \
 -plaintext  localhost:8080  llm.v1.LLMService.ChatCompletions
 ```
-
-## 🚀 Features
-- 🌐 *Universal API* - Call every LLM API like it's OpenAI
-- *AI Gateway* for Security, Reliability and Observability
-  - [ ] Load balancing across multiple provider and models   
-  - [X] Atomatic Retries with exponential backoff
-  - [X] Rate limiting
-  - [ ] Caching
-  - [ ] Fallbacks
-  - [ ] Monitoring
-  - [ ] Alerting
-  - [ ] Analytics
-- AI Studio
-- AI Agents
-- AI Workflow builder
-- OSS AI Models Inferancing
-- Serving model api at Scale on Kubernetes 🦄️
-- Building dev tools (CLI, SDK, API Client)
 
 ## 🫶 Contributions
 AI studio is an open-source project, and  contributions are welcome. If you want to contribute, you can create new features, fix bugs, or improve the infrastructure. 

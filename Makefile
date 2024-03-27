@@ -33,6 +33,6 @@ clean-gateway:
 rebuild: clean build ## Rebuild missing studio again
 .PHONY: rebuild
 
-compose-dev: rebuild ## Start a missing studio container
+up: rebuild ## Start a missing studio container
 	sh -c "docker compose -f $(DEV_COMPOSE_FILE) up -d"
-.PHONY: compose-up
+.PHONY: up
