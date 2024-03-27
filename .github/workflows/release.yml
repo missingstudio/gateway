@@ -5,8 +5,7 @@ on:
     tags:
       - "v*.*.*"
   workflow_dispatch:
-
-permissions: write-all
+  
 jobs:
   dev:
     runs-on: ubuntu-latest
