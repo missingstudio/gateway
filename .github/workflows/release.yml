@@ -5,7 +5,7 @@ on:
     tags:
       - "v*.*.*"
   workflow_dispatch:
-
+  
 jobs:
   dev:
     runs-on: ubuntu-latest
@@ -55,6 +55,6 @@ jobs:
           version: latest
           args: release --clean
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GO_RELEASER_TOKEN }}
           DISCORD_WEBHOOK_ID: ${{ secrets.DISCORD_WEBHOOK_ID }}
           DISCORD_WEBHOOK_TOKEN: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}

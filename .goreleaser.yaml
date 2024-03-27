@@ -9,7 +9,7 @@ release:
   footer: |
     ## More? 🚀
 
-    - Join our [Discord server](https://discord.gg/99UVa6MkUX)
+    - Join our [Discord server](https://discord.gg/yxV58ydzV7)
     - Follow us on [Twitter](https://twitter.com/_missingstudio)
 builds:
   - id: gateway
@@ -46,6 +46,8 @@ changelog:
     exclude:
       - "^docs:"
       - "^test:"
+      - "^build"
+      - "^chore"
 
 checksum:
   name_template: "{{ .ProjectName }}_v{{ .Version }}_checksums.txt"
@@ -88,6 +90,14 @@ brews:
     commit_author:
       name: Missing studio
       email: support@missing.studio
+
+scoops:
+  - homepage: https://github.com/raystack/gateway
+    description: A robust cloud-native AI Gateway
+    license: Apache 2.0
+    repository:
+      owner: missingstudio
+      name: scoop-bucket
 
 announce:
   skip: "{{gt .Patch 0}}"
