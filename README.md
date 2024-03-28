@@ -17,15 +17,17 @@
 🌈 A Robust cloud-native [AI Gateway](https://www.missing.studio) - core LLMOps infrastructure stack for building production-ready AI Applications. It provides an Universal API for inferencing 100+ LLMs(OpenAI, Azure, Cohere, Anthropic, HuggingFace, Replicate, Stable Diffusion).
 
 ## 🚀 Key Features
-:white_check_mark:&nbsp; **Universal API** - Call every LLM API like it's OpenAI <br>
-:white_check_mark:&nbsp; **Atomatic Retries** with exponential backoff <br>
-:white_check_mark:&nbsp; **High availability** and **resiliency** across multiple provider and models <br>
-:white_check_mark:&nbsp; **No Vendor lock-in** production-ready Observability - Logging, monitoring and tracing <br>
-:white_check_mark:&nbsp; Support for popular **LLM providers** like openai, groq, anyscale, together ai etc. <br>
-:white_check_mark:&nbsp; **Enterprise-ready** for enhanced security, reliability, scale, and custom deployments support. <br>
-:white_check_mark:&nbsp; **AI Studio** <br>
-:white_check_mark:&nbsp; **Rate limiting** <br>
-:black_square_button:&nbsp; **Caching**
+
+✅&nbsp; Seamless Integration with **Universal API** <br>
+✅&nbsp; Reliable LLM Routing with **AI Router** <br>
+✅&nbsp; **Load balance** across multiple models and providers <br>
+✅&nbsp; **Automatic Retries** with exponential fallbacks <br>
+✅&nbsp; High availability and resiliency using **production-ready LLMOps** <br>
+🚧&nbsp; Detailed **Usage Analytics** <br>
+🚧&nbsp; **PII detection and masking**<br>
+🚧&nbsp; **Simple & Semantic Caching** for cost reduction <br>
+🚧&nbsp; **No Vendor lock-in Observability** - Logging, monitoring and tracing <br>
+✅&nbsp; **Enterprise-ready** with enhanced security, reliability, and scale with custom deployments support.
 
 ## Supported Providers
 |                                               |   Provider     |   Provider Name  |   Support   |   Supported Endpoints    |
