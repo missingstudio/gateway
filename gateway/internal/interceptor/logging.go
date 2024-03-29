@@ -32,7 +32,7 @@ func (l *loggingInterceptor) WrapUnary(next connect.UnaryFunc) connect.UnaryFunc
 		if err != nil {
 			if err, ok := err.(*connect.Error); ok {
 				switch err.Code() {
-				case connect.CodeUnknown:
+				case connect.CodeInternal, connect.CodeUnknown:
 					resultStatus = http.StatusInternalServerError
 				default:
 					resultStatus = http.StatusBadRequest

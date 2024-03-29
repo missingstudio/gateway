@@ -45,6 +45,7 @@ func (api *API) routes() *chi.Mux {
 		otelconnectInterceptor,
 		interceptor.NewAPIKeyInterceptor(api.Logger, api.APIKeyService, false),
 		interceptor.WithHeaderConfig(),
+		interceptor.WithTimeout(api.RequestTimeout),
 		interceptor.RateLimiterInterceptor(api.RateLimiter),
 		interceptor.RetryInterceptor(),
 		interceptor.NewLoggingInterceptor(api.Logger),

@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	// Cli config to connect with GRPC server
+	// Load CLI configuration to connect with GRPC server
 	cliConfig, err := cmd.LoadConfig()
 	if err != nil {
 		cliConfig = &cmd.Config{}

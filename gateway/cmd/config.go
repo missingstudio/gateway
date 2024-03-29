@@ -10,7 +10,7 @@ import (
 )
 
 type Config struct {
-	Host string `mapstructure:"host"`
+	Host string `yaml:"host" mapstructure:"host" json:"host,omitempty" default:"http://localhost:8080"`
 }
 
 func LoadConfig() (*Config, error) {

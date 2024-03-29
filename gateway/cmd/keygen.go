@@ -15,9 +15,9 @@ func GenEncryptionKeyCommand() *cobra.Command {
 		Use:   "keygen",
 		Short: "Generate encryption key",
 		Long: heredoc.Doc(`
-			Generate encryption key encoded as base64 for encrypting/decrypting connection config`),
+			Generate encryption key encoded as base64 for encrypting/decrypting provider config`),
 		Example: heredoc.Doc(`
-			$ conman keygen`),
+			$ gateway keygen`),
 		RunE: func(c *cobra.Command, args []string) error {
 			key := cryptopasta.NewEncryptionKey()
 			slog.Info(fmt.Sprintf("Encryption key: %s", base64.RawStdEncoding.EncodeToString(key[:])))
