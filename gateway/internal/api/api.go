@@ -2,6 +2,7 @@ package api
 
 import (
 	"log/slog"
+	"time"
 
 	"github.com/missingstudio/ai/gateway/core/apikey"
 	"github.com/missingstudio/ai/gateway/core/connection"
@@ -22,6 +23,7 @@ type API struct {
 	RestConfig        *rest.Config
 	DBClient          *database.Client
 	RestServer        *rest.Server
+	RequestTimeout    time.Duration
 	Ingester          ingester.Ingester
 	RateLimiter       *ratelimiter.RateLimiter
 	APIKeyService     *apikey.Service

@@ -69,14 +69,15 @@ func Serve(cfg *config.Config) *api.API {
 	iProviderService := iprovider.NewService()
 
 	return &api.API{
-		RestConfig:       restConfig,
-		DBClient:         dbClient,
 		Logger:           logger,
+		DBClient:         dbClient,
 		Ingester:         ingester,
+		RestConfig:       restConfig,
 		RateLimiter:      ratelimiter,
 		APIKeyService:    apikeyService,
 		PromptService:    promptService,
 		ProviderService:  providerService,
 		IProviderService: iProviderService,
+		RequestTimeout:   cfg.App.RequestTimeout,
 	}
 }
