@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/missingstudio/ai/gateway/core/apikey"
-	"github.com/missingstudio/ai/gateway/core/connection"
 	"github.com/missingstudio/ai/gateway/core/prompt"
 	"github.com/missingstudio/ai/gateway/core/provider"
 	"github.com/missingstudio/ai/gateway/internal/ingester"
@@ -19,18 +18,17 @@ import (
 )
 
 type API struct {
-	Logger            *slog.Logger
-	RestConfig        *rest.Config
-	DBClient          *database.Client
-	RestServer        *rest.Server
-	RequestTimeout    time.Duration
-	Ingester          ingester.Ingester
-	RateLimiter       *ratelimiter.RateLimiter
-	APIKeyService     *apikey.Service
-	PromptService     *prompt.Service
-	ProviderService   *provider.Service
-	IProviderService  *iprovider.Service
-	ConnectionService *connection.Service
+	Logger           *slog.Logger
+	RestConfig       *rest.Config
+	DBClient         *database.Client
+	RestServer       *rest.Server
+	RequestTimeout   time.Duration
+	Ingester         ingester.Ingester
+	RateLimiter      *ratelimiter.RateLimiter
+	APIKeyService    *apikey.Service
+	PromptService    *prompt.Service
+	ProviderService  *provider.Service
+	IProviderService *iprovider.Service
 }
 
 func (api *API) Start() error {
