@@ -20,6 +20,10 @@ func (s *V1Handler) ListProviders(ctx context.Context, req *connect.Request[empt
 
 	data := []*llmv1.Provider{}
 	for _, provider := range providers {
+		// Check if the provider is healthy before adding to the list
+		if !router.DefaultHealthChecker{}.IsHealthy(provider.Info().Name) {
+			continue
+		}
 		providerInfo := provider.Info()
 		data = append(data, &llmv1.Provider{
 			Title:       providerInfo.Title,
@@ -34,6 +38,11 @@ func (s *V1Handler) ListProviders(ctx context.Context, req *connect.Request[empt
 }
 
 func (s *V1Handler) GetProvider(ctx context.Context, req *connect.Request[llmv1.GetProviderRequest]) (*connect.Response[llmv1.GetProviderResponse], error) {
+	// First, check if the provider is healthy
+	if !router.DefaultHealthChecker{}.IsHealthy(req.Msg.Name) {
+		return nil, errors.NewNotFound("Provider is unhealthy")
+	}
+
 	provider, err := s.iProviderService.GetProvider(provider.Provider{Name: req.Msg.Name})
 	if err != nil {
 		return nil, errors.NewNotFound(err.Error())
@@ -63,6 +72,11 @@ func (s *V1Handler) GetProvider(ctx context.Context, req *connect.Request[llmv1.
 }
 
 func (s *V1Handler) CreateProvider(ctx context.Context, req *connect.Request[llmv1.CreateProviderRequest]) (*connect.Response[llmv1.CreateProviderResponse], error) {
+	// First, check if the provider is healthy
+	if !router.DefaultHealthChecker{}.IsHealthy(req.Msg.Name) {
+		return nil, errors.NewNotFound("Provider is unhealthy")
+	}
+
 	provider := provider.Provider{Name: req.Msg.Name, Config: req.Msg.Config.AsMap()}
 
 	p, err := s.iProviderService.GetProvider(provider)
@@ -111,6 +125,11 @@ func (s *V1Handler) CreateProvider(ctx context.Context, req *connect.Request[llm
 }
 
 func (s *V1Handler) UpsertProvider(ctx context.Context, req *connect.Request[llmv1.UpdateProviderRequest]) (*connect.Response[llmv1.UpdateProviderResponse], error) {
+	// First, check if the provider is healthy
+	if !router.DefaultHealthChecker{}.IsHealthy(req.Msg.Name) {
+		return nil, errors.NewNotFound("Provider is unhealthy")
+	}
+
 	provider := provider.Provider{Name: req.Msg.Name, Config: req.Msg.Config.AsMap()}
 
 	p, err := s.iProviderService.GetProvider(provider)
@@ -172,6 +191,11 @@ func (s *V1Handler) UpsertProvider(ctx context.Context, req *connect.Request[llm
 }
 
 func (s *V1Handler) GetProviderConfig(ctx context.Context, req *connect.Request[llmv1.GetProviderConfigRequest]) (*connect.Response[llmv1.GetProviderConfigResponse], error) {
+	// First, check if the provider is healthy
+	if !router.DefaultHealthChecker{}.IsHealthy(req.Msg.Name) {
+		return nil, errors.NewNotFound("Provider is unhealthy")
+	}
+
 	p, err := s.iProviderService.GetProvider(provider.Provider{Name: req.Msg.Name})
 	if err != nil {
 		return nil, errors.NewNotFound(err.Error())
